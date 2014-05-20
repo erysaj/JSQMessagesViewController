@@ -364,9 +364,11 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
 {
     NSIndexPath *indexPath = layoutAttributes.indexPath;
     
+    id<JSQMessageData> messageData = [self.collectionView.dataSource collectionView:self.collectionView messageDataForItemAtIndexPath:indexPath];
+    
     CGSize messageBubbleSize = [self messageBubbleSizeForItemAtIndexPath:indexPath];
     CGFloat remainingItemWidthForBubble = self.itemWidth - [self jsq_avatarSizeForIndexPath:indexPath].width;
-    CGFloat textPadding = [self jsq_messageBubbleTextContainerInsetsTotal];
+    CGFloat textPadding = [messageData imageURL] ? 0 : [self jsq_messageBubbleTextContainerInsetsTotal];
     CGFloat messageBubblePadding = remainingItemWidthForBubble - messageBubbleSize.width - textPadding;
     
     layoutAttributes.messageBubbleLeftRightMargin = messageBubblePadding;

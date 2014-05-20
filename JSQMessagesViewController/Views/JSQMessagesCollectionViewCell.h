@@ -37,6 +37,14 @@
  */
 - (void)messagesCollectionViewCellDidTapAvatar:(JSQMessagesCollectionViewCell *)cell;
 
+
+/**
+ *  Tells the delegate that the messageBubbleContainerView of a cell has been tapped.
+ *
+ *  @param cell The cell that received the tap.
+ */
+- (void)messagesCollectionViewCellDidTapBubble:(JSQMessagesCollectionViewCell *)cell;
+
 @end
 
 
@@ -100,7 +108,8 @@
  *  Returns the underlying gesture recognizer for tap gestures in the avatarImageView of the cell.
  *  This gesture handles the tap event for the avatarImageView and notifies the cell's delegate.
  */
-@property (weak, nonatomic, readonly) UITapGestureRecognizer *tapGestureRecognizer;
+@property (weak, nonatomic, readonly) UITapGestureRecognizer *avatarTapGestureRecognizer;
+@property (weak, nonatomic, readonly) UITapGestureRecognizer *bubbleTapGestureRecognizer;
 
 #pragma mark - Class methods
 

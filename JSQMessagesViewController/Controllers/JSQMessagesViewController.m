@@ -495,7 +495,15 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView
  didTapAvatarImageView:(UIImageView *)avatarImageView
-           atIndexPath:(NSIndexPath *)indexPath { }
+           atIndexPath:(NSIndexPath *)indexPath
+{
+}
+
+- (void)collectionView:(JSQMessagesCollectionView *)collectionView
+ didTapBubbleImageView:(UIImageView *)bubbleImageView
+           atIndexPath:(NSIndexPath *)indexPath
+{
+}
 
 #pragma mark - Messages collection view cell delegate
 
@@ -503,6 +511,13 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 {
     [self.collectionView.delegate collectionView:self.collectionView
                            didTapAvatarImageView:cell.avatarImageView
+                                     atIndexPath:[self.collectionView indexPathForCell:cell]];
+}
+
+- (void)messagesCollectionViewCellDidTapBubble:(JSQMessagesCollectionViewCell *)cell
+{
+    [self.collectionView.delegate collectionView:self.collectionView
+                           didTapBubbleImageView:cell.avatarImageView
                                      atIndexPath:[self.collectionView indexPathForCell:cell]];
 }
 

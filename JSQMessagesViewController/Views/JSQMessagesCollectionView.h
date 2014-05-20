@@ -208,6 +208,10 @@
  didTapAvatarImageView:(UIImageView *)avatarImageView
            atIndexPath:(NSIndexPath *)indexPath;
 
+- (void)collectionView:(JSQMessagesCollectionView *)collectionView
+ didTapBubbleImageView:(UIImageView *)bubbleImageView
+           atIndexPath:(NSIndexPath *)indexPath;
+
 /**
  *  Notifies the delegate that the collection view's header did receive a tap event.
  *

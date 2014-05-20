@@ -46,4 +46,8 @@
  */
 + (UIImageView *)incomingMessageBubbleImageViewWithColor:(UIColor *)color;
 
+
++ (UIImageView *)outgoingMessageBubbleImageViewWithImage:(UIImage *)image;
++ (UIImageView *)incomingMessageBubbleImageViewWithImage:(UIImage *)image;
+
 @end

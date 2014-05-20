@@ -50,11 +50,23 @@
     return [JSQMessagesBubbleImageFactory bubbleImageViewWithColor:color flippedForIncoming:YES];
 }
 
++ (UIImageView *)outgoingMessageBubbleImageViewWithImage:(UIImage *)image
+{
+    NSAssert(image, @"ERROR: image must not be nil: %s", __PRETTY_FUNCTION__);
+    return [JSQMessagesBubbleImageFactory maskedBubbleImageViewFromImage:image flippedForIncoming:NO];
+}
+
++ (UIImageView *)incomingMessageBubbleImageViewWithImage:(UIImage *)image
+{
+    NSAssert(image, @"ERROR: image must not be nil: %s", __PRETTY_FUNCTION__);
+    return [JSQMessagesBubbleImageFactory maskedBubbleImageViewFromImage:image flippedForIncoming:YES];
+}
+
 #pragma mark - Private
 
 + (UIImageView *)bubbleImageViewWithColor:(UIColor *)color flippedForIncoming:(BOOL)flippedForIncoming
 {
-    UIImage *bubble = [UIImage imageNamed:@"bubble_min"];
+    UIImage *bubble = [UIImage imageNamed:@"bubble_min_triangle_tail"];
     
     UIImage *normalBubble = [bubble jsq_imageMaskedWithColor:color];
     UIImage *highlightedBubble = [bubble jsq_imageMaskedWithColor:[color jsq_colorByDarkeningColorWithValue:0.12f]];
@@ -74,6 +86,68 @@
     UIImageView *imageView = [[UIImageView alloc] initWithImage:normalBubble highlightedImage:highlightedBubble];
     imageView.backgroundColor = [UIColor whiteColor];
     return imageView;
+}
+
++ (UIImageView *)maskedBubbleImageViewFromImage:(UIImage *)image flippedForIncoming:(BOOL)flippedForIncoming
+{
+    //JSImageOrientation imageOrientation = [JSBubbleImageViewFactory imageOrientation:image];
+    //JSImageOrientation imageOrientation = JSImageOrientationLandscape;
+    //CGSize sizeForOrientation = [JSBubbleImageViewFactory neededSizeForImageOrientation:imageOrientation];
+    
+    CGSize sizeForOrientation = CGSizeMake(100, 100);
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    imageView.frame = CGRectMake(0, 0, sizeForOrientation.width, sizeForOrientation.height);
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    [JSQMessagesBubbleImageFactory addGradientToImageView:imageView];
+    
+    UIImage *bubble = [UIImage imageNamed:@"bubble_min_triangle_tail"];
+    
+    if (flippedForIncoming)
+    {
+        bubble = [JSQMessagesBubbleImageFactory jsq_horizontallyFlippedImageFromImage:bubble];
+    }
+    
+    UIEdgeInsets capInsets = UIEdgeInsetsMake(28, 10, 10, 20);
+    
+    //UIImage *rightBubbleBackground = [bubble resizableImageWithCapInsets:capInsets resizingMode:UIImageResizingModeStretch];
+    
+    
+    bubble = [JSQMessagesBubbleImageFactory jsq_stretchableImageFromImage:bubble withCapInsets:capInsets];
+    
+    CALayer *mask = [CALayer layer];
+    mask.contents = (id)[bubble CGImage];
+    mask.contentsScale = [UIScreen mainScreen].scale;
+    
+    mask.contentsCenter =
+    CGRectMake(capInsets.left/bubble.size.width,
+               capInsets.top/bubble.size.height,
+               1.0/bubble.size.width,
+               1.0/bubble.size.height);
+    
+    mask.frame = imageView.layer.bounds;
+    imageView.layer.mask = mask;
+    imageView.layer.masksToBounds = YES;
+    
+    return imageView;
+}
+
++ (void)addGradientToImageView:(UIImageView *)imageView
+{
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    CGFloat gradientHeight = 30;
+    gradient.frame = CGRectMake(0, CGRectGetHeight(imageView.frame) - gradientHeight, CGRectGetWidth(imageView.frame), gradientHeight);
+    
+    // Add colors to layer
+    UIColor *startColor = [UIColor colorWithWhite:0 alpha:0];
+    UIColor *endColor = [UIColor colorWithWhite:0 alpha:0.7];
+    gradient.colors = [NSArray arrayWithObjects:
+                       (id)[startColor CGColor],
+                       (id)[endColor CGColor],
+                       nil];
+    
+    [imageView.layer insertSublayer:gradient atIndex:0];
 }
 
 + (UIImage *)jsq_horizontallyFlippedImageFromImage:(UIImage *)image

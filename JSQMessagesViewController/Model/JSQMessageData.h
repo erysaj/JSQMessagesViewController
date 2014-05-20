@@ -47,4 +47,8 @@
  */
 - (NSDate *)date;
 
+
+- (NSURL *)imageURL;
+
+
 @end

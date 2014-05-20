@@ -44,6 +44,27 @@
     return self;
 }
 
+- (instancetype)initWithText:(NSString *)text
+                      sender:(NSString *)sender
+                    imageURL:(NSURL *)imageURL
+                        date:(NSDate *)date
+
+{
+    NSAssert(text, @"ERROR: text must not be nil: %s", __PRETTY_FUNCTION__);
+    NSAssert(sender, @"ERROR: sender must not be nil: %s", __PRETTY_FUNCTION__);
+    NSAssert(date, @"ERROR: date must not be nil: %s", __PRETTY_FUNCTION__);
+    NSAssert(imageURL, @"ERROR: imageURL must not be nil: %s", __PRETTY_FUNCTION__);
+    
+    self = [self init];
+    if (self) {
+        _text = text;
+        _sender = sender;
+        _date = date;
+        _imageURL = imageURL;
+    }
+    return self;
+}
+
 - (instancetype)init
 {
     self = [super init];

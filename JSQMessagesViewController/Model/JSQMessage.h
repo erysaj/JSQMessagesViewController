@@ -42,6 +42,9 @@
  */
 @property (copy, nonatomic) NSDate *date;
 
+@property (copy, nonatomic) NSURL *imageURL;
+
+
 #pragma mark - Initialization
 
 /**
@@ -65,6 +68,11 @@
  */
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
+                        date:(NSDate *)date;
+
+- (instancetype)initWithText:(NSString *)text
+                      sender:(NSString *)sender
+                    imageURL:(NSURL *)imageURL
                         date:(NSDate *)date;
 
 /**

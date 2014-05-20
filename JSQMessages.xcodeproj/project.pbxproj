@@ -94,8 +94,8 @@
 		88D1B0CD190606F100AFE162 /* typing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88D1B0CB190606F100AFE162 /* typing@2x.png */; };
 		C78CEF093F584B85B4321C83 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 343577012CC24261BE4B61A1 /* libPods.a */; };
 		D68A9FB68FC5463D9A5B23E0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 343577012CC24261BE4B61A1 /* libPods.a */; };
-		F6B09705192B76BF00D6356A /* bubble_min_triagle_tail_flipped@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F6B09703192B76BF00D6356A /* bubble_min_triagle_tail_flipped@2x.png */; };
-		F6B09706192B76BF00D6356A /* bubble_min_triagle_tail_flipped.png in Resources */ = {isa = PBXBuildFile; fileRef = F6B09704192B76BF00D6356A /* bubble_min_triagle_tail_flipped.png */; };
+		F6B09705192B76BF00D6356A /* bubble_min_triangle_tail_flipped@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F6B09703192B76BF00D6356A /* bubble_min_triangle_tail_flipped@2x.png */; };
+		F6B09706192B76BF00D6356A /* bubble_min_triangle_tail_flipped.png in Resources */ = {isa = PBXBuildFile; fileRef = F6B09704192B76BF00D6356A /* bubble_min_triangle_tail_flipped.png */; };
 		F6B09709192B77F500D6356A /* bubble_min_triagle_tail.png in Resources */ = {isa = PBXBuildFile; fileRef = F6B09707192B77F500D6356A /* bubble_min_triagle_tail.png */; };
 		F6B0970A192B77F500D6356A /* bubble_min_triagle_tail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F6B09708192B77F500D6356A /* bubble_min_triagle_tail@2x.png */; };
 /* End PBXBuildFile section */
@@ -229,8 +229,8 @@
 		88D1B0CA190606F100AFE162 /* typing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = typing.png; sourceTree = "<group>"; };
 		88D1B0CB190606F100AFE162 /* typing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "typing@2x.png"; sourceTree = "<group>"; };
 		A0F1B1EFE54F44FEA6C4F786 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		F6B09703192B76BF00D6356A /* bubble_min_triagle_tail_flipped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble_min_triagle_tail_flipped@2x.png"; sourceTree = "<group>"; };
-		F6B09704192B76BF00D6356A /* bubble_min_triagle_tail_flipped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_min_triagle_tail_flipped.png; sourceTree = "<group>"; };
+		F6B09703192B76BF00D6356A /* bubble_min_triangle_tail_flipped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble_min_triangle_tail_flipped@2x.png"; sourceTree = "<group>"; };
+		F6B09704192B76BF00D6356A /* bubble_min_triangle_tail_flipped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_min_triangle_tail_flipped.png; sourceTree = "<group>"; };
 		F6B09707192B77F500D6356A /* bubble_min_triagle_tail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_min_triagle_tail.png; sourceTree = "<group>"; };
 		F6B09708192B77F500D6356A /* bubble_min_triagle_tail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble_min_triagle_tail@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -297,8 +297,8 @@
 				8816A64C18E9250400111919 /* bubble_min@2x.png */,
 				8816A64D18E9250400111919 /* bubble_min_tailless.png */,
 				8816A64E18E9250400111919 /* bubble_min_tailless@2x.png */,
-				F6B09704192B76BF00D6356A /* bubble_min_triagle_tail_flipped.png */,
-				F6B09703192B76BF00D6356A /* bubble_min_triagle_tail_flipped@2x.png */,
+				F6B09704192B76BF00D6356A /* bubble_min_triangle_tail_flipped.png */,
+				F6B09703192B76BF00D6356A /* bubble_min_triangle_tail_flipped@2x.png */,
 				F6B09707192B77F500D6356A /* bubble_min_triagle_tail.png */,
 				F6B09708192B77F500D6356A /* bubble_min_triagle_tail@2x.png */,
 				8816A64F18E9250400111919 /* bubble_stroked.png */,
@@ -662,7 +662,7 @@
 				8816A69418E9250400111919 /* bubble_min_tailless.png in Resources */,
 				8816A69D18E9250400111919 /* camera@2x.png in Resources */,
 				8816A69218E9250400111919 /* bubble_min.png in Resources */,
-				F6B09706192B76BF00D6356A /* bubble_min_triagle_tail_flipped.png in Resources */,
+				F6B09706192B76BF00D6356A /* bubble_min_triangle_tail_flipped.png in Resources */,
 				8816A69C18E9250400111919 /* camera.png in Resources */,
 				8816A6B118E9250400111919 /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
 				8816A69118E9250400111919 /* bubble@2x.png in Resources */,
@@ -679,7 +679,7 @@
 				8816A69818E9250400111919 /* bubble_stroked_tailless.png in Resources */,
 				8816A69718E9250400111919 /* bubble_stroked@2x.png in Resources */,
 				8816A6A618E9250400111919 /* JSQMessagesViewController.xib in Resources */,
-				F6B09705192B76BF00D6356A /* bubble_min_triagle_tail_flipped@2x.png in Resources */,
+				F6B09705192B76BF00D6356A /* bubble_min_triangle_tail_flipped@2x.png in Resources */,
 				8816A69618E9250400111919 /* bubble_stroked.png in Resources */,
 				8816A69318E9250400111919 /* bubble_min@2x.png in Resources */,
 				88D1B0CD190606F100AFE162 /* typing@2x.png in Resources */,

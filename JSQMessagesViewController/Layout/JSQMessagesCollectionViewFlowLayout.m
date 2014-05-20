@@ -28,6 +28,7 @@
 #import "JSQMessagesCollectionView.h"
 #import "JSQMessagesCollectionViewCell.h"
 #import "JSQMessagesCollectionViewLayoutAttributes.h"
+#import "JSQMessagesCollectionViewFlowLayoutInvalidationContext.h"
 
 #import "JSQMessagesTimestampFormatter.h"
 
@@ -125,6 +126,11 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     return [JSQMessagesCollectionViewLayoutAttributes class];
 }
 
++ (Class)invalidationContextClass
+{
+    return [JSQMessagesCollectionViewFlowLayoutInvalidationContext class];
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -149,15 +155,14 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
         [_dynamicAnimator removeAllBehaviors];
         [_visibleIndexPaths removeAllObjects];
     }
-    
-    [self invalidateLayout];
+    [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
 }
 
 - (void)setMessageBubbleFont:(UIFont *)messageBubbleFont
 {
     NSAssert(messageBubbleFont, @"ERROR: messageBubbleFont must not be nil: %s", __PRETTY_FUNCTION__);
     _messageBubbleFont = messageBubbleFont;
-    [self invalidateLayout];
+    [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
 }
 
 - (void)setTimestampFont:(UIFont *)timestampFont
@@ -177,25 +182,25 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
 - (void)setMessageBubbleLeftRightMargin:(CGFloat)messageBubbleLeftRightMargin
 {
     _messageBubbleLeftRightMargin = messageBubbleLeftRightMargin;
-    [self invalidateLayout];
+    [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
 }
 
 - (void)setMessageBubbleTextViewTextContainerInsets:(UIEdgeInsets)messageBubbleTextContainerInsets
 {
     _messageBubbleTextViewTextContainerInsets = messageBubbleTextContainerInsets;
-    [self invalidateLayout];
+    [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
 }
 
 - (void)setIncomingAvatarViewSize:(CGSize)incomingAvatarViewSize
 {
     _incomingAvatarViewSize = incomingAvatarViewSize;
-    [self invalidateLayout];
+    [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
 }
 
 - (void)setOutgoingAvatarViewSize:(CGSize)outgoingAvatarViewSize
 {
     _outgoingAvatarViewSize = outgoingAvatarViewSize;
-    [self invalidateLayout];
+    [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
 }
 
 #pragma mark - Getters
@@ -234,15 +239,25 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
 {
     [self.dynamicAnimator removeAllBehaviors];
     [self.visibleIndexPaths removeAllObjects];
-    [self invalidateLayout];
+    [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
 }
 
 #pragma mark - Collection view flow layout
 
-- (void)invalidateLayout
+- (void)invalidateLayoutWithContext:(UICollectionViewLayoutInvalidationContext *)context
 {
-    [self.messageBubbleSizes removeAllObjects];
-    [super invalidateLayout];
+    UICollectionViewFlowLayoutInvalidationContext *flowContext = (UICollectionViewFlowLayoutInvalidationContext *)context;
+
+    if (flowContext.invalidateDataSourceCounts) {
+        flowContext.invalidateFlowLayoutAttributes = YES;
+        flowContext.invalidateFlowLayoutDelegateMetrics = YES;
+    }
+    
+    if (flowContext.invalidateFlowLayoutAttributes || flowContext.invalidateFlowLayoutDelegateMetrics) {
+        [self.messageBubbleSizes removeAllObjects];
+    }
+    
+    [super invalidateLayoutWithContext:context];
 }
 
 - (void)prepareLayout

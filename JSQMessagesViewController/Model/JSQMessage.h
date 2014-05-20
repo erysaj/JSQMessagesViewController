@@ -21,8 +21,8 @@
 #import "JSQMessageData.h"
 
 /**
- *  A `JSQMessage` model object represents a single user message. 
- *  This is a concrete class that implements the `JSQMessageData` protocol. 
+ *  A `JSQMessage` model object represents a single user message.
+ *  This is a concrete class that implements the `JSQMessageData` protocol.
  *  It contains the message text, its sender, and the date that the message was sent.
  */
 @interface JSQMessage : NSObject <JSQMessageData, NSCoding, NSCopying>

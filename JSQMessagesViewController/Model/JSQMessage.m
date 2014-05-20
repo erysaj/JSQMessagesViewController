@@ -53,7 +53,6 @@
     NSAssert(text, @"ERROR: text must not be nil: %s", __PRETTY_FUNCTION__);
     NSAssert(sender, @"ERROR: sender must not be nil: %s", __PRETTY_FUNCTION__);
     NSAssert(date, @"ERROR: date must not be nil: %s", __PRETTY_FUNCTION__);
-    NSAssert(imageURL, @"ERROR: imageURL must not be nil: %s", __PRETTY_FUNCTION__);
     
     self = [self init];
     if (self) {
@@ -88,8 +87,8 @@
 - (BOOL)isEqualToMessage:(JSQMessage *)aMessage
 {
     return [self.text isEqualToString:aMessage.text]
-            && [self.sender isEqualToString:aMessage.sender]
-            && ([self.date compare:aMessage.date] == NSOrderedSame);
+    && [self.sender isEqualToString:aMessage.sender]
+    && ([self.date compare:aMessage.date] == NSOrderedSame);
 }
 
 #pragma mark - NSObject

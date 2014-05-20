@@ -333,6 +333,8 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     
     CGFloat maximumTextWidth = self.itemWidth - avatarSize.width - self.messageBubbleLeftRightMargin;
     
+    CGSize finalSize;
+    
     CGFloat textInsetsTotal = [self jsq_messageBubbleTextContainerInsetsTotal];
     
     CGRect stringRect = [[messageData text] boundingRectWithSize:CGSizeMake(maximumTextWidth - textInsetsTotal, CGFLOAT_MAX)
@@ -344,7 +346,14 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     
     CGFloat verticalInsets = self.messageBubbleTextViewTextContainerInsets.top + self.messageBubbleTextViewTextContainerInsets.bottom;
     
-    CGSize finalSize = CGSizeMake(stringSize.width, stringSize.height + verticalInsets);
+    if ([messageData imageURL])
+    {
+        finalSize = CGSizeMake(100, 100);
+    }
+    else
+    {
+        finalSize = CGSizeMake(stringSize.width, stringSize.height + verticalInsets);
+    }
     
     [self.messageBubbleSizes setObject:[NSValue valueWithCGSize:finalSize] forKey:indexPath];
     
@@ -395,7 +404,7 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
 {
     id<JSQMessageData> messageData = [self.collectionView.dataSource collectionView:self.collectionView messageDataForItemAtIndexPath:indexPath];
     NSString *messageSender = [messageData sender];
-   
+    
     if ([messageSender isEqualToString:[self.collectionView.dataSource sender]]) {
         return self.outgoingAvatarViewSize;
     }

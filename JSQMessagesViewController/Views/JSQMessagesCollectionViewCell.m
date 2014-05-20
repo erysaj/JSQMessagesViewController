@@ -70,6 +70,7 @@
 - (void)jsq_didReceiveMenuWillHideNotification:(NSNotification *)notification;
 - (void)jsq_didReceiveMenuWillShowNotification:(NSNotification *)notification;
 
+- (void)jsq_updateConstraint:(NSLayoutConstraint *)constraint withConstant:(CGFloat)constant;
 @end
 
 
@@ -187,12 +188,12 @@
     self.textView.font = customAttributes.messageBubbleFont;
     self.messageLabel.font = customAttributes.systemMessageFont;
     self.timestampLabel.font = customAttributes.timestampFont;
-    self.messageBubbleLeftRightMarginConstraint.constant = customAttributes.messageBubbleLeftRightMargin;
+    [self jsq_updateConstraint:self.messageBubbleLeftRightMarginConstraint withConstant:customAttributes.messageBubbleLeftRightMargin];
     self.textViewFrameInsets = customAttributes.textViewFrameInsets;
     self.textView.textContainerInset = customAttributes.textViewTextContainerInsets;
-    self.cellTopLabelHeightConstraint.constant = customAttributes.cellTopLabelHeight;
-    self.messageBubbleTopLabelHeightConstraint.constant = customAttributes.messageBubbleTopLabelHeight;
-    self.cellBottomLabelHeightConstraint.constant = customAttributes.cellBottomLabelHeight;
+    [self jsq_updateConstraint:self.cellTopLabelHeightConstraint withConstant:customAttributes.cellTopLabelHeight];
+    [self jsq_updateConstraint:self.messageBubbleTopLabelHeightConstraint withConstant:customAttributes.messageBubbleTopLabelHeight];
+    [self jsq_updateConstraint:self.cellBottomLabelHeightConstraint withConstant:customAttributes.cellBottomLabelHeight];
     
     if ([self isKindOfClass:[JSQMessagesCollectionViewCellIncoming class]])
     {
@@ -205,9 +206,7 @@
     else if ([self isKindOfClass:[JSQMessagesCollectionViewCellSystem class]])
     {
         self.avatarViewSize = CGSizeZero;
-    }
-    
-    [self setNeedsUpdateConstraints];
+    }    
 }
 
 #pragma mark - Setters
@@ -277,18 +276,16 @@
 
 - (void)setAvatarViewSize:(CGSize)avatarViewSize
 {
-    self.avatarContainerViewWidthConstraint.constant = avatarViewSize.width;
-    self.avatarContainerViewHeightConstraint.constant = avatarViewSize.height;
-    [self setNeedsUpdateConstraints];
+    [self jsq_updateConstraint:self.avatarContainerViewWidthConstraint withConstant:avatarViewSize.width];
+    [self jsq_updateConstraint:self.avatarContainerViewHeightConstraint withConstant:avatarViewSize.height];
 }
 
 - (void)setTextViewFrameInsets:(UIEdgeInsets)textViewFrameInsets
 {
-    self.textViewTopVerticalSpaceConstraint.constant = textViewFrameInsets.top;
-    self.textViewBottomVerticalSpaceConstraint.constant = textViewFrameInsets.bottom;
-    self.textViewAvatarHorizontalSpaceConstraint.constant = textViewFrameInsets.right;
-    self.textViewMarginHorizontalSpaceConstraint.constant = textViewFrameInsets.left;
-    [self setNeedsUpdateConstraints];
+    [self jsq_updateConstraint:self.textViewTopVerticalSpaceConstraint withConstant:textViewFrameInsets.top];
+    [self jsq_updateConstraint:self.textViewBottomVerticalSpaceConstraint withConstant:textViewFrameInsets.bottom];
+    [self jsq_updateConstraint:self.textViewAvatarHorizontalSpaceConstraint withConstant:textViewFrameInsets.right];
+    [self jsq_updateConstraint:self.textViewMarginHorizontalSpaceConstraint withConstant:textViewFrameInsets.left];
 }
 
 #pragma mark - Getters
@@ -305,6 +302,18 @@
                             self.textViewMarginHorizontalSpaceConstraint.constant,
                             self.textViewBottomVerticalSpaceConstraint.constant,
                             self.textViewAvatarHorizontalSpaceConstraint.constant);
+}
+
+#pragma mark - Helpers
+
+- (void)jsq_updateConstraint:(NSLayoutConstraint *)constraint withConstant:(CGFloat)constant
+{
+    if (constraint.constant == constant) {
+        return;
+    }
+    
+    constraint.constant = constant;
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - UIResponder

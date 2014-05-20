@@ -212,6 +212,9 @@
  didTapBubbleImageView:(UIImageView *)bubbleImageView
            atIndexPath:(NSIndexPath *)indexPath;
 
+- (void)collectionViewDidTapDelete:(JSQMessagesCollectionView *)collectionView
+                       atIndexPath:(NSIndexPath *)indexPath;
+
 /**
  *  Notifies the delegate that the collection view's header did receive a tap event.
  *

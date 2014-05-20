@@ -45,6 +45,10 @@
  */
 - (void)messagesCollectionViewCellDidTapBubble:(JSQMessagesCollectionViewCell *)cell;
 
+
+- (void)messagesCollectionViewCellDidTapDelete:(JSQMessagesCollectionViewCell *)cell;
+
+
 @end
 
 
@@ -80,6 +84,8 @@
  */
 @property (weak, nonatomic, readonly) JSQMessagesLabel *cellBottomLabel;
 
+
+@property (weak, nonatomic, readonly) JSQMessagesLabel *timestampLabel;
 /**
  *  Returns the text view of the cell. This text view contains the message body text.
  */

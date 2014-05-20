@@ -77,8 +77,16 @@
     }
     
     // make image stretchable from center point
-    CGPoint center = CGPointMake(bubble.size.width / 2.0f, bubble.size.height / 2.0f);
-    UIEdgeInsets capInsets = UIEdgeInsetsMake(center.y, center.x, center.y, center.x);
+    //CGPoint center = CGPointMake(bubble.size.width / 2.0f, bubble.size.height / 2.0f);
+    //UIEdgeInsets capInsets = UIEdgeInsetsMake(center.y, center.x, center.y, center.x);
+    
+    UIEdgeInsets capInsets = UIEdgeInsetsMake(28, 10, 10, 20);
+//    if (flippedForIncoming)
+//    {
+//        capInsets = UIEdgeInsetsMake(28, 20, 10, 10);
+//    }
+    
+    
     
     normalBubble = [JSQMessagesBubbleImageFactory jsq_stretchableImageFromImage:normalBubble withCapInsets:capInsets];
     highlightedBubble = [JSQMessagesBubbleImageFactory jsq_stretchableImageFromImage:highlightedBubble withCapInsets:capInsets];
@@ -94,7 +102,7 @@
     //JSImageOrientation imageOrientation = JSImageOrientationLandscape;
     //CGSize sizeForOrientation = [JSBubbleImageViewFactory neededSizeForImageOrientation:imageOrientation];
     
-    CGSize sizeForOrientation = CGSizeMake(100, 100);
+    CGSize sizeForOrientation = CGSizeMake(194, 122);
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
     imageView.frame = CGRectMake(0, 0, sizeForOrientation.width, sizeForOrientation.height);
@@ -102,19 +110,16 @@
     
     [JSQMessagesBubbleImageFactory addGradientToImageView:imageView];
     
-    UIImage *bubble = [UIImage imageNamed:@"bubble_min_triangle_tail"];
+    UIEdgeInsets capInsets = UIEdgeInsetsMake(28, 10, 10, 20);
+    NSString *bubbleImageName = @"bubble_min_triangle_tail";
     
     if (flippedForIncoming)
     {
-        bubble = [JSQMessagesBubbleImageFactory jsq_horizontallyFlippedImageFromImage:bubble];
+        bubbleImageName = @"bubble_min_triangle_tail_flipped";
+        capInsets = UIEdgeInsetsMake(28, 20, 10, 10);
     }
     
-    UIEdgeInsets capInsets = UIEdgeInsetsMake(28, 10, 10, 20);
-    
-    //UIImage *rightBubbleBackground = [bubble resizableImageWithCapInsets:capInsets resizingMode:UIImageResizingModeStretch];
-    
-    
-    bubble = [JSQMessagesBubbleImageFactory jsq_stretchableImageFromImage:bubble withCapInsets:capInsets];
+    UIImage *bubble = [JSQMessagesBubbleImageFactory jsq_stretchableImageFromImage:[UIImage imageNamed:bubbleImageName] withCapInsets:capInsets];
     
     CALayer *mask = [CALayer layer];
     mask.contents = (id)[bubble CGImage];

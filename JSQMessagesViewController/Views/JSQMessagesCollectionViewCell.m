@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet JSQMessagesLabel *cellTopLabel;
 @property (weak, nonatomic) IBOutlet JSQMessagesLabel *messageBubbleTopLabel;
 @property (weak, nonatomic) IBOutlet JSQMessagesLabel *cellBottomLabel;
+@property (weak, nonatomic) IBOutlet JSQMessagesLabel *timestampLabel;
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 
@@ -170,6 +171,7 @@
     self.messageBubbleTopLabel.text = nil;
     self.cellBottomLabel.text = nil;
     self.textView.text = nil;
+    self.timestampLabel.text = nil;
 }
 
 - (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes
@@ -179,6 +181,7 @@
     JSQMessagesCollectionViewLayoutAttributes *customAttributes = (JSQMessagesCollectionViewLayoutAttributes *)layoutAttributes;
     
     self.textView.font = customAttributes.messageBubbleFont;
+    self.timestampLabel.font = customAttributes.timestampFont;
     self.messageBubbleLeftRightMarginConstraint.constant = customAttributes.messageBubbleLeftRightMargin;
     self.textViewFrameInsets = customAttributes.textViewFrameInsets;
     self.textView.textContainerInset = customAttributes.textViewTextContainerInsets;
@@ -307,12 +310,18 @@
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
-    return (action == @selector(copy:));
+    return (action == @selector(copy:) || action == @selector(delete:));
 }
 
 - (void)copy:(id)sender
 {
     [[UIPasteboard generalPasteboard] setString:self.textView.text];
+    [self resignFirstResponder];
+}
+
+- (void)delete:(id)sender
+{
+    [self.delegate messagesCollectionViewCellDidTapDelete:self];
     [self resignFirstResponder];
 }
 

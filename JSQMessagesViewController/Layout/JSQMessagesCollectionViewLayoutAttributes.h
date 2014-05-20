@@ -30,6 +30,7 @@
  */
 @property (strong, nonatomic) UIFont *messageBubbleFont;
 
+@property (strong, nonatomic) UIFont *timestampFont;
 /**
  *  The horizontal spacing between the message bubble and the edge of the collection 
  *  view cell in which it is displayed. This value should be greater than or equal to `0.0`.

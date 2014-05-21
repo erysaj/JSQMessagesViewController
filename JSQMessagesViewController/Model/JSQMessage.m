@@ -22,15 +22,14 @@
 
 #pragma mark - Initialization
 
-+ (instancetype)messageWithText:(NSString *)text sender:(NSString *)sender isSystemMessage:(BOOL)isSystemMessage
++ (instancetype)messageWithText:(NSString *)text sender:(NSString *)sender
 {
-    return [[JSQMessage alloc] initWithText:text sender:sender date:[NSDate date] isSystemMessage:isSystemMessage];
+    return [[JSQMessage alloc] initWithText:text sender:sender date:[NSDate date]];
 }
 
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
                         date:(NSDate *)date
-             isSystemMessage:(BOOL)isSystemMessage
 {
     NSAssert(text, @"ERROR: text must not be nil: %s", __PRETTY_FUNCTION__);
     NSAssert(sender, @"ERROR: sender must not be nil: %s", __PRETTY_FUNCTION__);
@@ -41,7 +40,7 @@
         _text = text;
         _sender = sender;
         _date = date;
-        _isSystemMessage = isSystemMessage;
+        
     }
     return self;
 }
@@ -49,6 +48,7 @@
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
                     imageURL:(NSURL *)imageURL
+             isSystemMessage:(BOOL)isSystemMessage
                         date:(NSDate *)date
 
 {
@@ -62,6 +62,7 @@
         _sender = sender;
         _date = date;
         _imageURL = imageURL;
+        _isSystemMessage = isSystemMessage;
     }
     return self;
 }
@@ -144,8 +145,7 @@
 {
     return [[[self class] allocWithZone:zone] initWithText:[self.text copy]
                                                     sender:[self.sender copy]
-                                                      date:[self.date copy]
-                                           isSystemMessage:self.isSystemMessage];
+                                                      date:[self.date copy]];
 }
 
 @end

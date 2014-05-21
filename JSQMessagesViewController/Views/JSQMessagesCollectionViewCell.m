@@ -34,6 +34,8 @@
 @property (weak, nonatomic) IBOutlet JSQMessagesLabel *timestampLabel;
 @property (weak, nonatomic) IBOutlet JSQMessagesLabel *messageLabel;
 
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
+
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 
 @property (weak, nonatomic) IBOutlet UIView *messageBubbleContainerView;

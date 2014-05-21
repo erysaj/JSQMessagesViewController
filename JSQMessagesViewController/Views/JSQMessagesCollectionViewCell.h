@@ -89,6 +89,8 @@
 
 @property (weak, nonatomic, readonly) JSQMessagesLabel *messageLabel;
 
+@property (weak, nonatomic, readonly) UIImageView *iconImageView;
+
 /**
  *  Returns the text view of the cell. This text view contains the message body text.
  */

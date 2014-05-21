@@ -381,6 +381,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     NSAssert(messageText, @"ERROR: messageData text must not be nil: %s", __PRETTY_FUNCTION__);
     
     cell.textView.text = messageText;
+    cell.timestampLabel.text = [[JSQMessagesTimestampFormatter sharedFormatter] timestampForDate:messageData.date];
+    
     cell.messageBubbleImageView = [collectionView.dataSource collectionView:collectionView bubbleImageViewForItemAtIndexPath:indexPath];
     cell.avatarImageView = [collectionView.dataSource collectionView:collectionView avatarImageViewForItemAtIndexPath:indexPath];
     cell.cellTopLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForCellTopLabelAtIndexPath:indexPath];
@@ -519,6 +521,11 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     [self.collectionView.delegate collectionView:self.collectionView
                            didTapBubbleImageView:cell.avatarImageView
                                      atIndexPath:[self.collectionView indexPathForCell:cell]];
+}
+
+- (void)messagesCollectionViewCellDidTapDelete:(JSQMessagesCollectionViewCell *)cell
+{
+    [self.collectionView.delegate collectionViewDidTapDelete:self.collectionView atIndexPath:[self.collectionView indexPathForCell:cell]];
 }
 
 #pragma mark - Input toolbar delegate

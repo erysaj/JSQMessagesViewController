@@ -47,8 +47,17 @@
  */
 - (NSDate *)date;
 
-
+/**
+ *  @return The image url for that the image message.
+ */
 - (NSURL *)imageURL;
+
+/**
+ *  @return The date that the message was sent.
+ *  @warning You must not return `nil` from this method.
+ */
+- (BOOL)isSystemMessage;
+
 
 
 @end

@@ -85,6 +85,7 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     
     _timestampFont = [UIFont systemFontOfSize:11.0f];
     
+    _systemMessageFont = [UIFont systemFontOfSize:15.0f];
     
     CGSize defaultAvatarSize = CGSizeMake(34.0f, 34.0f);
     _incomingAvatarViewSize = defaultAvatarSize;
@@ -130,6 +131,7 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     
     _messageBubbleFont = nil;
     _timestampFont = nil;
+    _systemMessageFont = nil;
     
     _messageBubbleSizes = nil;
     
@@ -162,6 +164,13 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
 {
     NSAssert(timestampFont, @"ERROR: timestampFont must not be nil: %s", __PRETTY_FUNCTION__);
     _timestampFont = timestampFont;
+    [self invalidateLayout];
+}
+
+- (void)setSysttemMessageFont:(UIFont *)systemMessageFont
+{
+    NSAssert(systemMessageFont, @"ERROR: systemMessageFont must not be nil: %s", __PRETTY_FUNCTION__);
+    _systemMessageFont = systemMessageFont;
     [self invalidateLayout];
 }
 
@@ -401,6 +410,8 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     layoutAttributes.messageBubbleFont = self.messageBubbleFont;
     
     layoutAttributes.timestampFont = self.timestampFont;
+    
+    layoutAttributes.systemMessageFont = self.systemMessageFont;
     
     layoutAttributes.incomingAvatarViewSize = self.incomingAvatarViewSize;
     

@@ -45,28 +45,28 @@
 
 - (void)testMessageInit
 {
-    JSQMessage *msg0 = [[JSQMessage alloc] initWithText:self.text sender:self.sender date:self.date];
+    JSQMessage *msg0 = [[JSQMessage alloc] initWithText:self.text sender:self.sender date:self.date isSystemMessage:NO];
     XCTAssertNotNil(msg0, @"Message should not be nil");
     
-    JSQMessage *msg1 = [JSQMessage messageWithText:self.text sender:self.sender];
+    JSQMessage *msg1 = [JSQMessage messageWithText:self.text sender:self.sender isSystemMessage:NO];
     XCTAssertNotNil(msg1, @"Message shold not be nil");
 }
 
 - (void)testMessageInvalidInit
 {
-    XCTAssertThrows([JSQMessage messageWithText:nil sender:nil], @"Invalid init should throw");
-    XCTAssertThrows([JSQMessage messageWithText:self.text sender:nil], @"Invalid init should throw");
-    XCTAssertThrows([JSQMessage messageWithText:nil sender:self.sender], @"Invalid init should throw");
+    XCTAssertThrows([JSQMessage messageWithText:nil sender:nil isSystemMessage:NO], @"Invalid init should throw");
+    XCTAssertThrows([JSQMessage messageWithText:self.text sender:nil isSystemMessage:NO], @"Invalid init should throw");
+    XCTAssertThrows([JSQMessage messageWithText:nil sender:self.sender isSystemMessage:NO], @"Invalid init should throw");
     
-    XCTAssertThrows([[JSQMessage alloc] initWithText:nil sender:nil date:nil], @"Invalid init should throw");
-    XCTAssertThrows([[JSQMessage alloc] initWithText:self.text sender:nil date:nil], @"Invalid init should throw");
-    XCTAssertThrows([[JSQMessage alloc] initWithText:nil sender:self.sender date:nil], @"Invalid init should throw");
-    XCTAssertThrows([[JSQMessage alloc] initWithText:nil sender:nil date:self.date], @"Invalid init should throw");
+    XCTAssertThrows([[JSQMessage alloc] initWithText:nil sender:nil date:nil isSystemMessage:NO], @"Invalid init should throw");
+    XCTAssertThrows([[JSQMessage alloc] initWithText:self.text sender:nil date:nil isSystemMessage:NO], @"Invalid init should throw");
+    XCTAssertThrows([[JSQMessage alloc] initWithText:nil sender:self.sender date:nil isSystemMessage:NO], @"Invalid init should throw");
+    XCTAssertThrows([[JSQMessage alloc] initWithText:nil sender:nil date:self.date isSystemMessage:NO], @"Invalid init should throw");
 }
 
 - (void)testMessageIsEqual
 {
-    JSQMessage *msg = [JSQMessage messageWithText:self.text sender:self.sender];
+    JSQMessage *msg = [JSQMessage messageWithText:self.text sender:self.sender isSystemMessage:NO];
     JSQMessage *copy = [msg copy];
     
     XCTAssertEqualObjects(msg, copy, @"Copied messages should be equal");
@@ -79,7 +79,7 @@
 
 - (void)testMessageArchiving
 {
-    JSQMessage *msg = [JSQMessage messageWithText:self.text sender:self.sender];
+    JSQMessage *msg = [JSQMessage messageWithText:self.text sender:self.sender isSystemMessage:NO];
     NSData *msgData = [NSKeyedArchiver archivedDataWithRootObject:msg];
     
     JSQMessage *unarchivedMsg = [NSKeyedUnarchiver unarchiveObjectWithData:msgData];

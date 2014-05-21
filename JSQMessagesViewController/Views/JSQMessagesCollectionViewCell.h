@@ -86,6 +86,9 @@
 
 
 @property (weak, nonatomic, readonly) JSQMessagesLabel *timestampLabel;
+
+@property (weak, nonatomic, readonly) JSQMessagesLabel *messageLabel;
+
 /**
  *  Returns the text view of the cell. This text view contains the message body text.
  */

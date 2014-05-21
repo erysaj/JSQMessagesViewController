@@ -20,6 +20,7 @@
 
 #import "JSQMessagesCollectionViewCellIncoming.h"
 #import "JSQMessagesCollectionViewCellOutgoing.h"
+#import "JSQMessagesCollectionViewCellSystem.h"
 #import "JSQMessagesCollectionViewLayoutAttributes.h"
 
 #import "UIView+JSQMessages.h"
@@ -31,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet JSQMessagesLabel *messageBubbleTopLabel;
 @property (weak, nonatomic) IBOutlet JSQMessagesLabel *cellBottomLabel;
 @property (weak, nonatomic) IBOutlet JSQMessagesLabel *timestampLabel;
+@property (weak, nonatomic) IBOutlet JSQMessagesLabel *messageLabel;
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 
@@ -181,6 +183,7 @@
     JSQMessagesCollectionViewLayoutAttributes *customAttributes = (JSQMessagesCollectionViewLayoutAttributes *)layoutAttributes;
     
     self.textView.font = customAttributes.messageBubbleFont;
+    self.messageLabel.font = customAttributes.systemMessageFont;
     self.timestampLabel.font = customAttributes.timestampFont;
     self.messageBubbleLeftRightMarginConstraint.constant = customAttributes.messageBubbleLeftRightMargin;
     self.textViewFrameInsets = customAttributes.textViewFrameInsets;
@@ -189,11 +192,17 @@
     self.messageBubbleTopLabelHeightConstraint.constant = customAttributes.messageBubbleTopLabelHeight;
     self.cellBottomLabelHeightConstraint.constant = customAttributes.cellBottomLabelHeight;
     
-    if ([self isKindOfClass:[JSQMessagesCollectionViewCellIncoming class]]) {
+    if ([self isKindOfClass:[JSQMessagesCollectionViewCellIncoming class]])
+    {
         self.avatarViewSize = customAttributes.incomingAvatarViewSize;
     }
-    else if ([self isKindOfClass:[JSQMessagesCollectionViewCellOutgoing class]]) {
+    else if ([self isKindOfClass:[JSQMessagesCollectionViewCellOutgoing class]])
+    {
         self.avatarViewSize = customAttributes.outgoingAvatarViewSize;
+    }
+    else if ([self isKindOfClass:[JSQMessagesCollectionViewCellSystem class]])
+    {
+        self.avatarViewSize = CGSizeZero;
     }
     
     [self setNeedsUpdateConstraints];

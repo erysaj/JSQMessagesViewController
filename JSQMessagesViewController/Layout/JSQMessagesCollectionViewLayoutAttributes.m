@@ -26,6 +26,7 @@
 - (void)dealloc
 {
     _messageBubbleFont = nil;
+    _systemMessageFont = nil;
     _timestampFont = nil;
 }
 
@@ -41,6 +42,12 @@
 {
     NSAssert(timestampFont, @"ERROR: timestampFont must not be nil: %s", __PRETTY_FUNCTION__);
     _timestampFont = timestampFont;
+}
+
+- (void)setSystemMessageFont:(UIFont *)systemMessageFont
+{
+    NSAssert(systemMessageFont, @"ERROR: systemMessageFont must not be nil: %s", __PRETTY_FUNCTION__);
+    _systemMessageFont = systemMessageFont;
 }
 
 - (void)setMessageBubbleLeftRightMargin:(CGFloat)messageBubbleLeftRightMargin
@@ -99,6 +106,7 @@
     
     if (![layoutAttributes.messageBubbleFont isEqual:self.messageBubbleFont]
         || ![layoutAttributes.timestampFont isEqual:self.timestampFont]
+        || ![layoutAttributes.systemMessageFont isEqual:self.systemMessageFont]
         || !UIEdgeInsetsEqualToEdgeInsets(layoutAttributes.textViewFrameInsets, self.textViewFrameInsets)
         || !UIEdgeInsetsEqualToEdgeInsets(layoutAttributes.textViewTextContainerInsets, self.textViewTextContainerInsets)
         || !CGSizeEqualToSize(layoutAttributes.incomingAvatarViewSize, self.incomingAvatarViewSize)
@@ -128,6 +136,7 @@
     JSQMessagesCollectionViewLayoutAttributes *copy = [super copyWithZone:zone];
     copy.messageBubbleFont = self.messageBubbleFont;
     copy.timestampFont = self.timestampFont;
+    copy.systemMessageFont = self.systemMessageFont;
     copy.messageBubbleLeftRightMargin = self.messageBubbleLeftRightMargin;
     copy.textViewFrameInsets = self.textViewFrameInsets;
     copy.textViewTextContainerInsets = self.textViewTextContainerInsets;

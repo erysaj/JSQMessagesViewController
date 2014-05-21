@@ -83,6 +83,8 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault
 
 @property (strong, nonatomic) UIFont *timestampFont;
 
+@property (strong, nonatomic) UIFont *systemMessageFont;
+
 /**
  *  The horizontal spacing used to lay out the text view frame within each `JSQMessagesCollectionViewCell`.
  *  This value specifies the horizontal spacing between the message bubble and 
@@ -100,6 +102,7 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault
  *
  *  @see `JSQMessagesCollectionViewCellIncoming`.
  *  @see `JSQMessagesCollectionViewCellOutgoing`.
+ *  @see `JSQMessagesCollectionViewCellSystem`.
  */
 @property (assign, nonatomic) CGFloat messageBubbleLeftRightMargin;
 

@@ -25,6 +25,7 @@
 
 #import "JSQMessagesCollectionViewCellIncoming.h"
 #import "JSQMessagesCollectionViewCellOutgoing.h"
+#import "JSQMessagesCollectionViewCellSystem.h"
 
 #import "JSQMessagesTypingIndicatorFooterView.h"
 #import "JSQMessagesLoadEarlierHeaderView.h"
@@ -125,6 +126,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     
     self.outgoingCellIdentifier = [JSQMessagesCollectionViewCellOutgoing cellReuseIdentifier];
     self.incomingCellIdentifier = [JSQMessagesCollectionViewCellIncoming cellReuseIdentifier];
+    self.systemCellIdentifier = [JSQMessagesCollectionViewCellSystem cellReuseIdentifier];
     
     self.typingIndicatorColor = [UIColor jsq_messageBubbleLightGrayColor];
     self.showTypingIndicator = NO;
@@ -374,14 +376,28 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     BOOL isOutgoingMessage = [messageSender isEqualToString:self.sender];
     
     NSString *cellIdentifier = isOutgoingMessage ? self.outgoingCellIdentifier : self.incomingCellIdentifier;
+    
+    if (messageData.isSystemMessage)
+    {
+        cellIdentifier = self.systemCellIdentifier;
+    }
+    
     JSQMessagesCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
     
     NSString *messageText = [messageData text];
     NSAssert(messageText, @"ERROR: messageData text must not be nil: %s", __PRETTY_FUNCTION__);
     
-    cell.textView.text = messageText;
-    cell.timestampLabel.text = [[JSQMessagesTimestampFormatter sharedFormatter] timestampForDate:messageData.date];
+    if (messageData.isSystemMessage)
+    {
+        cellIdentifier = self.systemCellIdentifier;
+        cell.messageLabel.text = messageText;
+    }
+    else
+    {
+        cell.textView.text = messageText;
+        cell.timestampLabel.text = [[JSQMessagesTimestampFormatter sharedFormatter] timestampForDate:messageData.date];
+    }
     
     cell.messageBubbleImageView = [collectionView.dataSource collectionView:collectionView bubbleImageViewForItemAtIndexPath:indexPath];
     cell.avatarImageView = [collectionView.dataSource collectionView:collectionView avatarImageViewForItemAtIndexPath:indexPath];
@@ -406,10 +422,12 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     
     CGFloat bubbleTopLabelInset = 60.0f;
     
-    if (isOutgoingMessage) {
+    if (isOutgoingMessage)
+    {
         cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, bubbleTopLabelInset);
     }
-    else {
+    else
+    {
         cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, bubbleTopLabelInset, 0.0f, 0.0f);
     }
     

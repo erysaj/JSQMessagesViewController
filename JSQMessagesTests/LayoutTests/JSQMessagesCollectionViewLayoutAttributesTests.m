@@ -35,6 +35,7 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
     JSQMessagesCollectionViewLayoutAttributes *attrs = [JSQMessagesCollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
     attrs.messageBubbleFont = [UIFont systemFontOfSize:15.0f];
+    attrs.systemMessageFont = [UIFont systemFontOfSize:15.0f];
     attrs.messageBubbleLeftRightMargin = 40.0f;
     attrs.textViewTextContainerInsets = UIEdgeInsetsMake(10.0f, 8.0f, 10.0f, 8.0f);
     attrs.textViewFrameInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 6.0f);

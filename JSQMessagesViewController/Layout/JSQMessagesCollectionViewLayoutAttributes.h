@@ -31,6 +31,8 @@
 @property (strong, nonatomic) UIFont *messageBubbleFont;
 
 @property (strong, nonatomic) UIFont *timestampFont;
+
+@property (strong, nonatomic) UIFont *systemMessageFont;
 /**
  *  The horizontal spacing between the message bubble and the edge of the collection 
  *  view cell in which it is displayed. This value should be greater than or equal to `0.0`.
@@ -83,6 +85,14 @@
  *  @see `JSQMessagesCollectionViewCellOutgoing`.
  */
 @property (assign, nonatomic) CGSize outgoingAvatarViewSize;
+
+/**
+ *  The size of the `avatarImageView` of a `JSQMessagesCollectionViewCellSystem`.
+ *  The size values should be greater than or equal to `0.0`.
+ *
+ *  @see `JSQMessagesCollectionViewCellOutgoing`.
+ */
+@property (assign, nonatomic) CGSize systemAvatarViewSize;
 
 /**
  *  The height of the `cellTopLabel` of a `JSQMessagesCollectionViewCell`.

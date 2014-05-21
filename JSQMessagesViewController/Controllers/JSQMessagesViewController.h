@@ -92,6 +92,22 @@
 @property (copy, nonatomic) NSString *incomingCellIdentifier;
 
 /**
+ *  The collection view cell identifier to use for dequeuing incoming message collection view cells in the collectionView.
+ *
+ *  @discussion The default value is the string returned by `[JSQMessagesCollectionViewCellSystem cellReuseIdentifier]`.
+ *  This value must not be `nil`.
+ *
+ *  @see `JSQMessagesCollectionViewCellSystem`.
+ *
+ *  @warning Overriding this property's default value is *not* recommended.
+ *  You should only override this property's default value if you are proividing your own cell prototypes.
+ *  These prototypes must be registered with the collectionView for reuse and you are then responsible for
+ *  completely overriding many delegate and data source methods for the collectionView,
+ *  including `collectionView:cellForItemAtIndexPath:`.
+ */
+@property (copy, nonatomic) NSString *systemCellIdentifier;
+
+/**
  *  The color for the typing indicator for incoming messages.
  *
  *  @discussion The color specified is used for the typing indicator bubble image color.

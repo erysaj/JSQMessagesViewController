@@ -42,7 +42,15 @@
  */
 @property (copy, nonatomic) NSDate *date;
 
+/**
+ *  The image url for an image message.
+ */
 @property (copy, nonatomic) NSURL *imageURL;
+
+/**
+ *  The date that the message was sent. This value must not be `nil`.
+ */
+@property (assign, nonatomic) BOOL isSystemMessage;
 
 
 #pragma mark - Initialization
@@ -55,7 +63,7 @@
  *
  *  @return An initialized `JSQMessage` object or `nil` if the object could not be successfully initialized.
  */
-+ (instancetype)messageWithText:(NSString *)text sender:(NSString *)sender;
++ (instancetype)messageWithText:(NSString *)text sender:(NSString *)sender isSystemMessage:(BOOL)isSystemMessage;
 
 /**
  *  Initializes and returns a message object having the given text, sender, and date.
@@ -68,7 +76,8 @@
  */
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
-                        date:(NSDate *)date;
+                        date:(NSDate *)date
+             isSystemMessage:(BOOL)isSystemMessage;
 
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender

@@ -36,7 +36,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
      *  You should have a mutable array or orderedSet, or something.
      */
     self.messages = [[NSMutableArray alloc] initWithObjects:
-                     [[JSQMessage alloc] initWithText:@"Something Happened" sender:self.sender imageURL:nil isSystemMessage:YES date:[NSDate distantPast]],
+                     [[JSQMessage alloc] initWithText:@"This is a very very very very very long system message" sender:self.sender imageURL:nil isSystemMessage:YES date:[NSDate distantPast]],
                      [[JSQMessage alloc] initWithText:@"It is simple, elegant, and easy to use. There are super sweet default settings, but you can customize like crazy." sender:kJSQDemoAvatarNameWoz date:[NSDate distantPast]],
                      [[JSQMessage alloc] initWithText:@"It even has data detectors. You can call me tonight. My cell number is 123-456-7890. My website is www.hexedbits.com." sender:self.sender date:[NSDate distantPast]],
                      [[JSQMessage alloc] initWithText:@"JSQMessagesViewController is nearly an exact replica of the iOS Messages App. And perhaps, better." sender:kJSQDemoAvatarNameJobs date:[NSDate date]],
@@ -323,6 +323,12 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
      *
      *  Show a timestamp for every 3rd message
      */
+     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+    if (message.isSystemMessage)
+    {
+        return nil;
+    }
+    
     if (indexPath.item % 3 == 0) {
         JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
         return [[JSQMessagesTimestampFormatter sharedFormatter] attributedTimestampForDate:message.date];
@@ -335,6 +341,10 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
 {
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
     
+    if (message.isSystemMessage)
+    {
+        return nil;
+    }
     /**
      *  iOS7-style sender name labels
      */
@@ -388,13 +398,13 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
      *  Instead, override the properties you want on `self.collectionView.collectionViewLayout` from `viewDidLoad`
      */
     
-    JSQMessage *msg = [self.messages objectAtIndex:indexPath.item];
+    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
     
-    if (msg.isSystemMessage)
+    if (message.isSystemMessage)
     {
-        cell.messageLabel.textColor = [UIColor purpleColor];
+        //cell.messageLabel.textColor = [UIColor purpleColor];
     }
-    else if ([msg.sender isEqualToString:self.sender])
+    else if ([message.sender isEqualToString:self.sender])
     {
         cell.textView.textColor = [UIColor blackColor];
         cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor, NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
@@ -416,6 +426,14 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
                    layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
+    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+    
+    if (message.isSystemMessage)
+    {
+        return 0.0f;
+    }
+
+    
     /**
      *  Each label in a cell has a `height` delegate method that corresponds to its text dataSource method
      */
@@ -436,6 +454,14 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
                    layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+    
+    if (message.isSystemMessage)
+    {
+        return 0.0f;
+    }
+    
     /**
      *  iOS7-style sender name labels
      */

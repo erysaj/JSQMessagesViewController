@@ -13,16 +13,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera.png" translatesAutoresizingMaskIntoConstraints="NO" id="50s-T8-iX7">
-                        <rect key="frame" x="120" y="8" width="14" height="14"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="14" id="Kpg-Qf-Rep"/>
-                            <constraint firstAttribute="width" constant="14" id="U1N-nH-EIw"/>
-                        </constraints>
-                    </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AnI-m3-Si0">
-                        <rect key="frame" x="139" y="4" width="42" height="21"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="AnI-m3-Si0">
+                        <rect key="frame" x="10" y="5" width="300" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -32,19 +24,15 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstAttribute="centerY" secondItem="AnI-m3-Si0" secondAttribute="centerY" constant="0.5" id="R3a-2I-mga"/>
                 <constraint firstAttribute="centerX" secondItem="AnI-m3-Si0" secondAttribute="centerX" id="ZoS-xo-tag"/>
-                <constraint firstItem="AnI-m3-Si0" firstAttribute="leading" secondItem="50s-T8-iX7" secondAttribute="trailing" constant="5" id="mJC-en-bNz"/>
-                <constraint firstAttribute="centerY" secondItem="50s-T8-iX7" secondAttribute="centerY" id="mtr-62-4eP"/>
+                <constraint firstAttribute="trailing" secondItem="AnI-m3-Si0" secondAttribute="trailing" constant="10" id="k03-yQ-gBa"/>
+                <constraint firstItem="AnI-m3-Si0" firstAttribute="top" secondItem="23f-xH-rkY" secondAttribute="top" constant="5" id="ln9-hf-2m5"/>
+                <constraint firstItem="AnI-m3-Si0" firstAttribute="leading" secondItem="23f-xH-rkY" secondAttribute="leading" constant="10" id="naO-Ou-SKu"/>
             </constraints>
             <size key="customSize" width="317" height="245"/>
             <connections>
-                <outlet property="iconImageView" destination="50s-T8-iX7" id="s7p-XA-Roh"/>
                 <outlet property="messageLabel" destination="AnI-m3-Si0" id="4rS-W1-LuO"/>
             </connections>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="camera.png" width="25" height="20"/>
-    </resources>
 </document>

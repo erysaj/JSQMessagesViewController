@@ -175,7 +175,6 @@
     self.cellTopLabel.text = nil;
     self.messageBubbleTopLabel.text = nil;
     self.cellBottomLabel.text = nil;
-    self.textView.text = nil;
     self.timestampLabel.text = nil;
 }
 
@@ -185,12 +184,25 @@
     
     JSQMessagesCollectionViewLayoutAttributes *customAttributes = (JSQMessagesCollectionViewLayoutAttributes *)layoutAttributes;
     
-    self.textView.font = customAttributes.messageBubbleFont;
-    self.messageLabel.font = customAttributes.systemMessageFont;
-    self.timestampLabel.font = customAttributes.timestampFont;
-    [self jsq_updateConstraint:self.messageBubbleLeftRightMarginConstraint withConstant:customAttributes.messageBubbleLeftRightMargin];
+    if (self.messageLabel.font != customAttributes.systemMessageFont) {
+        self.messageLabel.font = customAttributes.systemMessageFont;
+    }
+    
+    if (self.timestampLabel.font != customAttributes.timestampFont) {
+        self.timestampLabel.font = customAttributes.timestampFont;
+    }
+
+    UITextView *textView = self.textView;
+    if (textView.font != customAttributes.messageBubbleFont) {
+        textView.font = customAttributes.messageBubbleFont;
+    }
+    if (!UIEdgeInsetsEqualToEdgeInsets(textView.textContainerInset, customAttributes.textViewTextContainerInsets)) {
+        textView.textContainerInset = customAttributes.textViewTextContainerInsets;
+    }
+
     self.textViewFrameInsets = customAttributes.textViewFrameInsets;
-    self.textView.textContainerInset = customAttributes.textViewTextContainerInsets;
+
+    [self jsq_updateConstraint:self.messageBubbleLeftRightMarginConstraint withConstant:customAttributes.messageBubbleLeftRightMargin];
     [self jsq_updateConstraint:self.cellTopLabelHeightConstraint withConstant:customAttributes.cellTopLabelHeight];
     [self jsq_updateConstraint:self.messageBubbleTopLabelHeightConstraint withConstant:customAttributes.messageBubbleTopLabelHeight];
     [self jsq_updateConstraint:self.cellBottomLabelHeightConstraint withConstant:customAttributes.cellBottomLabelHeight];

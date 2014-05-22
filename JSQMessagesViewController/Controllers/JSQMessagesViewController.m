@@ -396,7 +396,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     else
     {
         cell.textView.text = messageText;
-        cell.timestampLabel.text = [[JSQMessagesTimestampFormatter sharedFormatter] timestampForDate:messageData.date];
+        cell.timestampLabel.text = [[JSQMessagesTimestampFormatter sharedFormatter] timeForDate:messageData.date];
     }
     
     cell.messageBubbleImageView = [collectionView.dataSource collectionView:collectionView bubbleImageViewForItemAtIndexPath:indexPath];

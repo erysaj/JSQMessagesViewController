@@ -366,7 +366,7 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     
     CGSize stringSize = CGRectIntegral(stringRect).size;
     
-    NSString *dateString = [[JSQMessagesTimestampFormatter sharedFormatter] timestampForDate:messageData.date];
+    NSString *dateString = [[JSQMessagesTimestampFormatter sharedFormatter] timeForDate:messageData.date];
     CGRect timestampRect = [dateString boundingRectWithSize:CGSizeMake(maximumTextWidth - textInsetsTotal, CGFLOAT_MAX)
                                                          options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
                                                       attributes:@{ NSFontAttributeName : self.timestampFont }

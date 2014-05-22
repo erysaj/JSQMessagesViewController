@@ -100,6 +100,8 @@
 		F6B0970A192B77F500D6356A /* bubble_min_triangle_tail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F6B09708192B77F500D6356A /* bubble_min_triangle_tail@2x.png */; };
 		F6B09713192CCD7400D6356A /* JSQMessagesCollectionViewCellSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = F6B09711192CCD7300D6356A /* JSQMessagesCollectionViewCellSystem.m */; };
 		F6B09714192CCD7400D6356A /* JSQMessagesCollectionViewCellSystem.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6B09712192CCD7400D6356A /* JSQMessagesCollectionViewCellSystem.xib */; };
+		F6B09720192E3CC800D6356A /* JSQMessagesDateHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F6B0971E192E3CC800D6356A /* JSQMessagesDateHeaderView.m */; };
+		F6B09721192E3CC800D6356A /* JSQMessagesDateHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6B0971F192E3CC800D6356A /* JSQMessagesDateHeaderView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -238,6 +240,9 @@
 		F6B09710192CCD7300D6356A /* JSQMessagesCollectionViewCellSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQMessagesCollectionViewCellSystem.h; sourceTree = "<group>"; };
 		F6B09711192CCD7300D6356A /* JSQMessagesCollectionViewCellSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQMessagesCollectionViewCellSystem.m; sourceTree = "<group>"; };
 		F6B09712192CCD7400D6356A /* JSQMessagesCollectionViewCellSystem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JSQMessagesCollectionViewCellSystem.xib; sourceTree = "<group>"; };
+		F6B0971D192E3CC800D6356A /* JSQMessagesDateHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQMessagesDateHeaderView.h; sourceTree = "<group>"; };
+		F6B0971E192E3CC800D6356A /* JSQMessagesDateHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQMessagesDateHeaderView.m; sourceTree = "<group>"; };
+		F6B0971F192E3CC800D6356A /* JSQMessagesDateHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JSQMessagesDateHeaderView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -419,6 +424,9 @@
 				88BC4D31190C6057002E5CC6 /* JSQMessagesLoadEarlierHeaderView.h */,
 				88BC4D32190C6057002E5CC6 /* JSQMessagesLoadEarlierHeaderView.m */,
 				88BC4D34190C6086002E5CC6 /* JSQMessagesLoadEarlierHeaderView.xib */,
+				F6B0971D192E3CC800D6356A /* JSQMessagesDateHeaderView.h */,
+				F6B0971E192E3CC800D6356A /* JSQMessagesDateHeaderView.m */,
+				F6B0971F192E3CC800D6356A /* JSQMessagesDateHeaderView.xib */,
 				8816A68D18E9250400111919 /* JSQMessagesToolbarContentView.h */,
 				8816A68E18E9250400111919 /* JSQMessagesToolbarContentView.m */,
 				8816A68F18E9250400111919 /* JSQMessagesToolbarContentView.xib */,
@@ -683,6 +691,7 @@
 				8816A6B818E9250400111919 /* JSQMessagesToolbarContentView.xib in Resources */,
 				8816A69F18E9250400111919 /* message_sent.aiff in Resources */,
 				8816A69518E9250400111919 /* bubble_min_tailless@2x.png in Resources */,
+				F6B09721192E3CC800D6356A /* JSQMessagesDateHeaderView.xib in Resources */,
 				8816A69A18E9250400111919 /* bubble_tailless.png in Resources */,
 				8816A69818E9250400111919 /* bubble_stroked_tailless.png in Resources */,
 				8816A69718E9250400111919 /* bubble_stroked@2x.png in Resources */,
@@ -787,6 +796,7 @@
 				8816A6B018E9250400111919 /* JSQMessagesCollectionViewCellIncoming.m in Sources */,
 				885D597318CBD2DC00D77BB3 /* main.m in Sources */,
 				8816A6A118E9250400111919 /* NSString+JSQMessages.m in Sources */,
+				F6B09720192E3CC800D6356A /* JSQMessagesDateHeaderView.m in Sources */,
 				8816A6B218E9250400111919 /* JSQMessagesCollectionViewCellOutgoing.m in Sources */,
 				88D1B0C71906045A00AFE162 /* JSQMessagesTypingIndicatorFooterView.m in Sources */,
 				8816A6AC18E9250400111919 /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,

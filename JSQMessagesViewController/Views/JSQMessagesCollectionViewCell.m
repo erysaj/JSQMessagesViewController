@@ -34,7 +34,10 @@
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 
 @property (weak, nonatomic) IBOutlet UIView *messageBubbleContainerView;
+@property (weak, nonatomic) IBOutlet UIImageView *messageBubbleImageView;
+
 @property (weak, nonatomic) IBOutlet UIView *avatarContainerView;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewTopVerticalSpaceConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewBottomVerticalSpaceConstraint;
@@ -63,6 +66,7 @@
 - (void)jsq_didReceiveMenuWillHideNotification:(NSNotification *)notification;
 - (void)jsq_didReceiveMenuWillShowNotification:(NSNotification *)notification;
 
+- (void)jsq_updateConstraint:(NSLayoutConstraint *)constraint withConstant:(CGFloat)constant;
 @end
 
 
@@ -149,6 +153,9 @@
     
     [_tapGestureRecognizer removeTarget:nil action:NULL];
     _tapGestureRecognizer = nil;
+    
+    [_avatarImageSource bindImageView:nil];
+    [_messageBubbleImageSource bindImageView:nil];
 }
 
 #pragma mark - Collection view cell
@@ -160,7 +167,6 @@
     self.cellTopLabel.text = nil;
     self.messageBubbleTopLabel.text = nil;
     self.cellBottomLabel.text = nil;
-    self.textView.text = nil;
 }
 
 - (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes
@@ -169,13 +175,19 @@
     
     JSQMessagesCollectionViewLayoutAttributes *customAttributes = (JSQMessagesCollectionViewLayoutAttributes *)layoutAttributes;
     
-    self.textView.font = customAttributes.messageBubbleFont;
-    self.messageBubbleLeftRightMarginConstraint.constant = customAttributes.messageBubbleLeftRightMargin;
+    UITextView *textView = self.textView;
+    if (textView.font != customAttributes.messageBubbleFont) {
+        textView.font = customAttributes.messageBubbleFont;
+    }
+    if (!UIEdgeInsetsEqualToEdgeInsets(textView.textContainerInset, customAttributes.textViewTextContainerInsets)) {
+        textView.textContainerInset = customAttributes.textViewTextContainerInsets;
+    }
     self.textViewFrameInsets = customAttributes.textViewFrameInsets;
-    self.textView.textContainerInset = customAttributes.textViewTextContainerInsets;
-    self.cellTopLabelHeightConstraint.constant = customAttributes.cellTopLabelHeight;
-    self.messageBubbleTopLabelHeightConstraint.constant = customAttributes.messageBubbleTopLabelHeight;
-    self.cellBottomLabelHeightConstraint.constant = customAttributes.cellBottomLabelHeight;
+
+    [self jsq_updateConstraint:self.messageBubbleLeftRightMarginConstraint withConstant:customAttributes.messageBubbleLeftRightMargin];
+    [self jsq_updateConstraint:self.cellTopLabelHeightContraint withConstant:customAttributes.cellTopLabelHeight];
+    [self jsq_updateConstraint:self.messageBubbleTopLabelHeightContraint withConstant:customAttributes.messageBubbleTopLabelHeight];
+    [self jsq_updateConstraint:self.cellBottomLabelHeightContraint withConstant:customAttributes.cellBottomLabelHeight];
     
     if ([self isKindOfClass:[JSQMessagesCollectionViewCellIncoming class]]) {
         self.avatarViewSize = customAttributes.incomingAvatarViewSize;
@@ -183,8 +195,7 @@
     else if ([self isKindOfClass:[JSQMessagesCollectionViewCellOutgoing class]]) {
         self.avatarViewSize = customAttributes.outgoingAvatarViewSize;
     }
-    
-    [self setNeedsUpdateConstraints];
+   
 }
 
 #pragma mark - Setters
@@ -204,68 +215,56 @@
     self.avatarContainerView.backgroundColor = backgroundColor;
 }
 
-- (void)setMessageBubbleImageView:(UIImageView *)messageBubbleImageView
+- (void)setMessageBubbleImageSource:(id<JSQMessagesImageViewSource>)messageBubbleImageSource
 {
-    if (_messageBubbleImageView) {
-        [_messageBubbleImageView removeFromSuperview];
+    if (_messageBubbleImageSource) {
+        [_messageBubbleImageSource bindImageView:nil];
     }
     
-    if (!messageBubbleImageView) {
-        _messageBubbleImageView = nil;
+    UIImageView *bubbleView = self.messageBubbleImageView;
+    _messageBubbleImageSource = messageBubbleImageSource;
+    
+    if (!messageBubbleImageSource) {
+        bubbleView.hidden = YES;
         return;
     }
     
-    messageBubbleImageView.frame = CGRectMake(0.0f,
-                                              0.0f,
-                                              CGRectGetWidth(self.messageBubbleContainerView.bounds),
-                                              CGRectGetHeight(self.messageBubbleContainerView.bounds));
-    
-    [messageBubbleImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.messageBubbleContainerView insertSubview:messageBubbleImageView belowSubview:self.textView];
-    [self.messageBubbleContainerView jsq_pinAllEdgesOfSubview:messageBubbleImageView];
-    [self setNeedsUpdateConstraints];
-    
-    _messageBubbleImageView = messageBubbleImageView;
+    bubbleView.hidden = NO;
+    [messageBubbleImageSource bindImageView:bubbleView];
 }
 
-- (void)setAvatarImageView:(UIImageView *)avatarImageView
+- (void)setAvatarImage:(id<JSQMessagesImageViewSource>)avatarImageSource
 {
-    if (_avatarImageView) {
-        [_avatarImageView removeFromSuperview];
+    if (_avatarImageSource) {
+        [_avatarImageSource bindImageView:nil];
     }
     
-    if (!avatarImageView) {
+    UIImageView *avatarView = self.avatarImageView;
+    _avatarImageSource = avatarImageSource;
+    
+    if (!avatarImageSource) {
         self.avatarViewSize = CGSizeZero;
-        _avatarImageView = nil;
-        self.avatarContainerView.hidden = YES;
+        avatarView.hidden = YES;
         return;
     }
     
-    self.avatarContainerView.hidden = NO;
-    self.avatarViewSize = CGSizeMake(CGRectGetWidth(avatarImageView.bounds), CGRectGetHeight(avatarImageView.bounds));
-    
-    [avatarImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.avatarContainerView addSubview:avatarImageView];
-    [self.avatarContainerView jsq_pinAllEdgesOfSubview:avatarImageView];
-    [self setNeedsUpdateConstraints];
-    
-    _avatarImageView = avatarImageView;
+    [avatarImageSource bindImageView:avatarView];
+    self.avatarViewSize = [avatarImageSource imageSize];
+    avatarView.hidden = NO;
 }
 
 - (void)setAvatarViewSize:(CGSize)avatarViewSize
 {
-    self.avatarContainerViewWidthConstraint.constant = avatarViewSize.width;
-    self.avatarContainerViewHeightConstraint.constant = avatarViewSize.height;
-    [self setNeedsUpdateConstraints];
+    [self jsq_updateConstraint:self.avatarContainerViewWidthConstraint withConstant:avatarViewSize.width];
+    [self jsq_updateConstraint:self.avatarContainerViewHeightConstraint withConstant:avatarViewSize.height];
 }
 
 - (void)setTextViewFrameInsets:(UIEdgeInsets)textViewFrameInsets
 {
-    self.textViewTopVerticalSpaceConstraint.constant = textViewFrameInsets.top;
-    self.textViewBottomVerticalSpaceConstraint.constant = textViewFrameInsets.bottom;
-    self.textViewAvatarHorizontalSpaceConstraint.constant = textViewFrameInsets.right;
-    self.textViewMarginHorizontalSpaceConstraint.constant = textViewFrameInsets.left;
-    [self setNeedsUpdateConstraints];
+    [self jsq_updateConstraint:self.textViewTopVerticalSpaceConstraint withConstant:textViewFrameInsets.top];
+    [self jsq_updateConstraint:self.textViewBottomVerticalSpaceConstraint withConstant:textViewFrameInsets.bottom];
+    [self jsq_updateConstraint:self.textViewAvatarHorizontalSpaceConstraint withConstant:textViewFrameInsets.right];
+    [self jsq_updateConstraint:self.textViewMarginHorizontalSpaceConstraint withConstant:textViewFrameInsets.left];
 }
 
 #pragma mark - Getters
@@ -282,6 +281,18 @@
                             self.textViewMarginHorizontalSpaceConstraint.constant,
                             self.textViewBottomVerticalSpaceConstraint.constant,
                             self.textViewAvatarHorizontalSpaceConstraint.constant);
+}
+
+#pragma mark - Helpers
+
+- (void)jsq_updateConstraint:(NSLayoutConstraint *)constraint withConstant:(CGFloat)constant
+{
+    if (constraint.constant == constant) {
+        return;
+    }
+    
+    constraint.constant = constant;
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - UIResponder

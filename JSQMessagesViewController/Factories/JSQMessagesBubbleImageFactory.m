@@ -17,7 +17,7 @@
 //
 
 #import "JSQMessagesBubbleImageFactory.h"
-
+#import "JSQMessages.h"
 #import "UIImage+JSQMessages.h"
 #import "UIColor+JSQMessages.h"
 
@@ -50,16 +50,16 @@
     return [JSQMessagesBubbleImageFactory bubbleImageViewWithColor:color flippedForIncoming:YES];
 }
 
-+ (UIImageView *)outgoingMessageBubbleImageViewWithImage:(UIImage *)image
++ (UIImageView *)outgoingMessageBubbleImageViewWithImage:(UIImage *)image imageOrientation:(JSImageOrientation)imageOrientation
 {
     NSAssert(image, @"ERROR: image must not be nil: %s", __PRETTY_FUNCTION__);
-    return [JSQMessagesBubbleImageFactory maskedBubbleImageViewFromImage:image flippedForIncoming:NO];
+    return [JSQMessagesBubbleImageFactory maskedBubbleImageViewFromImage:image flippedForIncoming:NO imageOrientation:imageOrientation];
 }
 
-+ (UIImageView *)incomingMessageBubbleImageViewWithImage:(UIImage *)image
++ (UIImageView *)incomingMessageBubbleImageViewWithImage:(UIImage *)image imageOrientation:(JSImageOrientation)imageOrientation
 {
     NSAssert(image, @"ERROR: image must not be nil: %s", __PRETTY_FUNCTION__);
-    return [JSQMessagesBubbleImageFactory maskedBubbleImageViewFromImage:image flippedForIncoming:YES];
+    return [JSQMessagesBubbleImageFactory maskedBubbleImageViewFromImage:image flippedForIncoming:YES imageOrientation:imageOrientation];
 }
 
 #pragma mark - Private
@@ -96,13 +96,10 @@
     return imageView;
 }
 
-+ (UIImageView *)maskedBubbleImageViewFromImage:(UIImage *)image flippedForIncoming:(BOOL)flippedForIncoming
++ (UIImageView *)maskedBubbleImageViewFromImage:(UIImage *)image flippedForIncoming:(BOOL)flippedForIncoming imageOrientation:(JSImageOrientation)imageOrientation
 {
-    //JSImageOrientation imageOrientation = [JSBubbleImageViewFactory imageOrientation:image];
-    //JSImageOrientation imageOrientation = JSImageOrientationLandscape;
-    //CGSize sizeForOrientation = [JSBubbleImageViewFactory neededSizeForImageOrientation:imageOrientation];
-    
-    CGSize sizeForOrientation = CGSizeMake(194, 122);
+    CGSize sizeForOrientation = [self neededSizeForImageOrientation:imageOrientation];
+
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
     imageView.frame = CGRectMake(0, 0, sizeForOrientation.width, sizeForOrientation.height);
@@ -165,6 +162,44 @@
 + (UIImage *)jsq_stretchableImageFromImage:(UIImage *)image withCapInsets:(UIEdgeInsets)capInsets
 {
     return [image resizableImageWithCapInsets:capInsets resizingMode:UIImageResizingModeStretch];
+}
+
++ (JSImageOrientation)imageOrientation:(UIImage *)image
+{
+    if (!image) {
+        return JSImageOrientationNone;
+    }
+    if (image.size.width > image.size.height)
+    {
+        return JSImageOrientationLandscape;
+    }
+    else if (image.size.width < image.size.height)
+    {
+        return JSImageOrientationPortrait;
+    }
+    else
+    {
+        return JSImageOrientationSquare;
+    }
+}
+
++ (CGSize)neededSizeForImageOrientation:(JSImageOrientation)imageOrientation
+{
+    switch (imageOrientation) {
+        case JSImageOrientationLandscape:
+            return IMAGE_LANDSCAPE_SIZE;
+            break;
+        case JSImageOrientationPortrait:
+            return IMAGE_PORTRAIT_SIZE;
+            break;
+        case JSImageOrientationSquare:
+        case JSImageOrientationNone:
+            return IMAGE_SQUARE_SIZE;
+            break;
+        default:
+            return IMAGE_SQUARE_SIZE;
+            break;
+    }
 }
 
 @end

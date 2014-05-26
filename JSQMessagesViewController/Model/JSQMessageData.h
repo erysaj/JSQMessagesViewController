@@ -17,6 +17,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "JSQMessagesBubbleImageFactory.h"
+
 
 /**
  *  The `JSQMessageData` protocol defines the common interface through 
@@ -51,6 +53,12 @@
  *  @return The image url for that the image message.
  */
 - (NSURL *)imageURL;
+
+
+/**
+  *  @return The image orientation
+  */
+- (JSImageOrientation)imageOrientation;
 
 /**
  *  @return The date that the message was sent.

@@ -48,6 +48,7 @@
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
                     imageURL:(NSURL *)imageURL
+            imageOrientation:(JSImageOrientation)imageOrientation
              isSystemMessage:(BOOL)isSystemMessage
                         date:(NSDate *)date
 
@@ -62,6 +63,7 @@
         _sender = sender;
         _date = date;
         _imageURL = imageURL;
+        _imageOrientation = imageOrientation;
         _isSystemMessage = isSystemMessage;
     }
     return self;

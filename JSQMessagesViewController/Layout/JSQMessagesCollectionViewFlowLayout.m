@@ -31,6 +31,7 @@
 #import "JSQMessagesCollectionViewFlowLayoutInvalidationContext.h"
 
 #import "JSQMessagesTimestampFormatter.h"
+#import "JSQMessagesBubbleImageFactory.h"
 
 const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
 
@@ -393,8 +394,18 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     
     if ([messageData imageURL])
     {
-        finalSize = CGSizeMake(194, 122);
-    }
+        switch ([messageData imageOrientation]) {
+            case JSImageOrientationNone:
+            case JSImageOrientationSquare:
+                finalSize = IMAGE_SQUARE_SIZE;
+                break;
+            case JSImageOrientationLandscape:
+                finalSize = IMAGE_LANDSCAPE_SIZE;
+                break;
+            case JSImageOrientationPortrait:
+                finalSize = IMAGE_PORTRAIT_SIZE;
+                break;
+        }    }
     else
     {
         finalSize = CGSizeMake(MAX(stringSize.width, timestampStringSize.width) , stringSize.height + verticalInsets + 8);

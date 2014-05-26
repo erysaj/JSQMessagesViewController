@@ -18,6 +18,31 @@
 
 #import <Foundation/Foundation.h>
 
+#define IMAGE_PORTRAIT_SIZE CGSizeMake(132, 159)
+#define IMAGE_LANDSCAPE_SIZE CGSizeMake(194, 122)
+#define IMAGE_SQUARE_SIZE CGSizeMake(169, 145)
+
+typedef NS_ENUM(NSUInteger, JSImageOrientation) {
+        /**
+         *  Specifies that there is no image.
+         */
+        JSImageOrientationNone,
+        /**
+         *  Specifies a portrait image.
+         */
+        JSImageOrientationPortrait,
+        /**
+         *  Specifies a landscape image.
+         */
+        JSImageOrientationLandscape,
+        /**
+         *  Specifies a square image.
+         */
+        JSImageOrientationSquare,
+    
+};
+
+
 /**
  *  `JSQMessagesBubbleImageFactory` is a factory that provides a means for creating and styling 
  *  message bubble image views to be displayed in a `JSQMessagesCollectionViewCell` of a `JSQMessagesCollectionView`.
@@ -47,7 +72,10 @@
 + (UIImageView *)incomingMessageBubbleImageViewWithColor:(UIColor *)color;
 
 
-+ (UIImageView *)outgoingMessageBubbleImageViewWithImage:(UIImage *)image;
-+ (UIImageView *)incomingMessageBubbleImageViewWithImage:(UIImage *)image;
++ (UIImageView *)outgoingMessageBubbleImageViewWithImage:(UIImage *)image imageOrientation:(JSImageOrientation)imageOrientation;
++ (UIImageView *)incomingMessageBubbleImageViewWithImage:(UIImage *)image imageOrientation:(JSImageOrientation)imageOrientation;
+
++ (CGSize)neededSizeForImageOrientation:(JSImageOrientation)imageOrientation;
++ (JSImageOrientation)imageOrientation:(UIImage *)image;
 
 @end

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -60,6 +60,11 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="HEu-7R-cQV">
+                                <rect key="frame" x="112" y="37" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -68,7 +73,9 @@
                             <constraint firstAttribute="trailing" secondItem="YCs-Ks-1H4" secondAttribute="trailing" constant="8" id="61G-dI-z49"/>
                             <constraint firstAttribute="bottom" secondItem="KYU-B8-cUW" secondAttribute="bottom" id="B2v-Gq-Y1L"/>
                             <constraint firstItem="KYU-B8-cUW" firstAttribute="leading" secondItem="btS-p8-B7Z" secondAttribute="leading" constant="6" id="Tg9-9l-vr8"/>
+                            <constraint firstAttribute="centerY" secondItem="HEu-7R-cQV" secondAttribute="centerY" id="VIf-VR-QnX"/>
                             <constraint firstItem="KYU-B8-cUW" firstAttribute="top" secondItem="btS-p8-B7Z" secondAttribute="top" id="aEL-yH-N1p"/>
+                            <constraint firstAttribute="centerX" secondItem="HEu-7R-cQV" secondAttribute="centerX" id="iGC-Ju-j8j"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Da1-09-wR4">
@@ -115,6 +122,7 @@
             </constraints>
             <size key="customSize" width="317" height="245"/>
             <connections>
+                <outlet property="activityIndicator" destination="HEu-7R-cQV" id="60L-0T-GbC"/>
                 <outlet property="avatarContainerView" destination="Da1-09-wR4" id="tpM-P4-qUR"/>
                 <outlet property="avatarContainerViewHeightConstraint" destination="tZk-AK-JFa" id="tPu-mC-ITh"/>
                 <outlet property="avatarContainerViewWidthConstraint" destination="YwX-fW-Me6" id="5PN-NL-hEP"/>

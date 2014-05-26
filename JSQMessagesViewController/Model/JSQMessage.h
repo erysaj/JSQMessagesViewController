@@ -18,6 +18,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "JSQMessagesBubbleImageFactory.h"
 #import "JSQMessageData.h"
 
 /**
@@ -46,6 +47,11 @@
  *  The image url for an image message.
  */
 @property (copy, nonatomic) NSURL *imageURL;
+
+/**
+ *  The orientation of the image
+ */
+@property (assign, nonatomic) JSImageOrientation imageOrientation;
 
 /**
  *  The date that the message was sent. This value must not be `nil`.
@@ -81,6 +87,7 @@
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
                     imageURL:(NSURL *)imageURL
+            imageOrientation:(JSImageOrientation)imageOrientation
              isSystemMessage:(BOOL)isSystemMessage
                         date:(NSDate *)date;
 

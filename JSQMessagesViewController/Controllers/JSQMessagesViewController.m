@@ -420,7 +420,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     
     cell.backgroundColor = [UIColor clearColor];
     
-    CGFloat bubbleTopLabelInset = 60.0f;
+    CGFloat bubbleTopLabelInset = 20.0f;
     
     if (isOutgoingMessage)
     {
@@ -428,7 +428,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     }
     else
     {
-        cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, bubbleTopLabelInset, 0.0f, 0.0f);
+        cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, CGRectGetWidth(cell.avatarImageView.frame)+ bubbleTopLabelInset, 0.0f, 0.0f);
     }
     
     cell.textView.dataDetectorTypes = UIDataDetectorTypeAll;

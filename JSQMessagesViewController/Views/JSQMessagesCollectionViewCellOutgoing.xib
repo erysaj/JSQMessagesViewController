@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -60,19 +60,12 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="lH2-3X-rtp">
-                                <rect key="frame" x="109" y="37" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="lH2-3X-rtp" secondAttribute="centerX" constant="3" id="4cY-ZK-hcq"/>
                             <constraint firstItem="vLY-aM-0Dr" firstAttribute="leading" secondItem="2zh-vR-QJW" secondAttribute="leading" id="7rI-Nc-AK3"/>
                             <constraint firstAttribute="trailing" secondItem="WUc-uL-Y5Q" secondAttribute="trailing" constant="17" id="BOh-w1-0N5"/>
                             <constraint firstAttribute="bottom" secondItem="WUc-uL-Y5Q" secondAttribute="bottom" constant="3" id="JhA-qk-fr3"/>
-                            <constraint firstAttribute="centerY" secondItem="lH2-3X-rtp" secondAttribute="centerY" id="RHU-cL-smA"/>
                             <constraint firstItem="vLY-aM-0Dr" firstAttribute="top" secondItem="2zh-vR-QJW" secondAttribute="top" id="RiG-21-Bqc"/>
                             <constraint firstAttribute="bottom" secondItem="vLY-aM-0Dr" secondAttribute="bottom" id="UbF-Bl-Q7v"/>
                             <constraint firstAttribute="trailing" secondItem="vLY-aM-0Dr" secondAttribute="trailing" constant="6" id="aVg-yy-8K7"/>
@@ -124,7 +117,6 @@
             </constraints>
             <size key="customSize" width="317" height="245"/>
             <connections>
-                <outlet property="activityIndicator" destination="lH2-3X-rtp" id="qzu-Qe-x8z"/>
                 <outlet property="avatarContainerView" destination="X89-B1-aAd" id="WSI-Zc-qIE"/>
                 <outlet property="avatarContainerViewHeightConstraint" destination="tgw-aN-JJu" id="pgV-tY-5Cm"/>
                 <outlet property="avatarContainerViewWidthConstraint" destination="Pkm-tW-k4z" id="Cpe-d3-yiq"/>

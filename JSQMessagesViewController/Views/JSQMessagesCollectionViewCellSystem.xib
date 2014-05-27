@@ -7,10 +7,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="JSQMessagesCollectionViewCellSystem" id="23f-xH-rkY" customClass="JSQMessagesCollectionViewCellSystem">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="96"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="96"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="AnI-m3-Si0">
@@ -20,18 +20,40 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2j-am-d04">
+                        <rect key="frame" x="125" y="45" width="71" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <state key="normal" title="Action Button">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EgV-Ps-Ixu" customClass="JSQMessagesLabel">
+                        <rect key="frame" x="147" y="27" width="26" height="12"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
+                <constraint firstItem="EgV-Ps-Ixu" firstAttribute="top" secondItem="AnI-m3-Si0" secondAttribute="bottom" constant="1" id="AHB-IT-9m5"/>
+                <constraint firstAttribute="centerX" secondItem="EgV-Ps-Ixu" secondAttribute="centerX" id="SJH-Il-96X"/>
                 <constraint firstAttribute="centerX" secondItem="AnI-m3-Si0" secondAttribute="centerX" id="ZoS-xo-tag"/>
+                <constraint firstAttribute="centerX" secondItem="Q2j-am-d04" secondAttribute="centerX" id="dMZ-WN-bog"/>
+                <constraint firstItem="Q2j-am-d04" firstAttribute="top" secondItem="EgV-Ps-Ixu" secondAttribute="bottom" constant="6" id="iwb-3I-ajq"/>
                 <constraint firstAttribute="trailing" secondItem="AnI-m3-Si0" secondAttribute="trailing" constant="10" id="k03-yQ-gBa"/>
                 <constraint firstItem="AnI-m3-Si0" firstAttribute="top" secondItem="23f-xH-rkY" secondAttribute="top" constant="5" id="ln9-hf-2m5"/>
                 <constraint firstItem="AnI-m3-Si0" firstAttribute="leading" secondItem="23f-xH-rkY" secondAttribute="leading" constant="10" id="naO-Ou-SKu"/>
             </constraints>
-            <size key="customSize" width="317" height="245"/>
+            <size key="customSize" width="317" height="312"/>
             <connections>
+                <outlet property="actionButton" destination="Q2j-am-d04" id="V9N-eQ-7sD"/>
                 <outlet property="messageLabel" destination="AnI-m3-Si0" id="4rS-W1-LuO"/>
+                <outlet property="timestampLabel" destination="EgV-Ps-Ixu" id="ci7-BQ-H30"/>
             </connections>
         </collectionViewCell>
     </objects>

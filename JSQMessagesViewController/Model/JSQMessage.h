@@ -54,9 +54,9 @@
 @property (assign, nonatomic) JSImageOrientation imageOrientation;
 
 /**
- *  The date that the message was sent. This value must not be `nil`.
+ *  The messageType
  */
-@property (assign, nonatomic) BOOL isSystemMessage;
+@property (assign, nonatomic) JSMessageType messageType;
 
 
 #pragma mark - Initialization
@@ -88,7 +88,7 @@
                       sender:(NSString *)sender
                     imageURL:(NSURL *)imageURL
             imageOrientation:(JSImageOrientation)imageOrientation
-             isSystemMessage:(BOOL)isSystemMessage
+                 messageType:(JSMessageType)messageType
                         date:(NSDate *)date;
 
 /**

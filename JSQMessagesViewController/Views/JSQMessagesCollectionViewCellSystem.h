@@ -23,5 +23,5 @@
  *  that represents a system message data item.
  */
 @interface JSQMessagesCollectionViewCellSystem : JSQMessagesCollectionViewCell
-
+@property (weak, nonatomic) IBOutlet UIButton *actionButton;
 @end

@@ -61,11 +61,9 @@ const CGFloat kJSQMessagesDateHeaderViewHeight = 32.0f;
 }
 
 #pragma mark - Reusable view
-
 - (void)setBackgroundColor:(UIColor *)backgroundColor
 {
     [super setBackgroundColor:backgroundColor];
 }
-
 
 @end

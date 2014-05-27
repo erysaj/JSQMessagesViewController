@@ -49,7 +49,7 @@
                       sender:(NSString *)sender
                     imageURL:(NSURL *)imageURL
             imageOrientation:(JSImageOrientation)imageOrientation
-             isSystemMessage:(BOOL)isSystemMessage
+                 messageType:(JSMessageType)messageType
                         date:(NSDate *)date
 
 {
@@ -64,7 +64,7 @@
         _date = date;
         _imageURL = imageURL;
         _imageOrientation = imageOrientation;
-        _isSystemMessage = isSystemMessage;
+        _messageType = messageType;
     }
     return self;
 }

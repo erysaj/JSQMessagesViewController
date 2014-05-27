@@ -20,11 +20,24 @@
 #import "JSQMessagesBubbleImageFactory.h"
 
 
+typedef NS_ENUM(NSUInteger, JSMessageType) {
+    
+    JSMessageTypeText,
+    JSMessageTypeImage,
+    JSMessageTypeVideo,
+    JSMessageTypeSystem,
+    /**
+     *  Specifies a system message with action button.
+     */
+    JSMessageTypeSystemAction,
+    
+};
+
 /**
- *  The `JSQMessageData` protocol defines the common interface through 
+ *  The `JSQMessageData` protocol defines the common interface through
  *  which `JSQMessagesViewController` and `JSQMessagesCollectionView` interacts with message model objects.
  *
- *  It declares the required and optional methods that a class must implement so that instances of that class 
+ *  It declares the required and optional methods that a class must implement so that instances of that class
  *  can be displayed properly with a `JSQMessagesCollectionViewCell`.
  */
 @protocol JSQMessageData <NSObject>
@@ -32,7 +45,7 @@
 @required
 
 /**
- *  @return The body text of the message. 
+ *  @return The body text of the message.
  *  @warning You must not return `nil` from this method.
  */
 - (NSString *)text;
@@ -56,16 +69,14 @@
 
 
 /**
-  *  @return The image orientation
-  */
+ *  @return The image orientation
+ */
 - (JSImageOrientation)imageOrientation;
 
 /**
- *  @return The date that the message was sent.
+ *  @return The message type
  *  @warning You must not return `nil` from this method.
  */
-- (BOOL)isSystemMessage;
-
-
+- (JSMessageType)messageType;
 
 @end

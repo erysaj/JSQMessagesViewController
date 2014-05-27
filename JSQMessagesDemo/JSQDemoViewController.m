@@ -36,7 +36,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
      *  You should have a mutable array or orderedSet, or something.
      */
     self.messages = [[NSMutableArray alloc] initWithObjects:
-                     [[JSQMessage alloc] initWithText:@"This is a very very very very very long system message" sender:self.sender imageURL:nil isSystemMessage:YES date:[NSDate distantPast]],
+                     [[JSQMessage alloc] initWithText:@"This is a very very very very very long system message" sender:self.sender date:[NSDate distantPast]],
                      [[JSQMessage alloc] initWithText:@"It is simple, elegant, and easy to use. There are super sweet default settings, but you can customize like crazy." sender:kJSQDemoAvatarNameWoz date:[NSDate distantPast]],
                      [[JSQMessage alloc] initWithText:@"It even has data detectors. You can call me tonight. My cell number is 123-456-7890. My website is www.hexedbits.com." sender:self.sender date:[NSDate distantPast]],
                      [[JSQMessage alloc] initWithText:@"JSQMessagesViewController is nearly an exact replica of the iOS Messages App. And perhaps, better." sender:kJSQDemoAvatarNameJobs date:[NSDate date]],
@@ -272,7 +272,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
     
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
     
-    if (message.isSystemMessage)
+    if (message.messageType == JSMessageTypeSystem || message.messageType == JSMessageTypeSystemAction)
     {
         return nil;
     }
@@ -324,7 +324,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
      *  Show a timestamp for every 3rd message
      */
      JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
-    if (message.isSystemMessage)
+    if (message.messageType == JSMessageTypeSystem || message.messageType == JSMessageTypeSystemAction)
     {
         return nil;
     }
@@ -341,7 +341,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
 {
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
     
-    if (message.isSystemMessage)
+    if (message.messageType == JSMessageTypeSystem || message.messageType == JSMessageTypeSystemAction)
     {
         return nil;
     }
@@ -400,7 +400,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
     
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
     
-    if (message.isSystemMessage)
+    if (message.messageType == JSMessageTypeSystem || message.messageType == JSMessageTypeSystemAction)
     {
         //cell.messageLabel.textColor = [UIColor purpleColor];
     }
@@ -428,7 +428,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
 {
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
     
-    if (message.isSystemMessage)
+    if (message.messageType == JSMessageTypeSystem || message.messageType == JSMessageTypeSystemAction)
     {
         return 0.0f;
     }
@@ -457,7 +457,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
     
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
     
-    if (message.isSystemMessage)
+    if (message.messageType == JSMessageTypeSystem || message.messageType == JSMessageTypeSystemAction)
     {
         return 0.0f;
     }

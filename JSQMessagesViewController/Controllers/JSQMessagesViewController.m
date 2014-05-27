@@ -47,9 +47,9 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 
 @interface JSQMessagesViewController () <JSQMessagesInputToolbarDelegate,
-                                         JSQMessagesCollectionViewCellDelegate,
-                                         JSQMessagesKeyboardControllerDelegate,
-                                         UITextViewDelegate>
+JSQMessagesCollectionViewCellDelegate,
+JSQMessagesKeyboardControllerDelegate,
+UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet JSQMessagesCollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet JSQMessagesInputToolbar *inputToolbar;
@@ -379,7 +379,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     
     NSString *cellIdentifier = isOutgoingMessage ? self.outgoingCellIdentifier : self.incomingCellIdentifier;
     
-    if (messageData.isSystemMessage)
+    if (messageData.messageType == JSMessageTypeSystem || messageData.messageType == JSMessageTypeSystemAction)
     {
         cellIdentifier = self.systemCellIdentifier;
     }
@@ -390,17 +390,16 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     NSString *messageText = [messageData text];
     NSAssert(messageText, @"ERROR: messageData text must not be nil: %s", __PRETTY_FUNCTION__);
     
-    if (messageData.isSystemMessage)
+    if (messageData.messageType == JSMessageTypeSystem || messageData.messageType == JSMessageTypeSystemAction)
     {
-        cellIdentifier = self.systemCellIdentifier;
         cell.messageLabel.text = messageText;
     }
     else
     {
         cell.textView.text = messageText;
-        cell.timestampLabel.text = [[JSQMessagesTimestampFormatter sharedFormatter] timeForDate:messageData.date];
     }
     
+    cell.timestampLabel.text = [[JSQMessagesTimestampFormatter sharedFormatter] timeForDate:messageData.date];
     cell.messageBubbleImageView = [collectionView.dataSource collectionView:collectionView bubbleImageViewForItemAtIndexPath:indexPath];
     cell.avatarImageView = [collectionView.dataSource collectionView:collectionView avatarImageViewForItemAtIndexPath:indexPath];
     cell.cellTopLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForCellTopLabelAtIndexPath:indexPath];
@@ -632,7 +631,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
             CGSize newContentSize = [[change objectForKey:NSKeyValueChangeNewKey] CGSizeValue];
             
             CGFloat dy = newContentSize.height - oldContentSize.height;
-        
+            
             [self jsq_adjustInputToolbarForComposerTextViewContentSizeChange:dy];
             [self jsq_updateCollectionViewInsets];
             if (self.automaticallyScrollsToMostRecentMessage) {

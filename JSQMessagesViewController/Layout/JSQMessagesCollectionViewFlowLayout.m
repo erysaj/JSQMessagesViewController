@@ -446,7 +446,7 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     
     CGSize timestampStringSize = CGRectIntegral(timestampRect).size;
     
-    CGFloat verticalInsets = 10;
+    CGFloat verticalInsets = 10 +  self.messageBubbleTextViewTextContainerInsets.top + self.messageBubbleTextViewTextContainerInsets.bottom;
     
     finalSize = CGSizeMake(MAX(stringSize.width, timestampStringSize.width) , stringSize.height + verticalInsets + 8);
     

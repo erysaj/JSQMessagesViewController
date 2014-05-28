@@ -307,14 +307,16 @@ UITextViewDelegate>
 
 - (void)scrollToBottomAnimated:(BOOL)animated
 {
-    if ([self.collectionView numberOfSections] == 0) {
+    NSInteger sections = [self.collectionView numberOfSections];
+    
+    if (sections == 0) {
         return;
     }
     
-    NSInteger items = [self.collectionView numberOfItemsInSection:0];
+    NSInteger items = [self.collectionView numberOfItemsInSection:sections - 1];
     
     if (items > 0) {
-        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:items - 1 inSection:0]
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:items - 1 inSection:sections - 1]
                                     atScrollPosition:UICollectionViewScrollPositionTop
                                             animated:animated];
     }

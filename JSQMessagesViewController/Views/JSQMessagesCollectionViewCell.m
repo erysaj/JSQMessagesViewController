@@ -162,6 +162,11 @@
     _messageBubbleImageView = nil;
     _avatarImageView = nil;
     _bubbleImageIconOverlay = nil;
+    
+    [_avatarImageSource bindImageView:nil];
+    [_messageBubbleImageSource bindImageView:nil];
+
+    
     [_longPressGestureRecognizer removeTarget:nil action:NULL];
     _longPressGestureRecognizer = nil;
     

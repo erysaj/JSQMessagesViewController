@@ -84,6 +84,9 @@
                             <constraint firstItem="KYU-B8-cUW" firstAttribute="top" secondItem="btS-p8-B7Z" secondAttribute="top" id="aEL-yH-N1p"/>
                             <constraint firstAttribute="centerY" secondItem="IgP-PJ-P7U" secondAttribute="centerY" id="cEg-57-jfJ"/>
                             <constraint firstAttribute="centerX" secondItem="IgP-PJ-P7U" secondAttribute="centerX" id="xFy-w6-Jix"/>
+                            <constraint firstItem="XUH-vO-C8u" firstAttribute="leading" secondItem="btS-p8-B7Z" secondAttribute="leading" id="b4m-Pv-wne"/>
+                            <constraint firstItem="XUH-vO-C8u" firstAttribute="top" secondItem="btS-p8-B7Z" secondAttribute="top" id="gq4-yg-ygS"/>
+                            <constraint firstAttribute="bottom" secondItem="XUH-vO-C8u" secondAttribute="bottom" id="zq8-DG-KwD"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Da1-09-wR4" userLabel="Avatar Container">
@@ -145,6 +148,7 @@
                 <outlet property="avatarContainerViewWidthConstraint" destination="YwX-fW-Me6" id="5PN-NL-hEP"/>
                 <outlet property="bubbleImageIconCenterConstraint" destination="xFy-w6-Jix" id="6yI-qP-ss4"/>
                 <outlet property="bubbleImageIconOverlay" destination="IgP-PJ-P7U" id="G1g-Ei-drc"/>
+                <outlet property="avatarImageView" destination="eXY-pS-M3P" id="U6w-iN-tGO"/>
                 <outlet property="cellBottomLabel" destination="UPz-5x-c1T" id="MKm-hp-T6v"/>
                 <outlet property="cellBottomLabelHeightConstraint" destination="xPR-Ph-Ze9" id="nvV-Tk-AIs"/>
                 <outlet property="cellTopLabel" destination="afj-rd-iNv" id="bTd-4q-U7e"/>

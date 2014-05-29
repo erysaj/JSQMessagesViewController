@@ -86,6 +86,7 @@
                             <constraint firstAttribute="trailing" secondItem="vLY-aM-0Dr" secondAttribute="trailing" constant="6" id="aVg-yy-8K7"/>
                             <constraint firstAttribute="centerX" secondItem="rdA-Aj-9j3" secondAttribute="centerX" id="jkZ-V7-LXm"/>
                             <constraint firstAttribute="centerY" secondItem="rdA-Aj-9j3" secondAttribute="centerY" id="sff-3a-MTa"/>
+                            <constraint firstItem="N8c-fY-3Rc" firstAttribute="top" secondItem="2zh-vR-QJW" secondAttribute="top" id="dGN-a7-wph"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X89-B1-aAd" userLabel="Avatar Container">
@@ -149,6 +150,7 @@
                 <outlet property="avatarContainerViewWidthConstraint" destination="Pkm-tW-k4z" id="Cpe-d3-yiq"/>
                 <outlet property="bubbleImageIconCenterConstraint" destination="jkZ-V7-LXm" id="aS2-Ed-cES"/>
                 <outlet property="bubbleImageIconOverlay" destination="rdA-Aj-9j3" id="V3w-Pp-4PB"/>
+                <outlet property="avatarImageView" destination="QJF-Gs-ofG" id="D0u-BF-6FA"/>
                 <outlet property="cellBottomLabel" destination="7Uc-dI-YDD" id="gVD-C2-UcZ"/>
                 <outlet property="cellBottomLabelHeightConstraint" destination="cPs-M4-tjX" id="b5k-6e-iA8"/>
                 <outlet property="cellTopLabel" destination="jxM-YD-sVG" id="acH-pr-spx"/>

@@ -79,13 +79,14 @@
                             <constraint firstAttribute="bottom" secondItem="YCs-Ks-1H4" secondAttribute="bottom" constant="3" id="4t3-G7-pBY"/>
                             <constraint firstAttribute="trailing" secondItem="YCs-Ks-1H4" secondAttribute="trailing" constant="8" id="61G-dI-z49"/>
                             <constraint firstAttribute="bottom" secondItem="KYU-B8-cUW" secondAttribute="bottom" id="B2v-Gq-Y1L"/>
+                            <constraint firstAttribute="width" constant="244" id="ICp-A6-lFJ"/>
                             <constraint firstAttribute="trailing" secondItem="XUH-vO-C8u" secondAttribute="trailing" id="QES-lH-VeM"/>
                             <constraint firstItem="KYU-B8-cUW" firstAttribute="leading" secondItem="btS-p8-B7Z" secondAttribute="leading" constant="6" id="Tg9-9l-vr8"/>
                             <constraint firstItem="KYU-B8-cUW" firstAttribute="top" secondItem="btS-p8-B7Z" secondAttribute="top" id="aEL-yH-N1p"/>
-                            <constraint firstAttribute="centerY" secondItem="IgP-PJ-P7U" secondAttribute="centerY" id="cEg-57-jfJ"/>
-                            <constraint firstAttribute="centerX" secondItem="IgP-PJ-P7U" secondAttribute="centerX" id="xFy-w6-Jix"/>
                             <constraint firstItem="XUH-vO-C8u" firstAttribute="leading" secondItem="btS-p8-B7Z" secondAttribute="leading" id="b4m-Pv-wne"/>
+                            <constraint firstAttribute="centerY" secondItem="IgP-PJ-P7U" secondAttribute="centerY" id="cEg-57-jfJ"/>
                             <constraint firstItem="XUH-vO-C8u" firstAttribute="top" secondItem="btS-p8-B7Z" secondAttribute="top" id="gq4-yg-ygS"/>
+                            <constraint firstAttribute="centerX" secondItem="IgP-PJ-P7U" secondAttribute="centerX" id="xFy-w6-Jix"/>
                             <constraint firstAttribute="bottom" secondItem="XUH-vO-C8u" secondAttribute="bottom" id="zq8-DG-KwD"/>
                         </constraints>
                     </view>
@@ -137,7 +138,6 @@
                 <constraint firstItem="btS-p8-B7Z" firstAttribute="leading" secondItem="Da1-09-wR4" secondAttribute="trailing" constant="2" id="j0I-pm-eex"/>
                 <constraint firstItem="btS-p8-B7Z" firstAttribute="top" secondItem="Ufa-bF-l1Y" secondAttribute="bottom" id="jAu-Dn-7rN"/>
                 <constraint firstItem="Da1-09-wR4" firstAttribute="leading" secondItem="4lh-CK-yVn" secondAttribute="leading" id="jiu-B4-TSD"/>
-                <constraint firstAttribute="trailing" secondItem="btS-p8-B7Z" secondAttribute="trailing" constant="40" id="k2n-jk-kOg"/>
                 <constraint firstAttribute="bottom" secondItem="UPz-5x-c1T" secondAttribute="bottom" id="nsK-Gh-M3Z"/>
                 <constraint firstItem="UPz-5x-c1T" firstAttribute="top" secondItem="btS-p8-B7Z" secondAttribute="bottom" id="s8G-Je-7GA"/>
             </constraints>
@@ -146,18 +146,18 @@
                 <outlet property="avatarContainerView" destination="Da1-09-wR4" id="tpM-P4-qUR"/>
                 <outlet property="avatarContainerViewHeightConstraint" destination="tZk-AK-JFa" id="tPu-mC-ITh"/>
                 <outlet property="avatarContainerViewWidthConstraint" destination="YwX-fW-Me6" id="5PN-NL-hEP"/>
+                <outlet property="avatarImageView" destination="eXY-pS-M3P" id="U6w-iN-tGO"/>
                 <outlet property="bubbleImageIconCenterConstraint" destination="xFy-w6-Jix" id="6yI-qP-ss4"/>
                 <outlet property="bubbleImageIconOverlay" destination="IgP-PJ-P7U" id="G1g-Ei-drc"/>
-                <outlet property="avatarImageView" destination="eXY-pS-M3P" id="U6w-iN-tGO"/>
                 <outlet property="cellBottomLabel" destination="UPz-5x-c1T" id="MKm-hp-T6v"/>
                 <outlet property="cellBottomLabelHeightConstraint" destination="xPR-Ph-Ze9" id="nvV-Tk-AIs"/>
                 <outlet property="cellTopLabel" destination="afj-rd-iNv" id="bTd-4q-U7e"/>
                 <outlet property="cellTopLabelHeightConstraint" destination="fKS-MR-YPI" id="YWd-Rd-qSL"/>
                 <outlet property="messageBubbleContainerView" destination="btS-p8-B7Z" id="2sk-5p-NEd"/>
                 <outlet property="messageBubbleImageView" destination="XUH-vO-C8u" id="0Y9-1b-aV5"/>
-                <outlet property="messageBubbleLeftRightMarginConstraint" destination="k2n-jk-kOg" id="DoB-EE-Ka1"/>
                 <outlet property="messageBubbleTopLabel" destination="Ufa-bF-l1Y" id="VtH-te-blR"/>
                 <outlet property="messageBubbleTopLabelHeightConstraint" destination="fal-sy-hrK" id="kgv-NO-Gud"/>
+                <outlet property="messageBubbleWidthConstraint" destination="ICp-A6-lFJ" id="dCo-PF-3Eg"/>
                 <outlet property="textView" destination="KYU-B8-cUW" id="1Yv-ln-EUZ"/>
                 <outlet property="textViewAvatarHorizontalSpaceConstraint" destination="Tg9-9l-vr8" id="HWn-aO-NbR"/>
                 <outlet property="textViewBottomVerticalSpaceConstraint" destination="B2v-Gq-Y1L" id="oKV-Ti-Oci"/>

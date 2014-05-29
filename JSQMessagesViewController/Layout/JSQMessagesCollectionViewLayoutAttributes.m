@@ -51,10 +51,10 @@
     _systemMessageFont = systemMessageFont;
 }
 
-- (void)setMessageBubbleLeftRightMargin:(CGFloat)messageBubbleLeftRightMargin
+- (void)setMessageBubbleWidth:(CGFloat)messageBubbleWidth
 {
-    NSAssert(messageBubbleLeftRightMargin >= 0.0f, @"ERROR: messageBubbleLeftRightMargin must be greater than or equal to 0: %s", __PRETTY_FUNCTION__);
-    _messageBubbleLeftRightMargin = ceilf(messageBubbleLeftRightMargin);
+    NSAssert(messageBubbleWidth >= 0.0f, @"ERROR: messageBubbleWidth must be greater than or equal to 0: %s", __PRETTY_FUNCTION__);
+    _messageBubbleWidth = ceilf(messageBubbleWidth);
 }
 
 - (void)setIncomingAvatarViewSize:(CGSize)incomingAvatarViewSize
@@ -117,7 +117,7 @@
         || !UIEdgeInsetsEqualToEdgeInsets(layoutAttributes.textViewTextContainerInsets, self.textViewTextContainerInsets)
         || !CGSizeEqualToSize(layoutAttributes.incomingAvatarViewSize, self.incomingAvatarViewSize)
         || !CGSizeEqualToSize(layoutAttributes.outgoingAvatarViewSize, self.outgoingAvatarViewSize)
-        || (int)layoutAttributes.messageBubbleLeftRightMargin != (int)self.messageBubbleLeftRightMargin
+        || (int)layoutAttributes.messageBubbleWidth != (int)self.messageBubbleWidth
         || (int)layoutAttributes.cellTopLabelHeight != (int)self.cellTopLabelHeight
         || (int)layoutAttributes.messageBubbleTopLabelHeight != (int)self.messageBubbleTopLabelHeight
         || (int)layoutAttributes.cellBottomLabelHeight != (int)self.cellBottomLabelHeight
@@ -145,7 +145,7 @@
     copy.messageBubbleFont = self.messageBubbleFont;
     copy.timestampFont = self.timestampFont;
     copy.systemMessageFont = self.systemMessageFont;
-    copy.messageBubbleLeftRightMargin = self.messageBubbleLeftRightMargin;
+    copy.messageBubbleWidth = self.messageBubbleWidth;
     copy.textViewFrameInsets = self.textViewFrameInsets;
     copy.textViewTextContainerInsets = self.textViewTextContainerInsets;
     copy.incomingAvatarViewSize = self.incomingAvatarViewSize;

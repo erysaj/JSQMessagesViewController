@@ -145,6 +145,14 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault
 @property (assign, nonatomic) UIEdgeInsets messageBubbleTextViewTextContainerInsets;
 
 /**
+ *  The left margin of the `image bubble icon overlay` of a `JSQMessagesCollectionViewCell`.
+ *  This value should be greater than or equal to `0.0`.
+ *
+ *  @see `JSQMessagesCollectionViewCell`.
+ */
+@property (assign, nonatomic) CGFloat messageBubbleImageIconCenterOffset;
+
+/**
  *  The size of the avatar image view for incoming messages.
  *
  *  @discussion The default value is `(34.0f, 34.0f)`. Set to `CGSizeZero` to remove incoming avatars.
@@ -157,6 +165,14 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault
  *  @discussion The default value is `(34.0f, 34.0f)`. Set to `CGSizeZero` to remove outgoing avatars.
  */
 @property (assign, nonatomic) CGSize outgoingAvatarViewSize;
+
+
+/**
+ *  The size of the avatar image view for outgoing messages.
+ *
+ *  @discussion The default value is `(34.0f, 34.0f)`. Set to `CGSizeZero` to remove outgoing avatars.
+ */
+@property (assign, nonatomic) CGSize mess;
 
 /**
  *  Computes and returns the size of the `messageBubbleImageView` property of a `JSQMessagesCollectionViewCell`

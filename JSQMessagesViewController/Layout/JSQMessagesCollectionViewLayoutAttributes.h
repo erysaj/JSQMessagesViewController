@@ -118,4 +118,12 @@
  */
 @property (assign, nonatomic) CGFloat cellBottomLabelHeight;
 
+/**
+ *  The left margin of the `image bubble icon overlay` of a `JSQMessagesCollectionViewCell`.
+ *  This value should be greater than or equal to `0.0`.
+ *
+ *  @see `JSQMessagesCollectionViewCell`.
+ */
+@property (assign, nonatomic) CGFloat messageBubbleImageIconCenterOffset;
+
 @end

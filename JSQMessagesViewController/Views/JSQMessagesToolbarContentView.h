@@ -68,6 +68,19 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingD
  */
 @property (assign, nonatomic) CGFloat rightBarButtonItemWidth;
 
+/**
+ *  Specifies the top constraint of the rightBarButtonItem.
+ */
+@property (assign, nonatomic) CGFloat rightBarButtonItemTopConstraint;
+
+/**
+ *  Specifies the left constraint of the rightBarButtonItem.
+ */
+@property (assign, nonatomic) CGFloat rightBarButtonItemLeftConstraint;
+
+
+
+
 #pragma mark - Class methods
 
 /**

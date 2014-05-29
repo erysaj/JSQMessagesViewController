@@ -28,6 +28,7 @@
     _messageBubbleFont = nil;
     _systemMessageFont = nil;
     _timestampFont = nil;
+    _messageBubbleImageIconCenterOffset = 0;
 }
 
 #pragma mark - Setters
@@ -90,6 +91,11 @@
     _cellBottomLabelHeight = floorf(cellBottomLabelHeight);
 }
 
+- (void)setmessageBubbleImageIconCenterOffset:(CGFloat)messageBubbleImageIconCenterOffset
+{
+    _messageBubbleImageIconCenterOffset = floorf(messageBubbleImageIconCenterOffset);
+}
+
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object
@@ -114,7 +120,9 @@
         || (int)layoutAttributes.messageBubbleLeftRightMargin != (int)self.messageBubbleLeftRightMargin
         || (int)layoutAttributes.cellTopLabelHeight != (int)self.cellTopLabelHeight
         || (int)layoutAttributes.messageBubbleTopLabelHeight != (int)self.messageBubbleTopLabelHeight
-        || (int)layoutAttributes.cellBottomLabelHeight != (int)self.cellBottomLabelHeight) {
+        || (int)layoutAttributes.cellBottomLabelHeight != (int)self.cellBottomLabelHeight
+        || (int)layoutAttributes.messageBubbleImageIconCenterOffset != (int)self.messageBubbleImageIconCenterOffset)
+    {
         return NO;
     }
     
@@ -145,6 +153,7 @@
     copy.cellTopLabelHeight = self.cellTopLabelHeight;
     copy.messageBubbleTopLabelHeight = self.messageBubbleTopLabelHeight;
     copy.cellBottomLabelHeight = self.cellBottomLabelHeight;
+    copy.messageBubbleImageIconCenterOffset = self.messageBubbleImageIconCenterOffset;
     return copy;
 }
 

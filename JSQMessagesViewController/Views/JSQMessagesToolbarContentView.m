@@ -34,6 +34,8 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
 
 @property (weak, nonatomic) IBOutlet UIView *rightBarButtonContainerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonContainerViewWidthConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonContainerViewTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonContainerViewLeftConstraint;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftHorizontalSpacingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightHorizontalSpacingConstraint;
@@ -165,6 +167,17 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
     [self setNeedsUpdateConstraints];
 }
 
+- (void)setRightBarButtonItemTopConstraint:(CGFloat)rightBarButtonItemTopConstraint
+{
+    self.rightBarButtonContainerViewTopConstraint.constant = rightBarButtonItemTopConstraint;
+    [self setNeedsUpdateConstraints];
+}
+
+- (void)setRightBarButtonItemLeftConstraint:(CGFloat)rightBarButtonItemLeftConstraint
+{
+    self.rightBarButtonContainerViewLeftConstraint.constant = rightBarButtonItemLeftConstraint;
+    [self setNeedsUpdateConstraints];
+}
 #pragma mark - Getters
 
 - (CGFloat)leftBarButtonItemWidth

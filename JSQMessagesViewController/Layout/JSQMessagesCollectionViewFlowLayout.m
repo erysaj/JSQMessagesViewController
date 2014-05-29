@@ -84,7 +84,7 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     _messageBubbleLeftRightMargin = 40.0f;
     _messageBubbleTextViewFrameInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 6.0f);
     _messageBubbleTextViewTextContainerInsets = UIEdgeInsetsMake(10.0f, 8.0f, 10.0f, 8.0f);
-    
+    _messageBubbleImageIconCenterOffset = 0;
     _timestampFont = [UIFont systemFontOfSize:11.0f];
     
     _systemMessageFont = [UIFont systemFontOfSize:15.0f];
@@ -201,6 +201,12 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
 - (void)setOutgoingAvatarViewSize:(CGSize)outgoingAvatarViewSize
 {
     _outgoingAvatarViewSize = outgoingAvatarViewSize;
+    [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
+}
+
+- (void)setMessageBubbleImageIconCenterOffset:(CGFloat)messageBubbleImageIconCenterOffset
+{
+    _messageBubbleImageIconCenterOffset = messageBubbleImageIconCenterOffset;
     [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
 }
 
@@ -482,6 +488,8 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     layoutAttributes.incomingAvatarViewSize = self.incomingAvatarViewSize;
     
     layoutAttributes.outgoingAvatarViewSize = self.outgoingAvatarViewSize;
+    
+    layoutAttributes.messageBubbleImageIconCenterOffset =  self.messageBubbleImageIconCenterOffset;
     
     layoutAttributes.cellTopLabelHeight = [self.collectionView.delegate collectionView:self.collectionView
                                                                                 layout:self

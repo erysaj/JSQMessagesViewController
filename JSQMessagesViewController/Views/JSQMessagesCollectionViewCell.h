@@ -17,8 +17,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import "JSQMessagesLabel.h"
+
+typedef NS_ENUM(NSUInteger, JSQImageOverlayIconType)
+{
+    JSQImageOverlayIconTypeNone,
+    JSQImageOverlayIconTypePlayButton,
+    JSQImageOverlayIconTypeCamera,
+    JSQImageOverlayIconTypeCustom
+};
 
 @class JSQMessagesCollectionViewCell;
 
@@ -54,7 +61,7 @@
 
 /**
  *  The `JSQMessagesCollectionViewCell` is an abstract class that presents the content for a single message data item
- *  when that item is within the collection view’s visible bounds. The layout and presentation 
+ *  when that item is within the collection view’s visible bounds. The layout and presentation
  *  of cells is managed by the collection view and its corresponding layout object.
  *
  *  @warning This class is intended to be subclassed. You should not use it directly.
@@ -121,6 +128,14 @@
  */
 @property (weak, nonatomic, readonly) UITapGestureRecognizer *avatarTapGestureRecognizer;
 @property (weak, nonatomic, readonly) UITapGestureRecognizer *bubbleTapGestureRecognizer;
+
+/**
+ *  Sets an overlay icon on the image
+ */
+@property (strong, nonatomic) UIImage *imageOverlayCustomIcon;
+
+@property (nonatomic) JSQImageOverlayIconType imageOverlayIconType;
+
 
 #pragma mark - Class methods
 

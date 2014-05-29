@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -60,6 +60,14 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rdA-Aj-9j3">
+                                <rect key="frame" x="92" y="17" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="fDc-Gt-hcO"/>
+                                    <constraint firstAttribute="width" constant="60" id="qBX-bc-gBx"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -69,6 +77,8 @@
                             <constraint firstItem="vLY-aM-0Dr" firstAttribute="top" secondItem="2zh-vR-QJW" secondAttribute="top" id="RiG-21-Bqc"/>
                             <constraint firstAttribute="bottom" secondItem="vLY-aM-0Dr" secondAttribute="bottom" id="UbF-Bl-Q7v"/>
                             <constraint firstAttribute="trailing" secondItem="vLY-aM-0Dr" secondAttribute="trailing" constant="6" id="aVg-yy-8K7"/>
+                            <constraint firstAttribute="centerX" secondItem="rdA-Aj-9j3" secondAttribute="centerX" id="jkZ-V7-LXm"/>
+                            <constraint firstAttribute="centerY" secondItem="rdA-Aj-9j3" secondAttribute="centerY" id="sff-3a-MTa"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X89-B1-aAd">
@@ -120,6 +130,8 @@
                 <outlet property="avatarContainerView" destination="X89-B1-aAd" id="WSI-Zc-qIE"/>
                 <outlet property="avatarContainerViewHeightConstraint" destination="tgw-aN-JJu" id="pgV-tY-5Cm"/>
                 <outlet property="avatarContainerViewWidthConstraint" destination="Pkm-tW-k4z" id="Cpe-d3-yiq"/>
+                <outlet property="bubbleImageIconCenterConstraint" destination="jkZ-V7-LXm" id="aS2-Ed-cES"/>
+                <outlet property="bubbleImageIconOverlay" destination="rdA-Aj-9j3" id="V3w-Pp-4PB"/>
                 <outlet property="cellBottomLabel" destination="7Uc-dI-YDD" id="gVD-C2-UcZ"/>
                 <outlet property="cellBottomLabelHeightConstraint" destination="cPs-M4-tjX" id="b5k-6e-iA8"/>
                 <outlet property="cellTopLabel" destination="jxM-YD-sVG" id="acH-pr-spx"/>

@@ -33,7 +33,7 @@
 @property (weak, nonatomic) IBOutlet JSQMessagesLabel *cellBottomLabel;
 @property (weak, nonatomic) IBOutlet JSQMessagesLabel *timestampLabel;
 @property (weak, nonatomic) IBOutlet JSQMessagesLabel *messageLabel;
-
+@property (weak, nonatomic) IBOutlet UIImageView *bubbleImageIconOverlay;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
@@ -54,6 +54,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *avatarContainerViewHeightConstraint;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *messageBubbleLeftRightMarginConstraint;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bubbleImageIconCenterConstraint;
 
 @property (assign, nonatomic) UIEdgeInsets textViewFrameInsets;
 
@@ -102,6 +104,7 @@
     
     self.cellTopLabelHeightConstraint.constant = 0.0f;
     self.messageBubbleTopLabelHeightConstraint.constant = 0.0f;
+    self.bubbleImageIconCenterConstraint.constant = 0.0f;
     self.cellBottomLabelHeightConstraint.constant = 0.0f;
     
     self.avatarViewSize = CGSizeZero;
@@ -155,7 +158,7 @@
     _textView = nil;
     _messageBubbleImageView = nil;
     _avatarImageView = nil;
-    
+    _bubbleImageIconOverlay = nil;
     [_longPressGestureRecognizer removeTarget:nil action:NULL];
     _longPressGestureRecognizer = nil;
     
@@ -171,7 +174,7 @@
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    
+    self.imageOverlayIconType = JSQImageOverlayIconTypeNone;
     self.cellTopLabel.text = nil;
     self.messageBubbleTopLabel.text = nil;
     self.cellBottomLabel.text = nil;
@@ -191,7 +194,7 @@
     if (self.timestampLabel.font != customAttributes.timestampFont) {
         self.timestampLabel.font = customAttributes.timestampFont;
     }
-
+    
     UITextView *textView = self.textView;
     if (textView.font != customAttributes.messageBubbleFont) {
         textView.font = customAttributes.messageBubbleFont;
@@ -199,14 +202,14 @@
     if (!UIEdgeInsetsEqualToEdgeInsets(textView.textContainerInset, customAttributes.textViewTextContainerInsets)) {
         textView.textContainerInset = customAttributes.textViewTextContainerInsets;
     }
-
+    
     self.textViewFrameInsets = customAttributes.textViewFrameInsets;
-
     [self jsq_updateConstraint:self.messageBubbleLeftRightMarginConstraint withConstant:customAttributes.messageBubbleLeftRightMargin];
     [self jsq_updateConstraint:self.cellTopLabelHeightConstraint withConstant:customAttributes.cellTopLabelHeight];
     [self jsq_updateConstraint:self.messageBubbleTopLabelHeightConstraint withConstant:customAttributes.messageBubbleTopLabelHeight];
     [self jsq_updateConstraint:self.cellBottomLabelHeightConstraint withConstant:customAttributes.cellBottomLabelHeight];
-    
+    [self jsq_updateConstraint:self.bubbleImageIconCenterConstraint withConstant:[self isKindOfClass:[JSQMessagesCollectionViewCellIncoming class]] ? -customAttributes.messageBubbleImageIconCenterOffset : customAttributes.messageBubbleImageIconCenterOffset];
+
     if ([self isKindOfClass:[JSQMessagesCollectionViewCellIncoming class]])
     {
         self.avatarViewSize = customAttributes.incomingAvatarViewSize;
@@ -218,7 +221,7 @@
     else if ([self isKindOfClass:[JSQMessagesCollectionViewCellSystem class]])
     {
         self.avatarViewSize = CGSizeZero;
-    }    
+    }
 }
 
 #pragma mark - Setters
@@ -298,6 +301,37 @@
     [self jsq_updateConstraint:self.textViewBottomVerticalSpaceConstraint withConstant:textViewFrameInsets.bottom];
     [self jsq_updateConstraint:self.textViewAvatarHorizontalSpaceConstraint withConstant:textViewFrameInsets.right];
     [self jsq_updateConstraint:self.textViewMarginHorizontalSpaceConstraint withConstant:textViewFrameInsets.left];
+}
+
+- (void)setImageOverlayCustomIcon:(UIImage *)imageOverlayCustomIcon
+{
+    _imageOverlayCustomIcon = imageOverlayCustomIcon;
+    self.imageOverlayIconType = JSQImageOverlayIconTypeCustom;
+}
+
+- (void)setImageOverlayIconType:(JSQImageOverlayIconType)imageOverlayIconType
+{
+    switch (imageOverlayIconType) {
+        case JSQImageOverlayIconTypeNone:
+            self.bubbleImageIconOverlay.image = nil;
+            self.bubbleImageIconOverlay.hidden = YES;
+            break;
+            
+        case JSQImageOverlayIconTypePlayButton:
+            self.bubbleImageIconOverlay.image = [UIImage imageNamed:@"play_icon"];
+            self.bubbleImageIconOverlay.hidden = NO;
+            break;
+            
+        case JSQImageOverlayIconTypeCamera:
+            self.bubbleImageIconOverlay.image = [UIImage imageNamed:@"camera_icon"];
+            self.bubbleImageIconOverlay.hidden = NO;
+            break;
+
+        case JSQImageOverlayIconTypeCustom:
+            self.bubbleImageIconOverlay.image = _imageOverlayCustomIcon;
+            self.bubbleImageIconOverlay.hidden = NO;
+            break;
+    }
 }
 
 #pragma mark - Getters

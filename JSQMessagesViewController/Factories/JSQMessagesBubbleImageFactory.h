@@ -71,9 +71,8 @@ typedef NS_ENUM(NSUInteger, JSImageOrientation) {
  */
 + (UIImageView *)incomingMessageBubbleImageViewWithColor:(UIColor *)color;
 
-
-+ (UIImageView *)outgoingMessageBubbleImageViewWithImage:(UIImage *)image imageOrientation:(JSImageOrientation)imageOrientation;
-+ (UIImageView *)incomingMessageBubbleImageViewWithImage:(UIImage *)image imageOrientation:(JSImageOrientation)imageOrientation;
++ (void)prepareMaskedBubbleImageView:(UIImageView *)bubbleView withSize:(CGSize)size forIncoming:(BOOL)incoming;
++ (void)clearMaskedBubbleImageView:(UIImageView *)bubbleView;
 
 + (CGSize)neededSizeForImageOrientation:(JSImageOrientation)imageOrientation;
 + (JSImageOrientation)imageOrientation:(UIImage *)image;

@@ -35,10 +35,14 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="btS-p8-B7Z">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="btS-p8-B7Z" userLabel="Bubble Container">
                         <rect key="frame" x="36" y="40" width="244" height="94"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XUH-vO-C8u" userLabel="Bubble">
+                                <rect key="frame" x="0.0" y="0.0" width="244" height="94"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KYU-B8-cUW">
                                 <rect key="frame" x="6" y="0.0" width="238" height="94"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -75,18 +79,29 @@
                             <constraint firstAttribute="bottom" secondItem="YCs-Ks-1H4" secondAttribute="bottom" constant="3" id="4t3-G7-pBY"/>
                             <constraint firstAttribute="trailing" secondItem="YCs-Ks-1H4" secondAttribute="trailing" constant="8" id="61G-dI-z49"/>
                             <constraint firstAttribute="bottom" secondItem="KYU-B8-cUW" secondAttribute="bottom" id="B2v-Gq-Y1L"/>
+                            <constraint firstAttribute="trailing" secondItem="XUH-vO-C8u" secondAttribute="trailing" id="QES-lH-VeM"/>
                             <constraint firstItem="KYU-B8-cUW" firstAttribute="leading" secondItem="btS-p8-B7Z" secondAttribute="leading" constant="6" id="Tg9-9l-vr8"/>
                             <constraint firstItem="KYU-B8-cUW" firstAttribute="top" secondItem="btS-p8-B7Z" secondAttribute="top" id="aEL-yH-N1p"/>
                             <constraint firstAttribute="centerY" secondItem="IgP-PJ-P7U" secondAttribute="centerY" id="cEg-57-jfJ"/>
                             <constraint firstAttribute="centerX" secondItem="IgP-PJ-P7U" secondAttribute="centerX" id="xFy-w6-Jix"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Da1-09-wR4">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Da1-09-wR4" userLabel="Avatar Container">
                         <rect key="frame" x="0.0" y="42" width="34" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eXY-pS-M3P" userLabel="Avatar">
+                                <rect key="frame" x="0.0" y="0.0" width="34" height="34"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="eXY-pS-M3P" secondAttribute="trailing" id="4Ww-FI-NgP"/>
+                            <constraint firstItem="eXY-pS-M3P" firstAttribute="top" secondItem="Da1-09-wR4" secondAttribute="top" id="Bat-OY-kby"/>
+                            <constraint firstItem="eXY-pS-M3P" firstAttribute="leading" secondItem="Da1-09-wR4" secondAttribute="leading" id="LE1-dc-nVC"/>
                             <constraint firstAttribute="width" constant="34" id="YwX-fW-Me6"/>
+                            <constraint firstAttribute="bottom" secondItem="eXY-pS-M3P" secondAttribute="bottom" id="nWf-Ah-Saa"/>
                             <constraint firstAttribute="height" constant="34" id="tZk-AK-JFa"/>
                         </constraints>
                     </view>
@@ -135,6 +150,7 @@
                 <outlet property="cellTopLabel" destination="afj-rd-iNv" id="bTd-4q-U7e"/>
                 <outlet property="cellTopLabelHeightConstraint" destination="fKS-MR-YPI" id="YWd-Rd-qSL"/>
                 <outlet property="messageBubbleContainerView" destination="btS-p8-B7Z" id="2sk-5p-NEd"/>
+                <outlet property="messageBubbleImageView" destination="XUH-vO-C8u" id="0Y9-1b-aV5"/>
                 <outlet property="messageBubbleLeftRightMarginConstraint" destination="k2n-jk-kOg" id="DoB-EE-Ka1"/>
                 <outlet property="messageBubbleTopLabel" destination="Ufa-bF-l1Y" id="VtH-te-blR"/>
                 <outlet property="messageBubbleTopLabelHeightConstraint" destination="fal-sy-hrK" id="kgv-NO-Gud"/>

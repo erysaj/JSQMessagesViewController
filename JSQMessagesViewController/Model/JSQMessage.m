@@ -22,13 +22,14 @@
 
 #pragma mark - Initialization
 
-+ (instancetype)messageWithText:(NSString *)text sender:(NSString *)sender
++ (instancetype)messageWithText:(NSString *)text sender:(NSString *)sender isIncoming:(BOOL)isIncoming
 {
-    return [[JSQMessage alloc] initWithText:text sender:sender date:[NSDate date]];
+    return [[JSQMessage alloc] initWithText:text sender:sender isIncoming:isIncoming date:[NSDate date]];
 }
 
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
+                  isIncoming:(BOOL)isIncoming
                         date:(NSDate *)date
 {
     NSAssert(text, @"ERROR: text must not be nil: %s", __PRETTY_FUNCTION__);
@@ -39,8 +40,8 @@
     if (self) {
         _text = text;
         _sender = sender;
+        _isIncoming = isIncoming;
         _date = date;
-        
     }
     return self;
 }
@@ -50,6 +51,7 @@
                     imageURL:(NSURL *)imageURL
             imageOrientation:(JSImageOrientation)imageOrientation
                  messageType:(JSMessageType)messageType
+                  isIncoming:(BOOL)isIncoming
                         date:(NSDate *)date
 
 {
@@ -64,6 +66,7 @@
         _date = date;
         _imageURL = imageURL;
         _imageOrientation = imageOrientation;
+        _isIncoming = isIncoming;
         _messageType = messageType;
     }
     return self;
@@ -147,6 +150,7 @@
 {
     return [[[self class] allocWithZone:zone] initWithText:[self.text copy]
                                                     sender:[self.sender copy]
+                                                isIncoming:self.isIncoming
                                                       date:[self.date copy]];
 }
 

@@ -123,6 +123,9 @@
     
     bubbleLayer.mask = mask;
     bubbleLayer.masksToBounds = YES;
+    
+    bubbleLayer.shouldRasterize = YES;
+    bubbleLayer.rasterizationScale = [UIScreen mainScreen].scale;
 }
 
 + (void)clearMaskedBubbleImageView:(UIImageView *)bubbleView
@@ -178,11 +181,10 @@
             return IMAGE_PORTRAIT_SIZE;
             break;
         case JSImageOrientationSquare:
-        case JSImageOrientationNone:
-            return IMAGE_SQUARE_SIZE;
+            return  IMAGE_SQUARE_SIZE;
             break;
-        default:
-            return IMAGE_SQUARE_SIZE;
+        case JSImageOrientationNone:
+            return  IMAGE_LOADER_SIZE;
             break;
     }
 }

@@ -27,6 +27,7 @@
 
 #import "JSQMessagesCollectionView.h"
 #import "JSQMessagesCollectionViewCell.h"
+#import "JSQMessagesCollectionViewCellIncoming.h"
 #import "JSQMessagesCollectionViewLayoutAttributes.h"
 #import "JSQMessagesCollectionViewFlowLayoutInvalidationContext.h"
 
@@ -34,6 +35,7 @@
 #import "JSQMessagesBubbleImageFactory.h"
 
 const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
+const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
 
 
 @interface JSQMessagesCollectionViewFlowLayout ()
@@ -381,6 +383,8 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     {
         switch ([messageData imageOrientation]) {
             case JSImageOrientationNone:
+                finalSize = IMAGE_LOADER_SIZE;
+                break;
             case JSImageOrientationSquare:
                 finalSize = IMAGE_SQUARE_SIZE;
                 break;
@@ -617,6 +621,21 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
         }
         item.center = center;
     }
+}
+
+- (UICollectionViewLayoutAttributes *)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath *)itemIndexPath
+{
+    UICollectionViewLayoutAttributes *layoutAttributes = [super initialLayoutAttributesForAppearingItemAtIndexPath:itemIndexPath];
+    
+    id<JSQMessageData> messageData = [self.collectionView.dataSource collectionView:self.collectionView messageDataForItemAtIndexPath:itemIndexPath];
+    
+    if (!(messageData.messageType == JSMessageTypeVideo || messageData.messageType == JSMessageTypeImage))
+    {
+        return layoutAttributes;
+    }
+    layoutAttributes.transform = CGAffineTransformMakeTranslation(messageData.isIncoming ? -kJSQImageMessagesInitialOffset: kJSQImageMessagesInitialOffset, 0);
+    
+    return layoutAttributes;
 }
 
 @end

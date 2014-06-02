@@ -99,6 +99,8 @@ typedef NS_ENUM(NSUInteger, JSQImageOverlayIconType)
 
 @property (weak, nonatomic, readonly) UIImageView *iconImageView;
 
+@property (weak, nonatomic, readonly) UIActivityIndicatorView *activityIndicator;
+
 /**
  *  Returns the text view of the cell. This text view contains the message body text.
  */

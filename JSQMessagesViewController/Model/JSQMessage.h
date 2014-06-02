@@ -58,6 +58,11 @@
  */
 @property (assign, nonatomic) JSMessageType messageType;
 
+/**
+ *  The message source
+ */
+@property (nonatomic) BOOL isIncoming;
+
 
 #pragma mark - Initialization
 
@@ -69,7 +74,7 @@
  *
  *  @return An initialized `JSQMessage` object or `nil` if the object could not be successfully initialized.
  */
-+ (instancetype)messageWithText:(NSString *)text sender:(NSString *)sender;
++ (instancetype)messageWithText:(NSString *)text sender:(NSString *)sender isIncoming:(BOOL)isIncoming;
 
 /**
  *  Initializes and returns a message object having the given text, sender, and date.
@@ -82,6 +87,7 @@
  */
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
+                  isIncoming:(BOOL)isIncoming
                         date:(NSDate *)date;
 
 - (instancetype)initWithText:(NSString *)text
@@ -89,6 +95,7 @@
                     imageURL:(NSURL *)imageURL
             imageOrientation:(JSImageOrientation)imageOrientation
                  messageType:(JSMessageType)messageType
+                  isIncoming:(BOOL)isIncoming
                         date:(NSDate *)date;
 
 /**

@@ -79,4 +79,9 @@ typedef NS_ENUM(NSUInteger, JSMessageType) {
  */
 - (JSMessageType)messageType;
 
+/**
+ *  @return The message source
+ */
+- (BOOL)isIncoming;
+
 @end

@@ -36,6 +36,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *bubbleImageIconOverlay;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 
 @property (weak, nonatomic) IBOutlet UIView *messageBubbleContainerView;
@@ -149,6 +151,8 @@
     UITapGestureRecognizer *bubbleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jsq_handleBubbleTapGesture:)];
     [self.messageBubbleContainerView addGestureRecognizer:bubbleTap];
     self.bubbleTapGestureRecognizer = bubbleTap;
+    
+    [self.messageBubbleImageView addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
 }
 
 - (void)dealloc
@@ -175,6 +179,9 @@
     
     [_bubbleTapGestureRecognizer removeTarget:nil action:NULL];
     _bubbleTapGestureRecognizer = nil;
+    
+    [self.messageBubbleImageView removeObserver:self forKeyPath:@"image" context:NULL];
+
 }
 
 #pragma mark - Collection view cell
@@ -263,6 +270,7 @@
         return;
     }
     
+    [self.activityIndicator startAnimating];
     bubbleView.hidden = NO;
     [messageBubbleImageSource bindImageView:bubbleView];
 }
@@ -443,6 +451,14 @@
                                              selector:@selector(jsq_didReceiveMenuWillHideNotification:)
                                                  name:UIMenuControllerWillHideMenuNotification
                                                object:[notification object]];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"image"] && object == self.messageBubbleImageView)
+    {
+        [self.activityIndicator stopAnimating];
+    }
 }
 
 @end

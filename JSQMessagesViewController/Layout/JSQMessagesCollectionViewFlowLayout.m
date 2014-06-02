@@ -173,7 +173,7 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     [self invalidateLayout];
 }
 
-- (void)setSysttemMessageFont:(UIFont *)systemMessageFont
+- (void)setSystemMessageFont:(UIFont *)systemMessageFont
 {
     NSAssert(systemMessageFont, @"ERROR: systemMessageFont must not be nil: %s", __PRETTY_FUNCTION__);
     _systemMessageFont = systemMessageFont;
@@ -374,7 +374,7 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     }
     
     CGSize finalSize;
-
+    
     id<JSQMessageData> messageData = [self.collectionView.dataSource collectionView:self.collectionView messageDataForItemAtIndexPath:indexPath];
     
     if ([messageData imageURL])
@@ -401,6 +401,18 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
         
         CGFloat textInsetsTotal = [self jsq_messageBubbleTextContainerInsetsTotal];
         
+        NSMutableAttributedString *fullAttributedString = [[NSMutableAttributedString alloc] initWithString:[messageData text] attributes:@{ NSFontAttributeName : self.messageBubbleFont}];
+        
+        NSString *timestampString = [NSString stringWithFormat:@"  %@", [[JSQMessagesTimestampFormatter sharedFormatter] timeForDate:messageData.date]];
+        
+        NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:timestampString attributes:@{ NSFontAttributeName : self.messageBubbleFont}];
+        
+        [fullAttributedString appendAttributedString:timestampAttributedString];
+        
+        CGRect fullStringRect = [fullAttributedString boundingRectWithSize:CGSizeMake(maximumTextWidth - textInsetsTotal, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) context:nil];
+        
+        CGSize fullStringSize = CGRectIntegral(fullStringRect).size;
+        
         CGRect stringRect = [[messageData text] boundingRectWithSize:CGSizeMake(maximumTextWidth - textInsetsTotal, CGFLOAT_MAX)
                                                              options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
                                                           attributes:@{ NSFontAttributeName : self.messageBubbleFont }
@@ -408,18 +420,33 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
         
         CGSize stringSize = CGRectIntegral(stringRect).size;
         
-        NSString *dateString = [[JSQMessagesTimestampFormatter sharedFormatter] timeForDate:messageData.date];
-        CGRect timestampRect = [dateString boundingRectWithSize:CGSizeMake(maximumTextWidth - textInsetsTotal, CGFLOAT_MAX)
-                                                        options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
-                                                     attributes:@{ NSFontAttributeName : self.timestampFont }
-                                                        context:nil];
+        CGRect timestampRect = [timestampString boundingRectWithSize:CGSizeMake(maximumTextWidth - textInsetsTotal, CGFLOAT_MAX)
+                                                             options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                                          attributes:@{ NSFontAttributeName : self.timestampFont }
+                                                             context:nil];
         
         CGSize timestampStringSize = CGRectIntegral(timestampRect).size;
         
         CGFloat verticalInsets = self.messageBubbleTextViewTextContainerInsets.top + self.messageBubbleTextViewTextContainerInsets.bottom;
-
-        finalSize = CGSizeMake(MAX(stringSize.width, timestampStringSize.width) , stringSize.height + verticalInsets + 8);
-        finalSize.width += textInsetsTotal;
+        CGFloat bubbleWidth = MAX(stringSize.width, timestampStringSize.width);
+        CGFloat bubbleHeight = stringSize.height + verticalInsets;
+        
+        
+        if (fullStringSize.height > stringSize.height)
+        {
+            CGFloat timestampOffsetY = 4.0f;
+            bubbleHeight += timestampStringSize.height + timestampOffsetY;
+        }
+        else
+        {
+            if (stringSize.width + timestampStringSize.width < maximumTextWidth - textInsetsTotal )
+            {
+                bubbleWidth = stringSize.width + timestampStringSize.width;
+            }
+        }
+        
+        bubbleWidth += textInsetsTotal;
+        finalSize = CGSizeMake(bubbleWidth, bubbleHeight);
     }
     
     [self.messageBubbleSizes setObject:[NSValue valueWithCGSize:finalSize] forKey:indexPath];
@@ -474,7 +501,7 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
     CGSize messageBubbleSize = [self messageBubbleSizeForItemAtIndexPath:indexPath];
     CGFloat remainingItemWidthForBubble = self.itemWidth - [self jsq_avatarSizeForIndexPath:indexPath].width;
     CGFloat textPadding = [messageData imageURL] ? 4 : [self jsq_messageBubbleTextContainerInsetsTotal];
-//    CGFloat messageBubblePadding = remainingItemWidthForBubble - messageBubbleSize.width - textPadding;
+    //    CGFloat messageBubblePadding = remainingItemWidthForBubble - messageBubbleSize.width - textPadding;
     
     layoutAttributes.messageBubbleWidth = messageBubbleSize.width;
     

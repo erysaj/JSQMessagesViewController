@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -51,7 +51,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WUc-uL-Y5Q" customClass="JSQMessagesLabel">
-                                <rect key="frame" x="157" y="74" width="70" height="17"/>
+                                <rect key="frame" x="154" y="66" width="70" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Timestamp">
@@ -77,10 +77,10 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="N8c-fY-3Rc" secondAttribute="trailing" id="5ZU-Sw-4bA"/>
                             <constraint firstItem="vLY-aM-0Dr" firstAttribute="leading" secondItem="2zh-vR-QJW" secondAttribute="leading" id="7rI-Nc-AK3"/>
-                            <constraint firstAttribute="trailing" secondItem="WUc-uL-Y5Q" secondAttribute="trailing" constant="17" id="BOh-w1-0N5"/>
+                            <constraint firstAttribute="trailing" secondItem="WUc-uL-Y5Q" secondAttribute="trailing" constant="20" id="BOh-w1-0N5"/>
                             <constraint firstItem="N8c-fY-3Rc" firstAttribute="leading" secondItem="2zh-vR-QJW" secondAttribute="leading" id="ESe-eN-ZqZ"/>
                             <constraint firstAttribute="bottom" secondItem="N8c-fY-3Rc" secondAttribute="bottom" id="JN7-5N-qDV"/>
-                            <constraint firstAttribute="bottom" secondItem="WUc-uL-Y5Q" secondAttribute="bottom" constant="3" id="JhA-qk-fr3"/>
+                            <constraint firstAttribute="bottom" secondItem="WUc-uL-Y5Q" secondAttribute="bottom" constant="11" id="JhA-qk-fr3"/>
                             <constraint firstAttribute="width" constant="244" id="RUj-wy-ciQ"/>
                             <constraint firstItem="vLY-aM-0Dr" firstAttribute="top" secondItem="2zh-vR-QJW" secondAttribute="top" id="RiG-21-Bqc"/>
                             <constraint firstAttribute="bottom" secondItem="vLY-aM-0Dr" secondAttribute="bottom" id="UbF-Bl-Q7v"/>

@@ -532,23 +532,47 @@ UITextViewDelegate>
 
 - (void)messagesCollectionViewCellDidTapAvatar:(JSQMessagesCollectionViewCell *)cell
 {
-    [self.collectionView.delegate collectionView:self.collectionView
-                           didTapAvatarImageView:cell.avatarImageView
-                                     atIndexPath:[self.collectionView indexPathForCell:cell]];
+    if ([self.collectionView.delegate respondsToSelector:@selector(collectionView:didTapAvatarImageView:atIndexPath:)])
+    {
+        [self.collectionView.delegate collectionView:self.collectionView
+                               didTapAvatarImageView:cell.avatarImageView
+                                         atIndexPath:[self.collectionView indexPathForCell:cell]];
+    }
 }
 
 - (void)messagesCollectionViewCellDidTapBubble:(JSQMessagesCollectionViewCell *)cell
 {
-    [self.collectionView.delegate collectionView:self.collectionView
-                           didTapBubbleImageView:cell.messageBubbleImageView
-                                     atIndexPath:[self.collectionView indexPathForCell:cell]];
+    if ([self.collectionView.delegate respondsToSelector:@selector(collectionView:didTapBubbleImageView:atIndexPath:)])
+    {
+        [self.collectionView.delegate collectionView:self.collectionView
+                               didTapBubbleImageView:cell.messageBubbleImageView
+                                         atIndexPath:[self.collectionView indexPathForCell:cell]];
+    }
 }
 
 - (void)messagesCollectionViewCellDidTapDelete:(JSQMessagesCollectionViewCell *)cell
 {
-    [self.collectionView.delegate collectionViewDidTapDelete:self.collectionView atIndexPath:[self.collectionView indexPathForCell:cell]];
+    if ([self.collectionView.delegate respondsToSelector:@selector(collectionViewDidTapDelete:atIndexPath:)])
+    {
+        [self.collectionView.delegate collectionViewDidTapDelete:self.collectionView atIndexPath:[self.collectionView indexPathForCell:cell]];
+    }
 }
 
+- (void)messagesCollectionViewCellDidTapCopy:(JSQMessagesCollectionViewCell *)cell
+{
+    if ([self.collectionView.delegate respondsToSelector:@selector(collectionViewDidTapCopy:atIndexPath:)])
+    {
+        [self.collectionView.delegate collectionViewDidTapCopy:self.collectionView atIndexPath:[self.collectionView indexPathForCell:cell]];
+    }
+}
+
+- (void)messagesCollectionViewCellDidTapShare:(JSQMessagesCollectionViewCell *)cell
+{
+    if ([self.collectionView.delegate respondsToSelector:@selector(collectionViewDidTapShare:atIndexPath:)])
+    {
+        [self.collectionView.delegate collectionViewDidTapShare:self.collectionView atIndexPath:[self.collectionView indexPathForCell:cell]];
+    }
+}
 #pragma mark - Input toolbar delegate
 
 - (void)messagesInputToolbar:(JSQMessagesInputToolbar *)toolbar didPressLeftBarButton:(UIButton *)sender

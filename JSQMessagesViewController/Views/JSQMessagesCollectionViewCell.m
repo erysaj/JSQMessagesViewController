@@ -69,6 +69,7 @@
 @property (weak, nonatomic, readwrite) UILongPressGestureRecognizer *longPressGestureRecognizer;
 @property (weak, nonatomic, readwrite) UITapGestureRecognizer *avatarTapGestureRecognizer;
 @property (weak, nonatomic, readwrite) UITapGestureRecognizer *bubbleTapGestureRecognizer;
+@property (weak, nonatomic, readwrite) UITapGestureRecognizer *cellTapGestureRecognizer;
 
 - (void)jsq_handleLongPressGesture:(UILongPressGestureRecognizer *)longPress;
 - (void)jsq_handleAvatarTapGesture:(UITapGestureRecognizer *)tap;
@@ -141,7 +142,7 @@
     
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(jsq_handleLongPressGesture:)];
     longPress.minimumPressDuration = 0.4f;
-    [self addGestureRecognizer:longPress];
+    [self.messageBubbleContainerView addGestureRecognizer:longPress];
     self.longPressGestureRecognizer = longPress;
     
     UITapGestureRecognizer *avatarTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jsq_handleAvatarTapGesture:)];
@@ -152,7 +153,9 @@
     [self.messageBubbleContainerView addGestureRecognizer:bubbleTap];
     self.bubbleTapGestureRecognizer = bubbleTap;
     
-    [self.messageBubbleImageView addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    UITapGestureRecognizer *cellTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jsq_handleCellTapGesture:)];
+    [self addGestureRecognizer:cellTap];
+    self.cellTapGestureRecognizer = cellTap;
 }
 
 - (void)dealloc
@@ -166,6 +169,7 @@
     _messageBubbleImageView = nil;
     _avatarImageView = nil;
     _bubbleImageIconOverlay = nil;
+    _menuItems = JSQMenuItemsNone;
     
     [_avatarImageSource bindImageView:nil];
     [_messageBubbleImageSource bindImageView:nil];
@@ -180,8 +184,8 @@
     [_bubbleTapGestureRecognizer removeTarget:nil action:NULL];
     _bubbleTapGestureRecognizer = nil;
     
-    [self.messageBubbleImageView removeObserver:self forKeyPath:@"image" context:NULL];
-
+    [_cellTapGestureRecognizer removeTarget:nil action:NULL];
+    _cellTapGestureRecognizer = nil;
 }
 
 #pragma mark - Collection view cell
@@ -189,11 +193,13 @@
 - (void)prepareForReuse
 {
     [super prepareForReuse];
+    self.menuItems = JSQMenuItemsNone;
     self.imageOverlayIconType = JSQImageOverlayIconTypeNone;
     self.cellTopLabel.text = nil;
     self.messageBubbleTopLabel.text = nil;
     self.cellBottomLabel.text = nil;
     self.timestampLabel.text = nil;
+    self.messageBubbleImageView.image = nil;
 }
 
 - (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes
@@ -382,18 +388,48 @@
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
-    return (action == @selector(copy:) || action == @selector(delete:));
+    if (self.menuItems == JSQMenuItemsNone) return NO;
+    
+    if (action == @selector(copy:))
+    {
+        return self.menuItems & JSQMenuItemsCopy;
+    }
+    
+    if (action == @selector(delete:))
+    {
+        return self.menuItems & JSQMenuItemsDelete;
+    }
+    
+    if (action == @selector(share:))
+    {
+        return self.menuItems & JSQMenuItemsShare;
+    }
+    return NO;
 }
 
 - (void)copy:(id)sender
 {
     [[UIPasteboard generalPasteboard] setString:self.textView.text];
+    
+    if ([self.delegate respondsToSelector:@selector(messagesCollectionViewCellDidTapCopy:)])
+    {
+        [self.delegate messagesCollectionViewCellDidTapCopy:self];
+    }
     [self resignFirstResponder];
 }
 
 - (void)delete:(id)sender
 {
     [self.delegate messagesCollectionViewCellDidTapDelete:self];
+    [self resignFirstResponder];
+}
+
+- (void)share:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(messagesCollectionViewCellDidTapShare:)])
+    {
+        [self.delegate messagesCollectionViewCellDidTapShare:self];
+    }
     [self resignFirstResponder];
 }
 
@@ -410,6 +446,11 @@
     
     [menu setTargetRect:CGRectInset(targetRect, 0.0f, 4.0f) inView:self];
     
+    if (self.menuItems & JSQMenuItemsShare)
+    {
+        UIMenuItem *shareMenuItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Share", nil) action:@selector(share:)];
+        [[UIMenuController sharedMenuController] setMenuItems:@[shareMenuItem]];
+    }
     self.messageBubbleImageView.highlighted = YES;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -420,14 +461,33 @@
     [menu setMenuVisible:YES animated:YES];
 }
 
+- (void)hideMenu
+{
+    if ([UIMenuController sharedMenuController].isMenuVisible)
+    {
+        [[UIMenuController sharedMenuController] setMenuVisible:NO animated:YES];
+    }
+}
+
 - (void)jsq_handleAvatarTapGesture:(UITapGestureRecognizer *)tap
 {
     [self.delegate messagesCollectionViewCellDidTapAvatar:self];
+    [self hideMenu];
 }
 
 - (void)jsq_handleBubbleTapGesture:(UITapGestureRecognizer *)tap
 {
+    if ([UIMenuController sharedMenuController].isMenuVisible)
+    {
+        [self hideMenu];
+        return;
+    }
     [self.delegate messagesCollectionViewCellDidTapBubble:self];
+}
+
+- (void)jsq_handleCellTapGesture:(UITapGestureRecognizer *)tap
+{
+    [self hideMenu];
 }
 
 #pragma mark - Notifications

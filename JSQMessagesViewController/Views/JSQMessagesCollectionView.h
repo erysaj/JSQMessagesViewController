@@ -219,6 +219,11 @@
 - (void)collectionViewDidTapDelete:(JSQMessagesCollectionView *)collectionView
                        atIndexPath:(NSIndexPath *)indexPath;
 
+- (void)collectionViewDidTapCopy:(JSQMessagesCollectionView *)collectionView
+                     atIndexPath:(NSIndexPath *)indexPath;
+
+- (void)collectionViewDidTapShare:(JSQMessagesCollectionView *)collectionView
+                      atIndexPath:(NSIndexPath *)indexPath;
 /**
  *  Notifies the delegate that the collection view's header did receive a tap event.
  *

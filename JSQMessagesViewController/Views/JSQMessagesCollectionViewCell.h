@@ -28,6 +28,14 @@ typedef NS_ENUM(NSUInteger, JSQImageOverlayIconType)
     JSQImageOverlayIconTypeCustom
 };
 
+typedef NS_OPTIONS(NSUInteger, JSQMenuItems)
+{
+    JSQMenuItemsNone   = 0,
+    JSQMenuItemsDelete = 1 << 0,
+    JSQMenuItemsCopy   = 1 << 1,
+    JSQMenuItemsShare  = 1 << 2,
+};
+
 @class JSQMessagesCollectionViewCell;
 
 /**
@@ -56,7 +64,9 @@ typedef NS_ENUM(NSUInteger, JSQImageOverlayIconType)
 
 - (void)messagesCollectionViewCellDidTapDelete:(JSQMessagesCollectionViewCell *)cell;
 
+- (void)messagesCollectionViewCellDidTapCopy:(JSQMessagesCollectionViewCell *)cell;
 
+- (void)messagesCollectionViewCellDidTapShare:(JSQMessagesCollectionViewCell *)cell;
 @end
 
 
@@ -148,6 +158,12 @@ typedef NS_ENUM(NSUInteger, JSQImageOverlayIconType)
 @property (strong, nonatomic) UIImage *imageOverlayCustomIcon;
 
 @property (nonatomic) JSQImageOverlayIconType imageOverlayIconType;
+
+/**
+ *  Set menu controller items for this cell
+ */
+@property (nonatomic) JSQMenuItems menuItems;
+
 
 
 #pragma mark - Class methods

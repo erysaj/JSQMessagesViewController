@@ -434,8 +434,7 @@ const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
         
         if (fullStringSize.height > stringSize.height)
         {
-            CGFloat timestampOffsetY = 4.0f;
-            bubbleHeight += timestampStringSize.height + timestampOffsetY;
+            bubbleHeight += self.messageBubbleFont.lineHeight;
         }
         else
         {

@@ -51,7 +51,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCs-Ks-1H4" customClass="JSQMessagesLabel">
-                                <rect key="frame" x="163" y="66" width="70" height="17"/>
+                                <rect key="frame" x="161" y="66" width="70" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Timestamp">
@@ -77,7 +77,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="KYU-B8-cUW" secondAttribute="trailing" id="4qS-03-PFO"/>
                             <constraint firstAttribute="bottom" secondItem="YCs-Ks-1H4" secondAttribute="bottom" constant="11" id="4t3-G7-pBY"/>
-                            <constraint firstAttribute="trailing" secondItem="YCs-Ks-1H4" secondAttribute="trailing" constant="11" id="61G-dI-z49"/>
+                            <constraint firstAttribute="trailing" secondItem="YCs-Ks-1H4" secondAttribute="trailing" constant="13" id="61G-dI-z49"/>
                             <constraint firstAttribute="bottom" secondItem="KYU-B8-cUW" secondAttribute="bottom" id="B2v-Gq-Y1L"/>
                             <constraint firstAttribute="width" constant="244" id="ICp-A6-lFJ"/>
                             <constraint firstAttribute="trailing" secondItem="XUH-vO-C8u" secondAttribute="trailing" id="QES-lH-VeM"/>

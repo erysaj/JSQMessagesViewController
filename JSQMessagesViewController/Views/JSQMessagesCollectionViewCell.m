@@ -200,6 +200,7 @@
     self.cellBottomLabel.text = nil;
     self.timestampLabel.text = nil;
     self.messageBubbleImageView.image = nil;
+    [self.activityIndicator stopAnimating];
 }
 
 - (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes
@@ -276,7 +277,6 @@
         return;
     }
     
-    [self.activityIndicator startAnimating];
     bubbleView.hidden = NO;
     [messageBubbleImageSource bindImageView:bubbleView];
 }

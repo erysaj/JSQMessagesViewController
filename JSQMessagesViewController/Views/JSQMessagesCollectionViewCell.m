@@ -201,6 +201,9 @@
     self.timestampLabel.text = nil;
     self.messageBubbleImageView.image = nil;
     [self.activityIndicator stopAnimating];
+
+    self.cellTopLabelHeightConstraint.constant = 0.0f;
+    self.messageBubbleTopLabelHeightConstraint.constant = 0.0f;
 }
 
 - (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes

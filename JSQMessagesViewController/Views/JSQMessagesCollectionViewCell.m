@@ -202,8 +202,8 @@
     self.messageBubbleImageView.image = nil;
     [self.activityIndicator stopAnimating];
 
-    self.cellTopLabelHeightConstraint.constant = 0.0f;
-    self.messageBubbleTopLabelHeightConstraint.constant = 0.0f;
+    self.cellTopLabelHeightConstraint.constant = self.cellTopLabelHeightConstraint.constant ?: 0.0f;
+    self.messageBubbleTopLabelHeightConstraint.constant = self.messageBubbleTopLabelHeightConstraint.constant ?: 0.0f;
 }
 
 - (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes

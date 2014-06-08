@@ -79,6 +79,8 @@
 - (void)jsq_didReceiveMenuWillShowNotification:(NSNotification *)notification;
 
 - (void)jsq_updateConstraint:(NSLayoutConstraint *)constraint withConstant:(CGFloat)constant;
+
+- (IBAction)resendFailedMessage:(id)sender;
 @end
 
 
@@ -201,6 +203,11 @@
     self.timestampLabel.text = nil;
     self.messageBubbleImageView.image = nil;
     [self.activityIndicator stopAnimating];
+    if ([self isKindOfClass:[JSQMessagesCollectionViewCellOutgoing class]])
+    {
+        ((JSQMessagesCollectionViewCellOutgoing *) self).resendFailedMessageErrorButton.alpha = 0;
+        ((JSQMessagesCollectionViewCellOutgoing *) self).resendFailedMessageErrorButton.enabled = NO;
+    }
 }
 
 - (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes
@@ -519,6 +526,24 @@
     {
         [self.activityIndicator stopAnimating];
     }
+}
+
+#pragma mark - Send error handling 
+
+- (void)showErrorIndicator:(BOOL)show
+{
+    if ([self isKindOfClass:[JSQMessagesCollectionViewCellOutgoing class]]) {
+        [UIView animateWithDuration:.5f animations:^{
+            ((JSQMessagesCollectionViewCellOutgoing *) self).resendFailedMessageErrorButton.alpha = show ? 1 : 0;
+        } completion:^(BOOL finished) {
+            ((JSQMessagesCollectionViewCellOutgoing *) self).resendFailedMessageErrorButton.enabled = show;
+        }];
+    }
+}
+
+- (IBAction)resendFailedMessage:(id)sender
+{
+    [self.delegate messagesCollectionViewCellDidTapResendFaildMessage:self];
 }
 
 @end

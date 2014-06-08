@@ -573,6 +573,13 @@ UITextViewDelegate>
         [self.collectionView.delegate collectionViewDidTapShare:self.collectionView atIndexPath:[self.collectionView indexPathForCell:cell]];
     }
 }
+- (void)messagesCollectionViewCellDidTapResendFaildMessage:(JSQMessagesCollectionViewCell *)cell;
+{
+    if ([self.collectionView.delegate respondsToSelector:@selector(collectionViewDidTapResendFaildMessage:atIndexPath:)])
+    {
+        [self.collectionView.delegate collectionViewDidTapResendFaildMessage:self.collectionView atIndexPath:[self.collectionView indexPathForCell:cell]];
+    }
+}
 #pragma mark - Input toolbar delegate
 
 - (void)messagesInputToolbar:(JSQMessagesInputToolbar *)toolbar didPressLeftBarButton:(UIButton *)sender

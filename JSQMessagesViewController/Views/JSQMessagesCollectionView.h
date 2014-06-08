@@ -224,6 +224,10 @@
 
 - (void)collectionViewDidTapShare:(JSQMessagesCollectionView *)collectionView
                       atIndexPath:(NSIndexPath *)indexPath;
+
+- (void)collectionViewDidTapResendFaildMessage:(JSQMessagesCollectionView *)collectionView
+                                   atIndexPath:(NSIndexPath *)indexPath;
+
 /**
  *  Notifies the delegate that the collection view's header did receive a tap event.
  *

@@ -203,6 +203,11 @@
     self.timestampLabel.text = nil;
     self.messageBubbleImageView.image = nil;
     [self.activityIndicator stopAnimating];
+    if ([self isKindOfClass:[JSQMessagesCollectionViewCellOutgoing class]])
+    {
+        ((JSQMessagesCollectionViewCellOutgoing *) self).resendFailedMessageErrorButton.alpha = 0;
+        ((JSQMessagesCollectionViewCellOutgoing *) self).resendFailedMessageErrorButton.enabled = NO;
+    }
 
     self.cellTopLabelHeightConstraint.constant = self.cellTopLabelHeightConstraint.constant ?: 0.0f; 
     self.messageBubbleTopLabelHeightConstraint.constant = self.messageBubbleTopLabelHeightConstraint.constant ?: 0.0f;

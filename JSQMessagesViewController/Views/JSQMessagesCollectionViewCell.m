@@ -523,13 +523,6 @@
                                                object:[notification object]];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@"image"] && object == self.messageBubbleImageView)
-    {
-        [self.activityIndicator stopAnimating];
-    }
-}
 
 #pragma mark - Send error handling 
 

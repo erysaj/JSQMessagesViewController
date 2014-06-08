@@ -18,10 +18,10 @@
 
 #import <Foundation/Foundation.h>
 
-#define IMAGE_PORTRAIT_SIZE CGSizeMake(132, 159)
+#define IMAGE_PORTRAIT_SIZE  CGSizeMake(132, 159)
 #define IMAGE_LANDSCAPE_SIZE CGSizeMake(194, 122)
-#define IMAGE_SQUARE_SIZE CGSizeMake(169, 145)
-#define IMAGE_LOADER_SIZE CGSizeMake(132, 159)
+#define IMAGE_SQUARE_SIZE    CGSizeMake(169, 145)
+#define IMAGE_LOADER_SIZE    CGSizeMake(100, 90)
 typedef NS_ENUM(NSUInteger, JSImageOrientation) {
         /**
          *  Specifies that there is no image.
@@ -73,6 +73,7 @@ typedef NS_ENUM(NSUInteger, JSImageOrientation) {
 
 + (void)prepareMaskedBubbleImageView:(UIImageView *)bubbleView withSize:(CGSize)size forIncoming:(BOOL)incoming;
 + (void)clearMaskedBubbleImageView:(UIImageView *)bubbleView;
++ (void)addGradientFooterToBubbleImageView:(UIImageView *)bubbleView withSize:(CGSize)size;
 
 + (CGSize)neededSizeForImageOrientation:(JSImageOrientation)imageOrientation;
 + (JSImageOrientation)imageOrientation:(UIImage *)image;

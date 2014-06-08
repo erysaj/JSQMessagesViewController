@@ -89,20 +89,6 @@
     bubbleView.contentMode = UIViewContentModeScaleAspectFill;
 
     CALayer *bubbleLayer = bubbleView.layer;
-
-    // add gradient
-    CAGradientLayer *gradient = [CAGradientLayer layer];
-    CGFloat gradientHeight = 30;
-    gradient.frame = CGRectMake(0, size.height - gradientHeight, size.width, gradientHeight);
-    UIColor *startColor = [UIColor colorWithWhite:0 alpha:0];
-    UIColor *endColor = [UIColor colorWithWhite:0 alpha:0.7];
-    gradient.colors = [NSArray arrayWithObjects:
-                       (__bridge id)[startColor CGColor],
-                       (__bridge id)[endColor CGColor],
-                       nil];
-    
-    [bubbleView.layer insertSublayer:gradient atIndex:0];
-    
     // create mask
     UIImage *bubble = [UIImage imageNamed:(incoming?  @"bubble_min_triangle_tail_flipped": @"bubble_min_triangle_tail")];
     UIEdgeInsets capInsets = incoming? UIEdgeInsetsMake(28, 20, 10, 10): UIEdgeInsetsMake(28, 10, 10, 20);
@@ -120,13 +106,38 @@
                1.0/maskImage.size.height);
     
     mask.frame = CGRectMake(0, 0, size.width, size.height);
-    
     bubbleLayer.mask = mask;
     bubbleLayer.masksToBounds = YES;
-    
-    bubbleLayer.shouldRasterize = YES;
-    bubbleLayer.rasterizationScale = [UIScreen mainScreen].scale;
 }
+
++ (void)addGradientFooterToBubbleImageView:(UIImageView *)bubbleView withSize:(CGSize)size
+{
+    CALayer *bubbleLayer = bubbleView.layer;
+    CGFloat gradientHeight = 30;
+
+    if (![[[bubbleLayer sublayers] objectAtIndex:0] isKindOfClass:[CAGradientLayer class]])
+    {
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        gradient.frame = CGRectMake(0, size.height - gradientHeight, size.width, gradientHeight);
+        UIColor *startColor = [UIColor colorWithWhite:0 alpha:0];
+        UIColor *endColor = [UIColor colorWithWhite:0 alpha:0.7];
+        gradient.colors = [NSArray arrayWithObjects:
+                           (__bridge id)[startColor CGColor],
+                           (__bridge id)[endColor CGColor],
+                           nil];
+        
+        [bubbleView.layer insertSublayer:gradient atIndex:0];
+        bubbleLayer.shouldRasterize = YES;
+        bubbleLayer.rasterizationScale = [UIScreen mainScreen].scale;
+    }
+    else
+    {
+        CALayer *gradientLayer = [[bubbleLayer sublayers] objectAtIndex:0];
+        gradientLayer.frame = CGRectMake(0, size.height - gradientHeight, size.width, gradientHeight);
+    }
+   
+}
+
 
 + (void)clearMaskedBubbleImageView:(UIImageView *)bubbleView
 {

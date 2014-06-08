@@ -21,7 +21,7 @@
 #define IMAGE_PORTRAIT_SIZE CGSizeMake(132, 159)
 #define IMAGE_LANDSCAPE_SIZE CGSizeMake(194, 122)
 #define IMAGE_SQUARE_SIZE CGSizeMake(169, 145)
-#define IMAGE_LOADER_SIZE CGSizeMake(0, 159)
+#define IMAGE_LOADER_SIZE CGSizeMake(132, 159)
 typedef NS_ENUM(NSUInteger, JSImageOrientation) {
         /**
          *  Specifies that there is no image.

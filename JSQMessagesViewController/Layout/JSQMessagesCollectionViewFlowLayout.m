@@ -622,19 +622,5 @@ const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
     }
 }
 
-- (UICollectionViewLayoutAttributes *)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath *)itemIndexPath
-{
-    UICollectionViewLayoutAttributes *layoutAttributes = [super initialLayoutAttributesForAppearingItemAtIndexPath:itemIndexPath];
-    
-    id<JSQMessageData> messageData = [self.collectionView.dataSource collectionView:self.collectionView messageDataForItemAtIndexPath:itemIndexPath];
-    
-    if (!(messageData.messageType == JSMessageTypeVideo || messageData.messageType == JSMessageTypeImage))
-    {
-        return layoutAttributes;
-    }
-    layoutAttributes.transform = CGAffineTransformMakeTranslation(messageData.isIncoming ? -kJSQImageMessagesInitialOffset: kJSQImageMessagesInitialOffset, 0);
-    
-    return layoutAttributes;
-}
 
 @end

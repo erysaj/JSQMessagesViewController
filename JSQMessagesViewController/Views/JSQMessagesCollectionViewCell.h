@@ -67,6 +67,8 @@ typedef NS_OPTIONS(NSUInteger, JSQMenuItems)
 - (void)messagesCollectionViewCellDidTapCopy:(JSQMessagesCollectionViewCell *)cell;
 
 - (void)messagesCollectionViewCellDidTapShare:(JSQMessagesCollectionViewCell *)cell;
+
+- (void)messagesCollectionViewCellDidTapResendFaildMessage:(JSQMessagesCollectionViewCell *)cell;
 @end
 
 
@@ -182,5 +184,8 @@ typedef NS_OPTIONS(NSUInteger, JSQMenuItems)
  *  @return The string used to identify a reusable cell.
  */
 + (NSString *)cellReuseIdentifier;
+
+- (void)showErrorIndicator:(BOOL)show;
+
 
 @end

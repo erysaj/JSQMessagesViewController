@@ -409,7 +409,7 @@ const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
         
         NSString *timestampString = [NSString stringWithFormat:@"  %@", [[JSQMessagesTimestampFormatter sharedFormatter] timeForDate:messageData.date]];
         
-        NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:timestampString attributes:@{ NSFontAttributeName : self.messageBubbleFont}];
+        NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:timestampString attributes:@{ NSFontAttributeName : self.timestampFont}];
         
         [fullAttributedString appendAttributedString:timestampAttributedString];
         
@@ -435,7 +435,6 @@ const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
         CGFloat bubbleWidth = MAX(stringSize.width, timestampStringSize.width);
         CGFloat bubbleHeight = stringSize.height + verticalInsets;
         
-        
         if (fullStringSize.height > stringSize.height)
         {
             bubbleHeight += self.messageBubbleFont.lineHeight;
@@ -444,7 +443,7 @@ const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
         {
             if (stringSize.width + timestampStringSize.width < maximumTextWidth - textInsetsTotal )
             {
-                bubbleWidth = stringSize.width + timestampStringSize.width;
+                bubbleWidth = fullStringSize.width;
             }
         }
         

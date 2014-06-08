@@ -202,6 +202,9 @@
     self.cellBottomLabel.text = nil;
     self.timestampLabel.text = nil;
     self.messageBubbleImageView.image = nil;
+    self.cellTopLabelHeightConstraint.constant = 0.0f;
+    self.messageBubbleTopLabelHeightConstraint.constant = 0.0f;
+    
     [self.activityIndicator stopAnimating];
     if ([self isKindOfClass:[JSQMessagesCollectionViewCellOutgoing class]])
     {

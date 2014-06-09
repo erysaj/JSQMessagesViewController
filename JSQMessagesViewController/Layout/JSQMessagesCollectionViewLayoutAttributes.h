@@ -86,6 +86,14 @@
 @property (assign, nonatomic) CGSize systemAvatarViewSize;
 
 /**
+ *  The height of the `actionButton` of a `JSQMessagesCollectionViewCellSystem`.
+ *  The height values should be greater than or equal to `0.0`.
+ *
+ *  @see `JSQMessagesCollectionViewCellOutgoing`.
+ */
+@property (assign, nonatomic) CGFloat actionButtonHeight;
+
+/**
  *  The height of the `cellTopLabel` of a `JSQMessagesCollectionViewCell`.
  *  This value should be greater than or equal to `0.0`.
  *

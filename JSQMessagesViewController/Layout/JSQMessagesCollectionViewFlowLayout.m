@@ -95,6 +95,9 @@ const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
     _incomingAvatarViewSize = defaultAvatarSize;
     _outgoingAvatarViewSize = defaultAvatarSize;
     
+    CGFloat defaultActionButHeight = 44.0f;
+    _actionButtonHeight = defaultActionButHeight;
+    
     _springinessEnabled = NO;
     _springResistanceFactor = 1000;
     
@@ -203,6 +206,12 @@ const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
 - (void)setOutgoingAvatarViewSize:(CGSize)outgoingAvatarViewSize
 {
     _outgoingAvatarViewSize = outgoingAvatarViewSize;
+    [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
+}
+
+- (void)setActionButtonHeight:(CGFloat)actionButtonHeight
+{
+    _actionButtonHeight = actionButtonHeight;
     [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
 }
 
@@ -486,6 +495,11 @@ const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
     
     CGFloat verticalInsets = 10 +  self.messageBubbleTextViewTextContainerInsets.top + self.messageBubbleTextViewTextContainerInsets.bottom;
     
+    if (messageData.messageType == JSMessageTypeSystemAction)
+    {
+        verticalInsets += self.actionButtonHeight;
+    }
+    
     finalSize = CGSizeMake(MAX(stringSize.width, timestampStringSize.width) , stringSize.height + verticalInsets + 8);
     
     
@@ -520,6 +534,8 @@ const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
     layoutAttributes.incomingAvatarViewSize = self.incomingAvatarViewSize;
     
     layoutAttributes.outgoingAvatarViewSize = self.outgoingAvatarViewSize;
+    
+    layoutAttributes.actionButtonHeight = self.actionButtonHeight;
     
     layoutAttributes.messageBubbleImageIconCenterOffset =  self.messageBubbleImageIconCenterOffset;
     

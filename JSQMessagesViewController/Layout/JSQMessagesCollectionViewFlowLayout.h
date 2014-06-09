@@ -166,6 +166,12 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault
  */
 @property (assign, nonatomic) CGSize outgoingAvatarViewSize;
 
+/**
+ *  The height of the action button system action messages.
+ *
+ *  @discussion The default value is `(34.0f, 34.0f)`. Set to `CGSizeZero` to remove outgoing avatars.
+ */
+@property (assign, nonatomic) CGFloat actionButtonHeight;
 
 /**
  *  The size of the avatar image view for outgoing messages.

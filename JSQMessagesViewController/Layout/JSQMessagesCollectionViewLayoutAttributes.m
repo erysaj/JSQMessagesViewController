@@ -73,6 +73,14 @@
     _outgoingAvatarViewSize = CGSizeMake(ceil(outgoingAvatarViewSize.width), ceilf(outgoingAvatarViewSize.height));
 }
 
+- (void)setActionButtonHeight:(CGFloat)actionButtonHeight
+{
+    NSAssert(actionButtonHeight >= 0.0f,
+             @"ERROR: actionButtonHeight values must be greater than or equal to 0: %s", __PRETTY_FUNCTION__);
+    
+    _actionButtonHeight = actionButtonHeight;
+}
+
 - (void)setCellTopLabelHeight:(CGFloat)cellTopLabelHeight
 {
     NSAssert(cellTopLabelHeight >= 0.0f, @"ERROR: cellTopLabelHeight must be greater than or equal to 0: %s", __PRETTY_FUNCTION__);
@@ -117,6 +125,7 @@
         || !UIEdgeInsetsEqualToEdgeInsets(layoutAttributes.textViewTextContainerInsets, self.textViewTextContainerInsets)
         || !CGSizeEqualToSize(layoutAttributes.incomingAvatarViewSize, self.incomingAvatarViewSize)
         || !CGSizeEqualToSize(layoutAttributes.outgoingAvatarViewSize, self.outgoingAvatarViewSize)
+        || (CGFloat)layoutAttributes.actionButtonHeight != (CGFloat)self.actionButtonHeight
         || (int)layoutAttributes.messageBubbleWidth != (int)self.messageBubbleWidth
         || (int)layoutAttributes.cellTopLabelHeight != (int)self.cellTopLabelHeight
         || (int)layoutAttributes.messageBubbleTopLabelHeight != (int)self.messageBubbleTopLabelHeight
@@ -150,6 +159,7 @@
     copy.textViewTextContainerInsets = self.textViewTextContainerInsets;
     copy.incomingAvatarViewSize = self.incomingAvatarViewSize;
     copy.outgoingAvatarViewSize = self.outgoingAvatarViewSize;
+    copy.actionButtonHeight = self.actionButtonHeight;
     copy.cellTopLabelHeight = self.cellTopLabelHeight;
     copy.messageBubbleTopLabelHeight = self.messageBubbleTopLabelHeight;
     copy.cellBottomLabelHeight = self.cellBottomLabelHeight;

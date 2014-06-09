@@ -95,8 +95,8 @@ const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
     _incomingAvatarViewSize = defaultAvatarSize;
     _outgoingAvatarViewSize = defaultAvatarSize;
     
-    CGFloat defaultActionButHeight = 44.0f;
-    _actionButtonHeight = defaultActionButHeight;
+    CGFloat defaultActionButtonHeight = 44.0f;
+    _actionButtonHeight = defaultActionButtonHeight;
     
     _springinessEnabled = NO;
     _springResistanceFactor = 1000;

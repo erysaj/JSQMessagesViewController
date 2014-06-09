@@ -76,7 +76,7 @@
 - (void)setActionButtonHeight:(CGFloat)actionButtonHeight
 {
     NSAssert(actionButtonHeight >= 0.0f,
-             @"ERROR: actionButtonHeight values must be greater than or equal to 0: %s", __PRETTY_FUNCTION__);
+             @"ERROR: actionButtonHeight value must be greater than or equal to 0: %s", __PRETTY_FUNCTION__);
     
     _actionButtonHeight = actionButtonHeight;
 }
@@ -125,12 +125,12 @@
         || !UIEdgeInsetsEqualToEdgeInsets(layoutAttributes.textViewTextContainerInsets, self.textViewTextContainerInsets)
         || !CGSizeEqualToSize(layoutAttributes.incomingAvatarViewSize, self.incomingAvatarViewSize)
         || !CGSizeEqualToSize(layoutAttributes.outgoingAvatarViewSize, self.outgoingAvatarViewSize)
-        || (CGFloat)layoutAttributes.actionButtonHeight != (CGFloat)self.actionButtonHeight
         || (int)layoutAttributes.messageBubbleWidth != (int)self.messageBubbleWidth
         || (int)layoutAttributes.cellTopLabelHeight != (int)self.cellTopLabelHeight
         || (int)layoutAttributes.messageBubbleTopLabelHeight != (int)self.messageBubbleTopLabelHeight
         || (int)layoutAttributes.cellBottomLabelHeight != (int)self.cellBottomLabelHeight
-        || (int)layoutAttributes.messageBubbleImageIconCenterOffset != (int)self.messageBubbleImageIconCenterOffset)
+        || (int)layoutAttributes.messageBubbleImageIconCenterOffset != (int)self.messageBubbleImageIconCenterOffset
+        || (int)layoutAttributes.actionButtonHeight != (int)self.actionButtonHeight)
     {
         return NO;
     }
@@ -143,7 +143,8 @@
     return [self.indexPath hash]
             ^ (NSUInteger)self.cellTopLabelHeight
             ^ (NSUInteger)self.messageBubbleTopLabelHeight
-            ^ (NSUInteger)self.cellBottomLabelHeight;
+            ^ (NSUInteger)self.cellBottomLabelHeight
+            ^ (NSUInteger)self.actionButtonHeight;
 }
 
 #pragma mark - NSCopying
@@ -159,11 +160,11 @@
     copy.textViewTextContainerInsets = self.textViewTextContainerInsets;
     copy.incomingAvatarViewSize = self.incomingAvatarViewSize;
     copy.outgoingAvatarViewSize = self.outgoingAvatarViewSize;
-    copy.actionButtonHeight = self.actionButtonHeight;
     copy.cellTopLabelHeight = self.cellTopLabelHeight;
     copy.messageBubbleTopLabelHeight = self.messageBubbleTopLabelHeight;
     copy.cellBottomLabelHeight = self.cellBottomLabelHeight;
     copy.messageBubbleImageIconCenterOffset = self.messageBubbleImageIconCenterOffset;
+    copy.actionButtonHeight = self.actionButtonHeight;
     return copy;
 }
 

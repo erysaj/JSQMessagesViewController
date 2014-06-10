@@ -528,6 +528,11 @@
 
 - (void)showErrorIndicator:(BOOL)show
 {
+    if (show == (((JSQMessagesCollectionViewCellOutgoing *) self).resendFailedMessageErrorButton.alpha == 1))
+    {
+        return;
+    }
+    
     if ([self isKindOfClass:[JSQMessagesCollectionViewCellOutgoing class]]) {
         [UIView animateWithDuration:.5f animations:^{
             ((JSQMessagesCollectionViewCellOutgoing *) self).resendFailedMessageErrorButton.alpha = show ? 1 : 0;

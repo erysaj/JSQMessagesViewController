@@ -144,6 +144,7 @@
     
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(jsq_handleLongPressGesture:)];
     longPress.minimumPressDuration = 0.4f;
+    [self addGestureRecognizer:longPress];
     [self.messageBubbleContainerView addGestureRecognizer:longPress];
     self.longPressGestureRecognizer = longPress;
     
@@ -451,8 +452,14 @@
         return;
     }
     
+    if (longPress.view == self && ![self isKindOfClass:[JSQMessagesCollectionViewCellSystem class]])
+    {
+        return;
+    }
+    
     UIMenuController *menu = [UIMenuController sharedMenuController];
-    CGRect targetRect = [self convertRect:self.messageBubbleImageView.bounds fromView:self.messageBubbleImageView];
+    UIView *presentingView = (longPress.view == self) ? self.messageLabel : self.messageBubbleImageView;
+    CGRect targetRect = [self convertRect:presentingView.bounds fromView:presentingView];
     
     [menu setTargetRect:CGRectInset(targetRect, 0.0f, 4.0f) inView:self];
     

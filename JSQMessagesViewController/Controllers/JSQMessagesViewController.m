@@ -51,6 +51,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 @property (assign, nonatomic) CGFloat statusBarChangeInHeight;
 
+@property (assign, nonatomic) BOOL jsq_isObserving;
+
 - (void)jsq_configureMessagesViewController;
 
 - (void)jsq_finishSendingOrReceivingMessage;
@@ -628,7 +630,9 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (void)jsq_addObservers
 {
-    [self jsq_removeObservers];
+    if (self.jsq_isObserving)
+        return;
+    self.jsq_isObserving = YES;
     
     [self.inputToolbar.contentView.textView addObserver:self
                                              forKeyPath:NSStringFromSelector(@selector(contentSize))
@@ -638,12 +642,13 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (void)jsq_removeObservers
 {
-    @try {
-        [self.inputToolbar.contentView.textView removeObserver:self
-                                                    forKeyPath:NSStringFromSelector(@selector(contentSize))
-                                                       context:kJSQMessagesKeyValueObservingContext];
-    }
-    @catch (NSException * __unused exception) { }
+    if (!self.jsq_isObserving)
+        return;
+    self.jsq_isObserving = NO;
+    
+    [self.inputToolbar.contentView.textView removeObserver:self
+                                                forKeyPath:NSStringFromSelector(@selector(contentSize))
+                                                   context:kJSQMessagesKeyValueObservingContext];
 }
 
 - (void)jsq_registerForNotifications:(BOOL)registerForNotifications

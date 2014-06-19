@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -25,14 +25,14 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="AnI-m3-Si0">
-                        <rect key="frame" x="10" y="25" width="300" height="21"/>
+                        <rect key="frame" x="10" y="20" width="300" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2j-am-d04">
-                        <rect key="frame" x="125" y="65" width="71" height="26"/>
+                        <rect key="frame" x="125" y="60" width="71" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
@@ -41,7 +41,7 @@
                         </state>
                     </button>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EgV-Ps-Ixu" customClass="JSQMessagesLabel">
-                        <rect key="frame" x="147" y="47" width="26" height="12"/>
+                        <rect key="frame" x="147" y="42" width="26" height="12"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -63,7 +63,7 @@
             </view>
             <constraints>
                 <constraint firstItem="EgV-Ps-Ixu" firstAttribute="top" secondItem="AnI-m3-Si0" secondAttribute="bottom" constant="1" id="AHB-IT-9m5"/>
-                <constraint firstItem="AnI-m3-Si0" firstAttribute="top" secondItem="d2S-KW-1qf" secondAttribute="bottom" constant="5" id="IZV-fO-HkS"/>
+                <constraint firstItem="AnI-m3-Si0" firstAttribute="top" secondItem="d2S-KW-1qf" secondAttribute="bottom" id="IZV-fO-HkS"/>
                 <constraint firstAttribute="centerX" secondItem="EgV-Ps-Ixu" secondAttribute="centerX" id="SJH-Il-96X"/>
                 <constraint firstAttribute="trailing" secondItem="JeY-3n-XzR" secondAttribute="trailing" id="XRd-Xs-aa7"/>
                 <constraint firstAttribute="centerX" secondItem="AnI-m3-Si0" secondAttribute="centerX" id="ZoS-xo-tag"/>
@@ -81,7 +81,9 @@
             <connections>
                 <outlet property="actionButton" destination="Q2j-am-d04" id="V9N-eQ-7sD"/>
                 <outlet property="cellBottomLabel" destination="JeY-3n-XzR" id="a2X-d9-7fq"/>
+                <outlet property="cellBottomLabelHeightConstraint" destination="45h-Fg-IHW" id="seH-vt-xOY"/>
                 <outlet property="cellTopLabel" destination="d2S-KW-1qf" id="NZ2-hQ-c7q"/>
+                <outlet property="cellTopLabelHeightConstraint" destination="N3O-Nj-cNt" id="7ig-jH-Dyo"/>
                 <outlet property="messageLabel" destination="AnI-m3-Si0" id="4rS-W1-LuO"/>
                 <outlet property="timestampLabel" destination="EgV-Ps-Ixu" id="ci7-BQ-H30"/>
             </connections>

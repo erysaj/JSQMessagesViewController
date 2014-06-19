@@ -475,7 +475,7 @@ const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
     id<JSQMessageData> messageData = [self.collectionView.dataSource collectionView:self.collectionView messageDataForItemAtIndexPath:indexPath];
     
     
-    CGSize finalSize;
+    
     
     
     CGRect stringRect = [[messageData text] boundingRectWithSize:CGSizeMake(self.itemWidth, CGFLOAT_MAX)
@@ -491,18 +491,18 @@ const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
                                                  attributes:@{ NSFontAttributeName : self.timestampFont }
                                                     context:nil];
     
+    
     CGSize timestampStringSize = CGRectIntegral(timestampRect).size;
     
-    CGFloat verticalInsets = 10 +  self.messageBubbleTextViewTextContainerInsets.top + self.messageBubbleTextViewTextContainerInsets.bottom;
+    CGFloat height = stringSize.height + timestampStringSize.height;
+    CGFloat width = self.itemWidth;
     
     if (messageData.messageType == JSMessageTypeSystemAction)
     {
-        verticalInsets += self.actionButtonHeight;
+        height += self.actionButtonHeight;
     }
     
-    finalSize = CGSizeMake(MAX(stringSize.width, timestampStringSize.width) , stringSize.height + verticalInsets + 8);
-    
-    
+    CGSize finalSize = CGSizeMake(width, height);
     [self.systemMessageCellsSizes setObject:[NSValue valueWithCGSize:finalSize] forKey:indexPath];
     
     return finalSize;

@@ -16,22 +16,17 @@
 //  Released under an MIT license: http://opensource.org/licenses/MIT
 //
 
-#import "JSQMessages.h"
+#import "JSQDemoTextCell.h"
 
-@class JSQDemoViewController;
+@implementation JSQDemoTextCell
 
-
-@protocol JSQDemoViewControllerDelegate <NSObject>
-
-- (void)didDismissJSQDemoViewController:(JSQDemoViewController *)vc;
-
-@end
-
-
-
-
-@interface JSQDemoViewController : JSQMessagesViewController
-
-@property (weak, nonatomic) id<JSQDemoViewControllerDelegate> delegateModal;
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code
+    }
+    return self;
+}
 
 @end

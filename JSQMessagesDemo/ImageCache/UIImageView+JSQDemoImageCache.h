@@ -16,12 +16,15 @@
 //  Released under an MIT license: http://opensource.org/licenses/MIT
 //
 
-#import "JSQMessagesCollectionViewCell.h"
+#import <UIKit/UIKit.h>
 
-/**
- *  A `JSQMessagesCollectionViewCellOutgoing` object is a concrete instance of `JSQMessagesCollectionViewCell`
- *  that represents an outgoing message data item.
- */
-@interface JSQMessagesCollectionViewCellOutgoing : JSQMessagesCollectionViewCell
+@class JSQDemoImageCache;
+@protocol JSQDemoImageCacheRequest;
+
+@interface UIImageView (JSQDemoImageCache)
+
+- (id<JSQDemoImageCacheRequest>)jsq_imageCacheRequest;
+- (void)jsq_setImageCacheRequest:(id<JSQDemoImageCacheRequest>)request;
+- (void)jsq_setImageURL:(NSURL *)imageURL fromCache:(JSQDemoImageCache *)cache;
 
 @end

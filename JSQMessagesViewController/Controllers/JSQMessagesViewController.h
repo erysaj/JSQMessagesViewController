@@ -20,8 +20,12 @@
 
 #import "JSQMessagesCollectionView.h"
 #import "JSQMessagesCollectionViewFlowLayout.h"
+#import "JSQMessagesItemDataSource.h"
 
 @class JSQMessagesInputToolbar;
+@protocol JSQMessagesCellConfigurator;
+
+
 
 /**
  *  The `JSQMessagesViewController` class is an abstract class that represents a view controller whose content consists of
@@ -29,8 +33,8 @@
  *
  *  @warning This class is intended to be subclassed. You should not use it directly.
  */
-@interface JSQMessagesViewController : UIViewController <JSQMessagesCollectionViewDataSource,
-                                                         JSQMessagesCollectionViewDelegateFlowLayout>
+@interface JSQMessagesViewController : UIViewController <UICollectionViewDataSource,
+                                                         UICollectionViewDelegateFlowLayout>
 
 /**
  *  Returns the collection view object managed by this view controller. 
@@ -45,10 +49,13 @@
 @property (weak, nonatomic, readonly) JSQMessagesInputToolbar *inputToolbar;
 
 /**
- *  The name of the user sending messages. This value must not be `nil`. 
- *  The default value is `@"JSQDefaultSender"`.
+ *  The user sending messages. This value must not be `nil`. 
  */
-@property (copy, nonatomic) NSString *sender;
+@property (strong, nonatomic) id sender;
+
+@property (strong, nonatomic) id<JSQMessagesItemDataSource> dataSource;
+
+@property (strong, nonatomic) id<JSQMessagesCellConfigurator> cellConfigurator;
 
 /**
  *  Specifies whether or not the view controller should automatically scroll to the most recent message 
@@ -58,38 +65,6 @@
  *  Set to `NO` if you want to manage scrolling yourself.
  */
 @property (assign, nonatomic) BOOL automaticallyScrollsToMostRecentMessage;
-
-/**
- *  The collection view cell identifier to use for dequeuing outgoing message collection view cells in the collectionView.
- *
- *  @discussion The default value is the string returned by `[JSQMessagesCollectionViewCellOutgoing cellReuseIdentifier]`. 
- *  This value must not be `nil`.
- *  
- *  @see `JSQMessagesCollectionViewCellOutgoing`.
- *
- *  @warning Overriding this property's default value is *not* recommended. 
- *  You should only override this property's default value if you are proividing your own cell prototypes.
- *  These prototypes must be registered with the collectionView for reuse and you are then responsible for 
- *  completely overriding many delegate and data source methods for the collectionView, 
- *  including `collectionView:cellForItemAtIndexPath:`.
- */
-@property (copy, nonatomic) NSString *outgoingCellIdentifier;
-
-/**
- *  The collection view cell identifier to use for dequeuing incoming message collection view cells in the collectionView.
- *
- *  @discussion The default value is the string returned by `[JSQMessagesCollectionViewCellIncoming cellReuseIdentifier]`. 
- *  This value must not be `nil`.
- *
- *  @see `JSQMessagesCollectionViewCellIncoming`.
- *
- *  @warning Overriding this property's default value is *not* recommended. 
- *  You should only override this property's default value if you are proividing your own cell prototypes. 
- *  These prototypes must be registered with the collectionView for reuse and you are then responsible for 
- *  completely overriding many delegate and data source methods for the collectionView, 
- *  including `collectionView:cellForItemAtIndexPath:`.
- */
-@property (copy, nonatomic) NSString *incomingCellIdentifier;
 
 /**
  *  The color for the typing indicator for incoming messages.
@@ -146,7 +121,7 @@
  */
 - (void)didPressSendButton:(UIButton *)button
            withMessageText:(NSString *)text
-                    sender:(NSString *)sender
+                    sender:(id)sender
                       date:(NSDate *)date;
 
 /**

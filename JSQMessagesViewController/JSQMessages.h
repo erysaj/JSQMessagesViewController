@@ -19,11 +19,21 @@
 #ifndef JSQMessages_JSQMessages_h
 #define JSQMessages_JSQMessages_h
 
+#import "JSQMessage.h"
+#import "JSQMessagesItemDataSource.h"
+#import "JSQMessagesArrayItemDataSource.h"
+#import "JSQMessagesFRCItemDataSource.h"
+#import "JSQMessagesCellConfigurator.h"
+
 #import "JSQMessagesViewController.h"
 
 #import "JSQMessagesCollectionView.h"
-#import "JSQMessagesCollectionViewCellIncoming.h"
-#import "JSQMessagesCollectionViewCellOutgoing.h"
+#import "JSQMessagesCollectionViewCell.h"
+#import "JSQMessagesBubbleView.h"
+#import "JSQMessagesBubbleMessageView.h"
+#import "JSQMessagesGenericCell.h"
+#import "JSQMessagesGenericTextCell.h"
+#import "JSQMessagesGenericMediaCell.h"
 #import "JSQMessagesTypingIndicatorFooterView.h"
 #import "JSQMessagesLoadEarlierHeaderView.h"
 
@@ -34,9 +44,6 @@
 #import "JSQMessagesComposerTextView.h"
 #import "JSQMessagesInputToolbar.h"
 #import "JSQMessagesToolbarContentView.h"
-
-#import "JSQMessage.h"
-#import "JSQMessageData.h"
 
 #import "JSQMessagesAvatarFactory.h"
 #import "JSQMessagesBubbleImageFactory.h"

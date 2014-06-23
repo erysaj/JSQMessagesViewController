@@ -16,22 +16,11 @@
 //  Released under an MIT license: http://opensource.org/licenses/MIT
 //
 
-#import "JSQMessages.h"
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-@class JSQDemoViewController;
+@interface JSQMessagesFRCItemDataSource : NSObject
 
-
-@protocol JSQDemoViewControllerDelegate <NSObject>
-
-- (void)didDismissJSQDemoViewController:(JSQDemoViewController *)vc;
-
-@end
-
-
-
-
-@interface JSQDemoViewController : JSQMessagesViewController
-
-@property (weak, nonatomic) id<JSQDemoViewControllerDelegate> delegateModal;
+- (instancetype)initWithFetchedResultsController:(NSFetchedResultsController *)frc;
 
 @end

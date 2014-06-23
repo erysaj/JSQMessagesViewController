@@ -16,22 +16,13 @@
 //  Released under an MIT license: http://opensource.org/licenses/MIT
 //
 
-#import "JSQMessages.h"
+#import <Foundation/Foundation.h>
 
-@class JSQDemoViewController;
+@interface JSQDemoUser : NSObject
 
+@property (strong, nonatomic) NSString *displayName;
+@property (strong, nonatomic) NSURL *avatarURL;
 
-@protocol JSQDemoViewControllerDelegate <NSObject>
-
-- (void)didDismissJSQDemoViewController:(JSQDemoViewController *)vc;
-
-@end
-
-
-
-
-@interface JSQDemoViewController : JSQMessagesViewController
-
-@property (weak, nonatomic) id<JSQDemoViewControllerDelegate> delegateModal;
+- (instancetype)initWithName:(NSString *)displayName avatarURL:(NSURL *)avatarURL;
 
 @end

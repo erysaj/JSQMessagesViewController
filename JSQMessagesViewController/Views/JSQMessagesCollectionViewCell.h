@@ -18,105 +18,66 @@
 
 #import <UIKit/UIKit.h>
 
-#import "JSQMessagesLabel.h"
+@protocol JSQMessagesCollectionViewCellData
 
-@class JSQMessagesCollectionViewCell;
+- (id)cellModel;
 
-/**
- *  The `JSQMessagesCollectionViewCellDelegate` protocol defines methods that allow you to manage
- *  additional interactions within the collection view cell.
- */
-@protocol JSQMessagesCollectionViewCellDelegate <NSObject>
-
-@required
-
-/**
- *  Tells the delegate that the avatarImageView of a cell has been tapped.
- *
- *  @param cell The cell that received the tap.
- */
-- (void)messagesCollectionViewCellDidTapAvatar:(JSQMessagesCollectionViewCell *)cell;
+- (CGFloat)cellTopMargin;
+- (CGFloat)cellBottomMargin;
+- (id)cellContainerData;
 
 @end
 
 
-/**
- *  The `JSQMessagesCollectionViewCell` is an abstract class that presents the content for a single message data item
- *  when that item is within the collection view’s visible bounds. The layout and presentation 
- *  of cells is managed by the collection view and its corresponding layout object.
- *
- *  @warning This class is intended to be subclassed. You should not use it directly.
- */
-@interface JSQMessagesCollectionViewCell : UICollectionViewCell
+@protocol JSQMessagesContainerView
 
-/**
- *  The object that acts as the delegate for the cell.
- */
-@property (weak, nonatomic) id<JSQMessagesCollectionViewCellDelegate> delegate;
++ (CGSize)contentSizeConstraintWithData:(id)containerData
+                         sizeConstraint:(CGSize)sizeConstraint;
 
-/**
- *  Returns the label that is pinned to the top of the cell.
- *  This label is most commonly used to display message timestamps.
- */
-@property (weak, nonatomic, readonly) JSQMessagesLabel *cellTopLabel;
++ (CGSize)sizeWithData:(id)containerData
+           contentSize:(CGSize)contentSize
+        sizeConstraint:(CGSize)sizeConstraint;
 
-/**
- *  Returns the label that is pinned just above the messageBubbleImageView, and below the cellTopLabel.
- *  This label is most commonly used to display the message sender.
- */
-@property (weak, nonatomic, readonly) JSQMessagesLabel *messageBubbleTopLabel;
+- (void)configureWithData:(id)containerData
+              contentSize:(CGSize)contentSize
+           sizeConstraint:(CGSize)sizeConstraint;
 
-/**
- *  Returns the label that is pinned to the bottom of the cell.
- *  This label is most commonly used to display message delivery status.
- */
-@property (weak, nonatomic, readonly) JSQMessagesLabel *cellBottomLabel;
+- (UIView *)contentView;
 
-/**
- *  Returns the text view of the cell. This text view contains the message body text.
- */
-@property (weak, nonatomic, readonly) UITextView *textView;
+@end
 
-/**
- *  The bubble image view of the cell that is responsible for displaying bubble images.
- *  The default value is `nil`.
- */
-@property (weak, nonatomic) UIImageView *messageBubbleImageView;
 
-/**
- *  The avatar image view of the cell that is responsible for displaying avatar images.
- *  The default value is `nil`.
- */
-@property (weak, nonatomic) UIImageView *avatarImageView;
+@protocol JSQMessagesCollectionViewCell <NSObject>
 
-/**
- *  Returns the underlying gesture recognizer for long press gestures in the cell.
- *  This gesture handles the copy action for the cell.
- *  Access this property when you need to override or more precisely control the long press gesture.
- */
-@property (weak, nonatomic, readonly) UILongPressGestureRecognizer *longPressGestureRecognizer;
++ (CGSize)contentSizeWithData:(id<JSQMessagesCollectionViewCellData>)data
+           cellSizeConstraint:(CGSize)cellSizeConstraint;
 
-/**
- *  Returns the underlying gesture recognizer for tap gestures in the avatarImageView of the cell.
- *  This gesture handles the tap event for the avatarImageView and notifies the cell's delegate.
- */
-@property (weak, nonatomic, readonly) UITapGestureRecognizer *tapGestureRecognizer;
++ (CGSize)cellSizeWithData:(id<JSQMessagesCollectionViewCellData>)data
+               contentSize:(CGSize)contentSize
+        cellSizeConstraint:(CGSize)cellSizeConstraint;
 
-#pragma mark - Class methods
+- (void)configureWithData:(id<JSQMessagesCollectionViewCellData>)data
+              contentSize:(CGSize)contentSize
+       cellSizeConstraint:(CGSize)cellSizeConstraint;
 
-/**
- *  Returns the `UINib` object initialized for the cell.
- *
- *  @return The initialized `UINib` object or `nil` if there were errors during 
- *  initialization or the nib file could not be located.
- */
-+ (UINib *)nib;
+@end
 
-/**
- *  Returns the default string used to identify a reusable cell.
- *
- *  @return The string used to identify a reusable cell.
- */
-+ (NSString *)cellReuseIdentifier;
+
+@interface JSQMessagesCollectionViewCell : UICollectionViewCell<JSQMessagesCollectionViewCell>
+
+@property (strong, nonatomic, readonly) UIView *container;
+
++ (Class<JSQMessagesContainerView>)containerClass;
+
++ (CGSize)contentSizeWithData:(id<JSQMessagesCollectionViewCellData>)cellData
+        contentSizeConstraint:(CGSize)contentSizeConstraint;
+
+// override if no container class is used
++ (CGSize)contentSizeConstraintWithData:(id<JSQMessagesCollectionViewCellData>)data
+                containerSizeConstraint:(CGSize)sizeConstraint;
+
++ (CGSize)containerSizeWithData:(id<JSQMessagesCollectionViewCellData>)data
+                    contentSize:(CGSize)contentSize
+        containerSizeConstraint:(CGSize)sizeConstraint;
 
 @end

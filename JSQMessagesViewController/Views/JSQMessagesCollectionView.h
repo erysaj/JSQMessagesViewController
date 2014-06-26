@@ -144,6 +144,8 @@
  */
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath;
 
+- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTimestampAtIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 

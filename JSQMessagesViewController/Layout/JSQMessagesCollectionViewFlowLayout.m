@@ -416,9 +416,7 @@ const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
         
         NSMutableAttributedString *fullAttributedString = [[NSMutableAttributedString alloc] initWithString:[messageData text] attributes:@{ NSFontAttributeName : self.messageBubbleFont}];
         
-        NSString *timestampString = [NSString stringWithFormat:@"  %@", [[JSQMessagesTimestampFormatter sharedFormatter] timeForDate:messageData.date]];
-        
-        NSAttributedString *timestampAttributedString = [[NSAttributedString alloc] initWithString:timestampString attributes:@{ NSFontAttributeName : self.timestampFont}];
+        NSAttributedString *timestampAttributedString =  [self.collectionView.dataSource collectionView:self.collectionView attributedTextForMessageBubbleTimestampAtIndexPath:indexPath];
         
         [fullAttributedString appendAttributedString:timestampAttributedString];
         
@@ -433,10 +431,7 @@ const CGFloat kJSQImageMessagesInitialOffset = 100.0f;
         
         CGSize stringSize = CGRectIntegral(stringRect).size;
         
-        CGRect timestampRect = [timestampString boundingRectWithSize:CGSizeMake(maximumTextWidth - textInsetsTotal, CGFLOAT_MAX)
-                                                             options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
-                                                          attributes:@{ NSFontAttributeName : self.timestampFont }
-                                                             context:nil];
+        CGRect timestampRect = [timestampAttributedString boundingRectWithSize:CGSizeMake(maximumTextWidth - textInsetsTotal, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) context:nil];
         
         CGSize timestampStringSize = CGRectIntegral(timestampRect).size;
         

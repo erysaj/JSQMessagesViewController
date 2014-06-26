@@ -359,6 +359,11 @@ UITextViewDelegate>
     return nil;
 }
 
+- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTimestampAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;
+}
+
 #pragma mark - Collection view data source
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -402,8 +407,7 @@ UITextViewDelegate>
     {
         cell.textView.text = messageText;
     }
-    
-    cell.timestampLabel.text = [[JSQMessagesTimestampFormatter sharedFormatter] timeForDate:messageData.date];
+    cell.timestampLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForMessageBubbleTimestampAtIndexPath:indexPath];
     cell.messageBubbleImageSource = [collectionView.dataSource collectionView:collectionView bubbleImageViewSourceForItemAtIndexPath:indexPath];
     cell.avatarImageSource = [collectionView.dataSource collectionView:collectionView avatarImageViewSourceForItemAtIndexPath:indexPath];
     cell.cellTopLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForCellTopLabelAtIndexPath:indexPath];

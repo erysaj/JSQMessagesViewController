@@ -42,4 +42,6 @@
  */
 - (BOOL)hasText;
 
+@property (nonatomic, weak) UIResponder *overrideNextResponder;
+
 @end

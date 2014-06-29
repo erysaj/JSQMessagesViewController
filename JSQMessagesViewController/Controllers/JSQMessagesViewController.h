@@ -130,6 +130,8 @@
  */
 @property (assign, nonatomic) BOOL showLoadEarlierMessagesHeader;
 
+@property (assign, nonatomic) BOOL shouldDismissKeyboardOnTap;
+
 #pragma mark - Class methods
 
 /**

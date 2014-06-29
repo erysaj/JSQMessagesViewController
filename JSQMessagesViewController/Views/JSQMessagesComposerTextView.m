@@ -223,4 +223,11 @@
               NSParagraphStyleAttributeName : paragraphStyle };
 }
 
+- (UIResponder *)nextResponder {
+    if (self.overrideNextResponder != nil)
+        return self.overrideNextResponder;
+    else
+        return [super nextResponder];
+}
+
 @end

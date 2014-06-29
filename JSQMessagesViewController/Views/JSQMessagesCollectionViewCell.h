@@ -19,6 +19,7 @@
 #import <UIKit/UIKit.h>
 #import "JSQMessagesLabel.h"
 #import "JSQMessagesImageViewSource.h"
+#import "JSQMessagesComposerTextView.h"
 
 typedef NS_ENUM(NSUInteger, JSQImageOverlayIconType)
 {
@@ -61,6 +62,7 @@ typedef NS_OPTIONS(NSUInteger, JSQMenuItems)
  */
 - (void)messagesCollectionViewCellDidTapBubble:(JSQMessagesCollectionViewCell *)cell;
 
+- (void)messagesCollectionViewCellDidTapCell:(JSQMessagesCollectionViewCell *)cell;
 
 - (void)messagesCollectionViewCellDidTapDelete:(JSQMessagesCollectionViewCell *)cell;
 
@@ -69,6 +71,9 @@ typedef NS_OPTIONS(NSUInteger, JSQMenuItems)
 - (void)messagesCollectionViewCellDidTapShare:(JSQMessagesCollectionViewCell *)cell;
 
 - (void)messagesCollectionViewCellDidTapResendFaildMessage:(JSQMessagesCollectionViewCell *)cell;
+
+- (JSQMessagesComposerTextView *)inputTextView;
+
 @end
 
 

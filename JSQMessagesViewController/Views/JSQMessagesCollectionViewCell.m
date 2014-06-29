@@ -448,10 +448,19 @@
 
 - (void)jsq_handleLongPressGesture:(UILongPressGestureRecognizer *)longPress
 {
-    if (longPress.state != UIGestureRecognizerStateBegan || ![self becomeFirstResponder]) {
-        return;
+    JSQMessagesComposerTextView *textView = [self.delegate inputTextView];
+    if (textView && [textView isFirstResponder])
+    {
+        textView.overrideNextResponder = self;
+    } else
+    {
+        [self becomeFirstResponder];
     }
     
+    if (longPress.state != UIGestureRecognizerStateBegan) {
+        return;
+    }
+
     if (longPress.view == self && ![self isKindOfClass:[JSQMessagesCollectionViewCellSystem class]])
     {
         return;
@@ -460,7 +469,7 @@
     UIMenuController *menu = [UIMenuController sharedMenuController];
     UIView *presentingView = (longPress.view == self) ? self.messageLabel : self.messageBubbleImageView;
     CGRect targetRect = [self convertRect:presentingView.bounds fromView:presentingView];
-    
+
     [menu setTargetRect:CGRectInset(targetRect, 0.0f, 4.0f) inView:self];
     
     if (self.menuItems & JSQMenuItemsShare)
@@ -469,7 +478,7 @@
         [[UIMenuController sharedMenuController] setMenuItems:@[shareMenuItem]];
     }
     self.messageBubbleImageView.highlighted = YES;
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(jsq_didReceiveMenuWillShowNotification:)
                                                  name:UIMenuControllerWillShowMenuNotification
@@ -478,12 +487,14 @@
     [menu setMenuVisible:YES animated:YES];
 }
 
-- (void)hideMenu
+- (BOOL)hideMenu
 {
     if ([UIMenuController sharedMenuController].isMenuVisible)
     {
         [[UIMenuController sharedMenuController] setMenuVisible:NO animated:YES];
+        return YES;
     }
+    return NO;
 }
 
 - (void)jsq_handleAvatarTapGesture:(UITapGestureRecognizer *)tap
@@ -504,7 +515,10 @@
 
 - (void)jsq_handleCellTapGesture:(UITapGestureRecognizer *)tap
 {
-    [self hideMenu];
+     if (![self hideMenu])
+     {
+         [self.delegate messagesCollectionViewCellDidTapCell:self];
+     }
 }
 
 #pragma mark - Notifications

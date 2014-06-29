@@ -139,6 +139,9 @@ UITextViewDelegate>
     
     [self jsq_updateCollectionViewInsets];
     
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+    [self.collectionView addGestureRecognizer:tapGestureRecognizer];
+    
     self.keyboardController = [[JSQMessagesKeyboardController alloc] initWithTextView:self.inputToolbar.contentView.textView
                                                                           contextView:self.view
                                                                  panGestureRecognizer:self.collectionView.panGestureRecognizer
@@ -538,6 +541,7 @@ UITextViewDelegate>
 
 - (void)messagesCollectionViewCellDidTapAvatar:(JSQMessagesCollectionViewCell *)cell
 {
+    [self dismissKeyboardOnTap];
     if ([self.collectionView.delegate respondsToSelector:@selector(collectionView:didTapAvatarImageView:atIndexPath:)])
     {
         [self.collectionView.delegate collectionView:self.collectionView
@@ -548,12 +552,23 @@ UITextViewDelegate>
 
 - (void)messagesCollectionViewCellDidTapBubble:(JSQMessagesCollectionViewCell *)cell
 {
+    [self dismissKeyboardOnTap];
     if ([self.collectionView.delegate respondsToSelector:@selector(collectionView:didTapBubbleImageView:atIndexPath:)])
     {
         [self.collectionView.delegate collectionView:self.collectionView
                                didTapBubbleImageView:cell.messageBubbleImageView
                                          atIndexPath:[self.collectionView indexPathForCell:cell]];
     }
+}
+
+- (void)messagesCollectionViewCellDidTapCell:(JSQMessagesCollectionViewCell *)cell
+{
+    [self dismissKeyboardOnTap];
+}
+
+- (void)handleTapGesture:(UITapGestureRecognizer *)gestureRecognizer
+{
+    [self dismissKeyboardOnTap];
 }
 
 - (void)messagesCollectionViewCellDidTapDelete:(JSQMessagesCollectionViewCell *)cell
@@ -620,6 +635,14 @@ UITextViewDelegate>
     NSString *text = self.inputToolbar.contentView.textView.text;
     self.inputToolbar.contentView.textView.text = [text stringByAppendingString:@" "];
     return [self.inputToolbar.contentView.textView.text jsq_stringByTrimingWhitespace];
+}
+
+- (void)dismissKeyboardOnTap
+{
+    if (self.shouldDismissKeyboardOnTap)
+    {
+        [self.inputTextView resignFirstResponder];
+    }
 }
 
 #pragma mark - Text view delegate
@@ -868,6 +891,11 @@ UITextViewDelegate>
                                                                           action:@selector(jsq_handleInteractivePopGestureRecognizer:)];
         }
     }
+}
+
+- (JSQMessagesComposerTextView *)inputTextView
+{
+    return self.inputToolbar.contentView.textView;
 }
 
 @end

@@ -71,9 +71,6 @@ typedef NS_OPTIONS(NSUInteger, JSQMenuItems)
 - (void)messagesCollectionViewCellDidTapShare:(JSQMessagesCollectionViewCell *)cell;
 
 - (void)messagesCollectionViewCellDidTapResendFaildMessage:(JSQMessagesCollectionViewCell *)cell;
-
-- (JSQMessagesComposerTextView *)inputTextView;
-
 @end
 
 

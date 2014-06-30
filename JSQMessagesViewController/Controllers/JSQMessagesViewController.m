@@ -541,7 +541,7 @@ UITextViewDelegate>
 
 - (void)messagesCollectionViewCellDidTapAvatar:(JSQMessagesCollectionViewCell *)cell
 {
-    [self dismissKeyboardOnTap];
+    [self dismissKeyboardOnTapIfNeeded];
     if ([self.collectionView.delegate respondsToSelector:@selector(collectionView:didTapAvatarImageView:atIndexPath:)])
     {
         [self.collectionView.delegate collectionView:self.collectionView
@@ -552,7 +552,7 @@ UITextViewDelegate>
 
 - (void)messagesCollectionViewCellDidTapBubble:(JSQMessagesCollectionViewCell *)cell
 {
-    [self dismissKeyboardOnTap];
+    [self dismissKeyboardOnTapIfNeeded];
     if ([self.collectionView.delegate respondsToSelector:@selector(collectionView:didTapBubbleImageView:atIndexPath:)])
     {
         [self.collectionView.delegate collectionView:self.collectionView
@@ -563,12 +563,12 @@ UITextViewDelegate>
 
 - (void)messagesCollectionViewCellDidTapCell:(JSQMessagesCollectionViewCell *)cell
 {
-    [self dismissKeyboardOnTap];
+    [self dismissKeyboardOnTapIfNeeded];
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)gestureRecognizer
 {
-    [self dismissKeyboardOnTap];
+    [self dismissKeyboardOnTapIfNeeded];
 }
 
 - (void)messagesCollectionViewCellDidTapDelete:(JSQMessagesCollectionViewCell *)cell
@@ -637,11 +637,11 @@ UITextViewDelegate>
     return [self.inputToolbar.contentView.textView.text jsq_stringByTrimingWhitespace];
 }
 
-- (void)dismissKeyboardOnTap
+- (void)dismissKeyboardOnTapIfNeeded
 {
-    if (self.shouldDismissKeyboardOnTap)
+    if (self.shouldDismissKeyboardOnTap && [self.inputToolbar.contentView.textView isFirstResponder])
     {
-        [self.inputTextView resignFirstResponder];
+        [self.inputToolbar.contentView.textView resignFirstResponder];
     }
 }
 
@@ -891,11 +891,6 @@ UITextViewDelegate>
                                                                           action:@selector(jsq_handleInteractivePopGestureRecognizer:)];
         }
     }
-}
-
-- (JSQMessagesComposerTextView *)inputTextView
-{
-    return self.inputToolbar.contentView.textView;
 }
 
 @end

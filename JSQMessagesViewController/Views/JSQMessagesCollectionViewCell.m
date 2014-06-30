@@ -448,19 +448,10 @@
 
 - (void)jsq_handleLongPressGesture:(UILongPressGestureRecognizer *)longPress
 {
-    JSQMessagesComposerTextView *textView = [self.delegate inputTextView];
-    if (textView && [textView isFirstResponder])
-    {
-        textView.overrideNextResponder = self;
-    } else
-    {
-        [self becomeFirstResponder];
-    }
-    
-    if (longPress.state != UIGestureRecognizerStateBegan) {
+    if (longPress.state != UIGestureRecognizerStateBegan || ![self becomeFirstResponder]) {
         return;
     }
-
+    
     if (longPress.view == self && ![self isKindOfClass:[JSQMessagesCollectionViewCellSystem class]])
     {
         return;

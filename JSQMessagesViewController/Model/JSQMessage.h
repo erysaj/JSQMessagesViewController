@@ -18,14 +18,12 @@
 
 #import <Foundation/Foundation.h>
 
-#import "JSQMessageData.h"
 
 /**
  *  A `JSQMessage` model object represents a single user message. 
- *  This is a concrete class that implements the `JSQMessageData` protocol. 
  *  It contains the message text, its sender, and the date that the message was sent.
  */
-@interface JSQMessage : NSObject <JSQMessageData, NSCoding, NSCopying>
+@interface JSQMessage : NSObject <NSCoding, NSCopying>
 
 /**
  *  The body text of the message. This value must not be `nil`.

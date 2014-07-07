@@ -73,8 +73,6 @@
 + (CGSize)contentSizeWithData:(id<JSQMessagesCollectionViewCellData>)data
            cellSizeConstraint:(CGSize)cellSizeConstraint
 {
-    Class<JSQMessagesContainerView> containerClass = [self containerClass];
-    
     CGSize containerSizeConstraint = cellSizeConstraint;
     CGFloat margin = [data cellTopMargin] + [data cellBottomMargin];
     cellSizeConstraint.height -= margin;
@@ -88,8 +86,6 @@
                contentSize:(CGSize)contentSize
         cellSizeConstraint:(CGSize)cellSizeConstraint
 {
-    Class<JSQMessagesContainerView> containerClass = [self containerClass];
-    
     CGSize containerSizeConstraint = cellSizeConstraint;
     CGFloat margin = [data cellTopMargin] + [data cellBottomMargin];
     containerSizeConstraint.height -= margin;
@@ -150,6 +146,15 @@
     CGSize containerSize = containerSizeConstraint;
     containerSize.height = contentSize.height;
     return containerSize;
+}
+
+#pragma mark - Reuse
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    [self jsq_updateConstraint:_topMarginConstraint withConstant:0.0f];
+    [self jsq_updateConstraint:_bottomMarginConstraint withConstant:0.0f];
 }
 
 @end

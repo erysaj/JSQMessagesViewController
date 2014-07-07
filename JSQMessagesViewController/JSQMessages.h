@@ -24,11 +24,8 @@
 #import "JSQMessagesCollectionView.h"
 #import "JSQMessagesCollectionViewCellIncoming.h"
 #import "JSQMessagesCollectionViewCellOutgoing.h"
-#import "JSQMessagesCollectionViewCellSystem.h"
 #import "JSQMessagesTypingIndicatorFooterView.h"
 #import "JSQMessagesLoadEarlierHeaderView.h"
-#import "JSQMessagesImageViewSource.h"
-#import "JSQMessagesSimpleImageViewSource.h"
 
 #import "JSQMessagesCollectionViewFlowLayout.h"
 #import "JSQMessagesCollectionViewLayoutAttributes.h"

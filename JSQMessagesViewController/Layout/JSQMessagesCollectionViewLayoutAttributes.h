@@ -30,11 +30,17 @@
  */
 @property (strong, nonatomic) UIFont *messageBubbleFont;
 
-@property (strong, nonatomic) UIFont *timestampFont;
-
-@property (strong, nonatomic) UIFont *systemMessageFont;
-
-@property (assign, nonatomic) CGFloat messageBubbleWidth;
+/**
+ *  The horizontal spacing between the message bubble and the edge of the collection 
+ *  view cell in which it is displayed. This value should be greater than or equal to `0.0`.
+ *
+ *  @discussion For *outgoing* messages, this value specifies the amount of spacing from the left most edge
+ *  of the collection view cell to the left most edge of a message bubble with in the cell.
+ *
+ *  For *incoming* messages, this value specifies the amount of spacing from the right most edge 
+ *  of the collection view cell to the right most edge of a message bubble with in the cell.
+ */
+@property (assign, nonatomic) CGFloat messageBubbleLeftRightMargin;
 
 /**
  *  The inset of the text container's layout area within the text view's content area in a `JSQMessagesCollectionViewCell`. 
@@ -78,22 +84,6 @@
 @property (assign, nonatomic) CGSize outgoingAvatarViewSize;
 
 /**
- *  The size of the `avatarImageView` of a `JSQMessagesCollectionViewCellSystem`.
- *  The size values should be greater than or equal to `0.0`.
- *
- *  @see `JSQMessagesCollectionViewCellOutgoing`.
- */
-@property (assign, nonatomic) CGSize systemAvatarViewSize;
-
-/**
- *  The height of the `actionButton` of a `JSQMessagesCollectionViewCellSystem`.
- *  The height values should be greater than or equal to `0.0`.
- *
- *  @see `JSQMessagesCollectionViewCellOutgoing`.
- */
-@property (assign, nonatomic) CGFloat actionButtonHeight;
-
-/**
  *  The height of the `cellTopLabel` of a `JSQMessagesCollectionViewCell`.
  *  This value should be greater than or equal to `0.0`.
  *
@@ -116,13 +106,5 @@
  *  @see `JSQMessagesCollectionViewCell`.
  */
 @property (assign, nonatomic) CGFloat cellBottomLabelHeight;
-
-/**
- *  The left margin of the `image bubble icon overlay` of a `JSQMessagesCollectionViewCell`.
- *  This value should be greater than or equal to `0.0`.
- *
- *  @see `JSQMessagesCollectionViewCell`.
- */
-@property (assign, nonatomic) CGFloat messageBubbleImageIconCenterOffset;
 
 @end

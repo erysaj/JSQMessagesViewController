@@ -26,9 +26,6 @@
 - (void)dealloc
 {
     _messageBubbleFont = nil;
-    _systemMessageFont = nil;
-    _timestampFont = nil;
-    _messageBubbleImageIconCenterOffset = 0;
 }
 
 #pragma mark - Setters
@@ -39,22 +36,10 @@
     _messageBubbleFont = messageBubbleFont;
 }
 
-- (void)setTimestampFont:(UIFont *)timestampFont
+- (void)setMessageBubbleLeftRightMargin:(CGFloat)messageBubbleLeftRightMargin
 {
-    NSAssert(timestampFont, @"ERROR: timestampFont must not be nil: %s", __PRETTY_FUNCTION__);
-    _timestampFont = timestampFont;
-}
-
-- (void)setSystemMessageFont:(UIFont *)systemMessageFont
-{
-    NSAssert(systemMessageFont, @"ERROR: systemMessageFont must not be nil: %s", __PRETTY_FUNCTION__);
-    _systemMessageFont = systemMessageFont;
-}
-
-- (void)setMessageBubbleWidth:(CGFloat)messageBubbleWidth
-{
-    NSAssert(messageBubbleWidth >= 0.0f, @"ERROR: messageBubbleWidth must be greater than or equal to 0: %s", __PRETTY_FUNCTION__);
-    _messageBubbleWidth = ceilf(messageBubbleWidth);
+    NSAssert(messageBubbleLeftRightMargin >= 0.0f, @"ERROR: messageBubbleLeftRightMargin must be greater than or equal to 0: %s", __PRETTY_FUNCTION__);
+    _messageBubbleLeftRightMargin = ceilf(messageBubbleLeftRightMargin);
 }
 
 - (void)setIncomingAvatarViewSize:(CGSize)incomingAvatarViewSize
@@ -71,14 +56,6 @@
              @"ERROR: outgoingAvatarViewSize values must be greater than or equal to 0: %s", __PRETTY_FUNCTION__);
     
     _outgoingAvatarViewSize = CGSizeMake(ceil(outgoingAvatarViewSize.width), ceilf(outgoingAvatarViewSize.height));
-}
-
-- (void)setActionButtonHeight:(CGFloat)actionButtonHeight
-{
-    NSAssert(actionButtonHeight >= 0.0f,
-             @"ERROR: actionButtonHeight value must be greater than or equal to 0: %s", __PRETTY_FUNCTION__);
-    
-    _actionButtonHeight = actionButtonHeight;
 }
 
 - (void)setCellTopLabelHeight:(CGFloat)cellTopLabelHeight
@@ -99,11 +76,6 @@
     _cellBottomLabelHeight = floorf(cellBottomLabelHeight);
 }
 
-- (void)setmessageBubbleImageIconCenterOffset:(CGFloat)messageBubbleImageIconCenterOffset
-{
-    _messageBubbleImageIconCenterOffset = floorf(messageBubbleImageIconCenterOffset);
-}
-
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object
@@ -119,19 +91,14 @@
     JSQMessagesCollectionViewLayoutAttributes *layoutAttributes = (JSQMessagesCollectionViewLayoutAttributes *)object;
     
     if (![layoutAttributes.messageBubbleFont isEqual:self.messageBubbleFont]
-        || ![layoutAttributes.timestampFont isEqual:self.timestampFont]
-        || ![layoutAttributes.systemMessageFont isEqual:self.systemMessageFont]
         || !UIEdgeInsetsEqualToEdgeInsets(layoutAttributes.textViewFrameInsets, self.textViewFrameInsets)
         || !UIEdgeInsetsEqualToEdgeInsets(layoutAttributes.textViewTextContainerInsets, self.textViewTextContainerInsets)
         || !CGSizeEqualToSize(layoutAttributes.incomingAvatarViewSize, self.incomingAvatarViewSize)
         || !CGSizeEqualToSize(layoutAttributes.outgoingAvatarViewSize, self.outgoingAvatarViewSize)
-        || (int)layoutAttributes.messageBubbleWidth != (int)self.messageBubbleWidth
+        || (int)layoutAttributes.messageBubbleLeftRightMargin != (int)self.messageBubbleLeftRightMargin
         || (int)layoutAttributes.cellTopLabelHeight != (int)self.cellTopLabelHeight
         || (int)layoutAttributes.messageBubbleTopLabelHeight != (int)self.messageBubbleTopLabelHeight
-        || (int)layoutAttributes.cellBottomLabelHeight != (int)self.cellBottomLabelHeight
-        || (int)layoutAttributes.messageBubbleImageIconCenterOffset != (int)self.messageBubbleImageIconCenterOffset
-        || (int)layoutAttributes.actionButtonHeight != (int)self.actionButtonHeight)
-    {
+        || (int)layoutAttributes.cellBottomLabelHeight != (int)self.cellBottomLabelHeight) {
         return NO;
     }
     
@@ -143,8 +110,7 @@
     return [self.indexPath hash]
             ^ (NSUInteger)self.cellTopLabelHeight
             ^ (NSUInteger)self.messageBubbleTopLabelHeight
-            ^ (NSUInteger)self.cellBottomLabelHeight
-            ^ (NSUInteger)self.actionButtonHeight;
+            ^ (NSUInteger)self.cellBottomLabelHeight;
 }
 
 #pragma mark - NSCopying
@@ -153,9 +119,7 @@
 {
     JSQMessagesCollectionViewLayoutAttributes *copy = [super copyWithZone:zone];
     copy.messageBubbleFont = self.messageBubbleFont;
-    copy.timestampFont = self.timestampFont;
-    copy.systemMessageFont = self.systemMessageFont;
-    copy.messageBubbleWidth = self.messageBubbleWidth;
+    copy.messageBubbleLeftRightMargin = self.messageBubbleLeftRightMargin;
     copy.textViewFrameInsets = self.textViewFrameInsets;
     copy.textViewTextContainerInsets = self.textViewTextContainerInsets;
     copy.incomingAvatarViewSize = self.incomingAvatarViewSize;
@@ -163,8 +127,6 @@
     copy.cellTopLabelHeight = self.cellTopLabelHeight;
     copy.messageBubbleTopLabelHeight = self.messageBubbleTopLabelHeight;
     copy.cellBottomLabelHeight = self.cellBottomLabelHeight;
-    copy.messageBubbleImageIconCenterOffset = self.messageBubbleImageIconCenterOffset;
-    copy.actionButtonHeight = self.actionButtonHeight;
     return copy;
 }
 

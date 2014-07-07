@@ -17,25 +17,8 @@
 //
 
 #import <UIKit/UIKit.h>
+
 #import "JSQMessagesLabel.h"
-#import "JSQMessagesImageViewSource.h"
-#import "JSQMessagesComposerTextView.h"
-
-typedef NS_ENUM(NSUInteger, JSQImageOverlayIconType)
-{
-    JSQImageOverlayIconTypeNone,
-    JSQImageOverlayIconTypePlayButton,
-    JSQImageOverlayIconTypeCamera,
-    JSQImageOverlayIconTypeCustom
-};
-
-typedef NS_OPTIONS(NSUInteger, JSQMenuItems)
-{
-    JSQMenuItemsNone   = 0,
-    JSQMenuItemsDelete = 1 << 0,
-    JSQMenuItemsCopy   = 1 << 1,
-    JSQMenuItemsShare  = 1 << 2,
-};
 
 @class JSQMessagesCollectionViewCell;
 
@@ -54,29 +37,12 @@ typedef NS_OPTIONS(NSUInteger, JSQMenuItems)
  */
 - (void)messagesCollectionViewCellDidTapAvatar:(JSQMessagesCollectionViewCell *)cell;
 
-
-/**
- *  Tells the delegate that the messageBubbleContainerView of a cell has been tapped.
- *
- *  @param cell The cell that received the tap.
- */
-- (void)messagesCollectionViewCellDidTapBubble:(JSQMessagesCollectionViewCell *)cell;
-
-- (void)messagesCollectionViewCellDidTapCell:(JSQMessagesCollectionViewCell *)cell;
-
-- (void)messagesCollectionViewCellDidTapDelete:(JSQMessagesCollectionViewCell *)cell;
-
-- (void)messagesCollectionViewCellDidTapCopy:(JSQMessagesCollectionViewCell *)cell;
-
-- (void)messagesCollectionViewCellDidTapShare:(JSQMessagesCollectionViewCell *)cell;
-
-- (void)messagesCollectionViewCellDidTapResendFaildMessage:(JSQMessagesCollectionViewCell *)cell;
 @end
 
 
 /**
  *  The `JSQMessagesCollectionViewCell` is an abstract class that presents the content for a single message data item
- *  when that item is within the collection view’s visible bounds. The layout and presentation
+ *  when that item is within the collection view’s visible bounds. The layout and presentation 
  *  of cells is managed by the collection view and its corresponding layout object.
  *
  *  @warning This class is intended to be subclassed. You should not use it directly.
@@ -106,15 +72,6 @@ typedef NS_OPTIONS(NSUInteger, JSQMenuItems)
  */
 @property (weak, nonatomic, readonly) JSQMessagesLabel *cellBottomLabel;
 
-
-@property (weak, nonatomic, readonly) JSQMessagesLabel *timestampLabel;
-
-@property (weak, nonatomic, readonly) JSQMessagesLabel *messageLabel;
-
-@property (weak, nonatomic, readonly) UIImageView *iconImageView;
-
-@property (weak, nonatomic, readonly) UIActivityIndicatorView *activityIndicator;
-
 /**
  *  Returns the text view of the cell. This text view contains the message body text.
  */
@@ -124,23 +81,13 @@ typedef NS_OPTIONS(NSUInteger, JSQMenuItems)
  *  The bubble image view of the cell that is responsible for displaying bubble images.
  *  The default value is `nil`.
  */
-@property (weak, nonatomic, readonly) UIImageView *messageBubbleImageView;
-
-/**
- *  Image view source responsible for populating `messageBubbleImageView`.
- */
-@property (strong, nonatomic) id<JSQMessagesImageViewSource> messageBubbleImageSource;
+@property (weak, nonatomic) UIImageView *messageBubbleImageView;
 
 /**
  *  The avatar image view of the cell that is responsible for displaying avatar images.
  *  The default value is `nil`.
  */
-@property (weak, nonatomic, readonly) UIImageView *avatarImageView;
-
-/**
- *  Image view source responsible for populating `avatarImageView`
- */
-@property (strong, nonatomic) id<JSQMessagesImageViewSource> avatarImageSource;
+@property (weak, nonatomic) UIImageView *avatarImageView;
 
 /**
  *  Returns the underlying gesture recognizer for long press gestures in the cell.
@@ -153,22 +100,7 @@ typedef NS_OPTIONS(NSUInteger, JSQMenuItems)
  *  Returns the underlying gesture recognizer for tap gestures in the avatarImageView of the cell.
  *  This gesture handles the tap event for the avatarImageView and notifies the cell's delegate.
  */
-@property (weak, nonatomic, readonly) UITapGestureRecognizer *avatarTapGestureRecognizer;
-@property (weak, nonatomic, readonly) UITapGestureRecognizer *bubbleTapGestureRecognizer;
-
-/**
- *  Sets an overlay icon on the image
- */
-@property (strong, nonatomic) UIImage *imageOverlayCustomIcon;
-
-@property (nonatomic) JSQImageOverlayIconType imageOverlayIconType;
-
-/**
- *  Set menu controller items for this cell
- */
-@property (nonatomic) JSQMenuItems menuItems;
-
-
+@property (weak, nonatomic, readonly) UITapGestureRecognizer *tapGestureRecognizer;
 
 #pragma mark - Class methods
 
@@ -186,8 +118,5 @@ typedef NS_OPTIONS(NSUInteger, JSQMenuItems)
  *  @return The string used to identify a reusable cell.
  */
 + (NSString *)cellReuseIdentifier;
-
-- (void)showErrorIndicator:(BOOL)show;
-
 
 @end

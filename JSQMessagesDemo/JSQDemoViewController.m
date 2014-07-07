@@ -36,12 +36,12 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
      *  You should have a mutable array or orderedSet, or something.
      */
     self.messages = [[NSMutableArray alloc] initWithObjects:
-                     [[JSQMessage alloc] initWithText:@"This is a very very very very very long system message" sender:self.sender isIncoming:YES date:[NSDate distantPast]],
-                     [[JSQMessage alloc] initWithText:@"It is simple, elegant, and easy to use. There are super sweet default settings, but you can customize like crazy." sender:kJSQDemoAvatarNameWoz isIncoming:YES date:[NSDate distantPast]],
-                     [[JSQMessage alloc] initWithText:@"It even has data detectors. You can call me tonight. My cell number is 123-456-7890. My website is www.hexedbits.com." sender:self.sender isIncoming:YES date:[NSDate distantPast]],
-                     [[JSQMessage alloc] initWithText:@"JSQMessagesViewController is nearly an exact replica of the iOS Messages App. And perhaps, better." sender:kJSQDemoAvatarNameJobs isIncoming:YES date:[NSDate date]],
-                     [[JSQMessage alloc] initWithText:@"It is unit-tested, free, and open-source." sender:kJSQDemoAvatarNameCook isIncoming:YES date:[NSDate date]],
-                     [[JSQMessage alloc] initWithText:@"Oh, and there's sweet documentation." sender:self.sender isIncoming:YES date:[NSDate date]],
+                     [[JSQMessage alloc] initWithText:@"Welcome to JSQMessages: A messaging UI framework for iOS." sender:self.sender date:[NSDate distantPast]],
+                     [[JSQMessage alloc] initWithText:@"It is simple, elegant, and easy to use. There are super sweet default settings, but you can customize like crazy." sender:kJSQDemoAvatarNameWoz date:[NSDate distantPast]],
+                     [[JSQMessage alloc] initWithText:@"It even has data detectors. You can call me tonight. My cell number is 123-456-7890. My website is www.hexedbits.com." sender:self.sender date:[NSDate distantPast]],
+                     [[JSQMessage alloc] initWithText:@"JSQMessagesViewController is nearly an exact replica of the iOS Messages App. And perhaps, better." sender:kJSQDemoAvatarNameJobs date:[NSDate date]],
+                     [[JSQMessage alloc] initWithText:@"It is unit-tested, free, and open-source." sender:kJSQDemoAvatarNameCook date:[NSDate date]],
+                     [[JSQMessage alloc] initWithText:@"Oh, and there's sweet documentation." sender:self.sender date:[NSDate date]],
                      nil];
     
     /**
@@ -89,7 +89,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
      */
     BOOL addREALLYLongMessage = NO;
     if (addREALLYLongMessage) {
-        JSQMessage *reallyLongMessage = [JSQMessage messageWithText:@"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? END Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? END" sender:self.sender  isIncoming:YES];
+        JSQMessage *reallyLongMessage = [JSQMessage messageWithText:@"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? END Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? END" sender:self.sender];
         [self.messages addObject:reallyLongMessage];
     }
 }
@@ -131,10 +131,6 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
      *  Be sure to create your avatars one time and reuse them for good performance.
      *
      */
-    
-    self.collectionView.collectionViewLayout.messageBubbleFont = [UIFont systemFontOfSize:12];
-    self.collectionView.collectionViewLayout.systemMessageFont = [UIFont systemFontOfSize:12];
-    
     self.outgoingBubbleImageView = [JSQMessagesBubbleImageFactory
                                     outgoingMessageBubbleImageViewWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
     
@@ -235,7 +231,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
      */
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
-    JSQMessage *message = [[JSQMessage alloc] initWithText:text sender:sender  isIncoming:NO date:date];
+    JSQMessage *message = [[JSQMessage alloc] initWithText:text sender:sender date:date];
     [self.messages addObject:message];
     
     [self finishSendingMessage];
@@ -258,7 +254,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
     return [self.messages objectAtIndex:indexPath.item];
 }
 
-- (id<JSQMessagesImageViewSource>)collectionView:(JSQMessagesCollectionView *)collectionView bubbleImageViewSourceForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UIImageView *)collectionView:(JSQMessagesCollectionView *)collectionView bubbleImageViewForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     /**
      *  You may return nil here if you do not want bubbles.
@@ -272,21 +268,16 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
     
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
     
-    if (message.messageType == JSMessageTypeSystem || message.messageType == JSMessageTypeSystemAction)
-    {
-        return nil;
-    }
-    
     if ([message.sender isEqualToString:self.sender]) {
-        return [[JSQMessagesSimpleImageViewSource alloc] initWithImage:self.outgoingBubbleImageView.image
+        return [[UIImageView alloc] initWithImage:self.outgoingBubbleImageView.image
                                  highlightedImage:self.outgoingBubbleImageView.highlightedImage];
     }
     
-    return [[JSQMessagesSimpleImageViewSource alloc] initWithImage:self.incomingBubbleImageView.image
+    return [[UIImageView alloc] initWithImage:self.incomingBubbleImageView.image
                              highlightedImage:self.incomingBubbleImageView.highlightedImage];
 }
 
-- (id<JSQMessagesImageViewSource>)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageViewSourceForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UIImageView *)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageViewForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     /**
      *  Return `nil` here if you do not want avatars.
@@ -312,7 +303,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
     
     UIImage *avatarImage = [self.avatars objectForKey:message.sender];
-    return [[JSQMessagesSimpleImageViewSource alloc] initWithImage:avatarImage];
+    return [[UIImageView alloc] initWithImage:avatarImage];
 }
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
@@ -323,12 +314,6 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
      *
      *  Show a timestamp for every 3rd message
      */
-     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
-    if (message.messageType == JSMessageTypeSystem || message.messageType == JSMessageTypeSystemAction)
-    {
-        return nil;
-    }
-    
     if (indexPath.item % 3 == 0) {
         JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
         return [[JSQMessagesTimestampFormatter sharedFormatter] attributedTimestampForDate:message.date];
@@ -341,10 +326,6 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
 {
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
     
-    if (message.messageType == JSMessageTypeSystem || message.messageType == JSMessageTypeSystemAction)
-    {
-        return nil;
-    }
     /**
      *  iOS7-style sender name labels
      */
@@ -398,23 +379,17 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
      *  Instead, override the properties you want on `self.collectionView.collectionViewLayout` from `viewDidLoad`
      */
     
-    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+    JSQMessage *msg = [self.messages objectAtIndex:indexPath.item];
     
-    if (message.messageType == JSMessageTypeSystem || message.messageType == JSMessageTypeSystemAction)
-    {
-        //cell.messageLabel.textColor = [UIColor purpleColor];
-    }
-    else if ([message.sender isEqualToString:self.sender])
-    {
+    if ([msg.sender isEqualToString:self.sender]) {
         cell.textView.textColor = [UIColor blackColor];
-        cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor, NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
-    else
-    {
+    else {
         cell.textView.textColor = [UIColor whiteColor];
-        cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor, NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
-
+    
+    cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor,
+                                          NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     
     return cell;
 }
@@ -426,14 +401,6 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
                    layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
-    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
-    
-    if (message.messageType == JSMessageTypeSystem || message.messageType == JSMessageTypeSystemAction)
-    {
-        return 0.0f;
-    }
-
-    
     /**
      *  Each label in a cell has a `height` delegate method that corresponds to its text dataSource method
      */
@@ -454,14 +421,6 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
                    layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
-    
-    if (message.messageType == JSMessageTypeSystem || message.messageType == JSMessageTypeSystemAction)
-    {
-        return 0.0f;
-    }
-    
     /**
      *  iOS7-style sender name labels
      */

@@ -18,12 +18,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "JSQMessagesBubbleImageFactory.h"
 #import "JSQMessageData.h"
 
 /**
- *  A `JSQMessage` model object represents a single user message.
- *  This is a concrete class that implements the `JSQMessageData` protocol.
+ *  A `JSQMessage` model object represents a single user message. 
+ *  This is a concrete class that implements the `JSQMessageData` protocol. 
  *  It contains the message text, its sender, and the date that the message was sent.
  */
 @interface JSQMessage : NSObject <JSQMessageData, NSCoding, NSCopying>
@@ -43,27 +42,6 @@
  */
 @property (copy, nonatomic) NSDate *date;
 
-/**
- *  The image url for an image message.
- */
-@property (copy, nonatomic) NSURL *imageURL;
-
-/**
- *  The orientation of the image
- */
-@property (assign, nonatomic) JSImageOrientation imageOrientation;
-
-/**
- *  The messageType
- */
-@property (assign, nonatomic) JSMessageType messageType;
-
-/**
- *  The message source
- */
-@property (nonatomic) BOOL isIncoming;
-
-
 #pragma mark - Initialization
 
 /**
@@ -74,7 +52,7 @@
  *
  *  @return An initialized `JSQMessage` object or `nil` if the object could not be successfully initialized.
  */
-+ (instancetype)messageWithText:(NSString *)text sender:(NSString *)sender isIncoming:(BOOL)isIncoming;
++ (instancetype)messageWithText:(NSString *)text sender:(NSString *)sender;
 
 /**
  *  Initializes and returns a message object having the given text, sender, and date.
@@ -87,15 +65,6 @@
  */
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
-                  isIncoming:(BOOL)isIncoming
-                        date:(NSDate *)date;
-
-- (instancetype)initWithText:(NSString *)text
-                      sender:(NSString *)sender
-                    imageURL:(NSURL *)imageURL
-            imageOrientation:(JSImageOrientation)imageOrientation
-                 messageType:(JSMessageType)messageType
-                  isIncoming:(BOOL)isIncoming
                         date:(NSDate *)date;
 
 /**

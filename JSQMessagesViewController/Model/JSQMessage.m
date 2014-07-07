@@ -22,14 +22,13 @@
 
 #pragma mark - Initialization
 
-+ (instancetype)messageWithText:(NSString *)text sender:(NSString *)sender isIncoming:(BOOL)isIncoming
++ (instancetype)messageWithText:(NSString *)text sender:(NSString *)sender
 {
-    return [[JSQMessage alloc] initWithText:text sender:sender isIncoming:isIncoming date:[NSDate date]];
+    return [[JSQMessage alloc] initWithText:text sender:sender date:[NSDate date]];
 }
 
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
-                  isIncoming:(BOOL)isIncoming
                         date:(NSDate *)date
 {
     NSAssert(text, @"ERROR: text must not be nil: %s", __PRETTY_FUNCTION__);
@@ -40,34 +39,7 @@
     if (self) {
         _text = text;
         _sender = sender;
-        _isIncoming = isIncoming;
         _date = date;
-    }
-    return self;
-}
-
-- (instancetype)initWithText:(NSString *)text
-                      sender:(NSString *)sender
-                    imageURL:(NSURL *)imageURL
-            imageOrientation:(JSImageOrientation)imageOrientation
-                 messageType:(JSMessageType)messageType
-                  isIncoming:(BOOL)isIncoming
-                        date:(NSDate *)date
-
-{
-    NSAssert(text, @"ERROR: text must not be nil: %s", __PRETTY_FUNCTION__);
-    NSAssert(sender, @"ERROR: sender must not be nil: %s", __PRETTY_FUNCTION__);
-    NSAssert(date, @"ERROR: date must not be nil: %s", __PRETTY_FUNCTION__);
-    
-    self = [self init];
-    if (self) {
-        _text = text;
-        _sender = sender;
-        _date = date;
-        _imageURL = imageURL;
-        _imageOrientation = imageOrientation;
-        _isIncoming = isIncoming;
-        _messageType = messageType;
     }
     return self;
 }
@@ -95,8 +67,8 @@
 - (BOOL)isEqualToMessage:(JSQMessage *)aMessage
 {
     return [self.text isEqualToString:aMessage.text]
-    && [self.sender isEqualToString:aMessage.sender]
-    && ([self.date compare:aMessage.date] == NSOrderedSame);
+            && [self.sender isEqualToString:aMessage.sender]
+            && ([self.date compare:aMessage.date] == NSOrderedSame);
 }
 
 #pragma mark - NSObject
@@ -150,7 +122,6 @@
 {
     return [[[self class] allocWithZone:zone] initWithText:[self.text copy]
                                                     sender:[self.sender copy]
-                                                isIncoming:self.isIncoming
                                                       date:[self.date copy]];
 }
 

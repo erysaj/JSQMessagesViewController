@@ -20,14 +20,11 @@
 
 #import "JSQMessagesKeyboardController.h"
 
-#import "JSQMessagesCollectionViewFlowLayoutInvalidationContext.h"
-
 #import "JSQMessageData.h"
 #import "JSQMessage.h"
 
 #import "JSQMessagesCollectionViewCellIncoming.h"
 #import "JSQMessagesCollectionViewCellOutgoing.h"
-#import "JSQMessagesCollectionViewCellSystem.h"
 
 #import "JSQMessagesTypingIndicatorFooterView.h"
 #import "JSQMessagesLoadEarlierHeaderView.h"
@@ -47,9 +44,9 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 
 @interface JSQMessagesViewController () <JSQMessagesInputToolbarDelegate,
-JSQMessagesCollectionViewCellDelegate,
-JSQMessagesKeyboardControllerDelegate,
-UITextViewDelegate>
+                                         JSQMessagesCollectionViewCellDelegate,
+                                         JSQMessagesKeyboardControllerDelegate,
+                                         UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet JSQMessagesCollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet JSQMessagesInputToolbar *inputToolbar;
@@ -60,8 +57,6 @@ UITextViewDelegate>
 @property (strong, nonatomic) JSQMessagesKeyboardController *keyboardController;
 
 @property (assign, nonatomic) CGFloat statusBarChangeInHeight;
-
-@property (assign, nonatomic) BOOL jsq_isObserving;
 
 - (void)jsq_configureMessagesViewController;
 
@@ -130,7 +125,6 @@ UITextViewDelegate>
     
     self.outgoingCellIdentifier = [JSQMessagesCollectionViewCellOutgoing cellReuseIdentifier];
     self.incomingCellIdentifier = [JSQMessagesCollectionViewCellIncoming cellReuseIdentifier];
-    self.systemCellIdentifier = [JSQMessagesCollectionViewCellSystem cellReuseIdentifier];
     
     self.typingIndicatorColor = [UIColor jsq_messageBubbleLightGrayColor];
     self.showTypingIndicator = NO;
@@ -138,9 +132,6 @@ UITextViewDelegate>
     self.showLoadEarlierMessagesHeader = NO;
     
     [self jsq_updateCollectionViewInsets];
-    
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
-    [self.collectionView addGestureRecognizer:tapGestureRecognizer];
     
     self.keyboardController = [[JSQMessagesKeyboardController alloc] initWithTextView:self.inputToolbar.contentView.textView
                                                                           contextView:self.view
@@ -179,7 +170,7 @@ UITextViewDelegate>
     
     _showTypingIndicator = showTypingIndicator;
     
-    [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
+    [self.collectionView.collectionViewLayout invalidateLayout];
     [self scrollToBottomAnimated:YES];
 }
 
@@ -191,7 +182,7 @@ UITextViewDelegate>
     
     _showLoadEarlierMessagesHeader = showLoadEarlierMessagesHeader;
     
-    [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
+    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 #pragma mark - View lifecycle
@@ -210,12 +201,12 @@ UITextViewDelegate>
 {
     [super viewWillAppear:animated];
     [self.view layoutIfNeeded];
-    [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
+    [self.collectionView.collectionViewLayout invalidateLayout];
     
     if (self.automaticallyScrollsToMostRecentMessage) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self scrollToBottomAnimated:NO];
-            [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
+            [self.collectionView.collectionViewLayout invalidateLayout];
         });
     }
     
@@ -270,7 +261,7 @@ UITextViewDelegate>
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext defaultContext]];
+    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 #pragma mark - Messages view controller
@@ -312,16 +303,14 @@ UITextViewDelegate>
 
 - (void)scrollToBottomAnimated:(BOOL)animated
 {
-    NSInteger sections = [self.collectionView numberOfSections];
-    
-    if (sections == 0) {
+    if ([self.collectionView numberOfSections] == 0) {
         return;
     }
     
-    NSInteger items = [self.collectionView numberOfItemsInSection:sections - 1];
+    NSInteger items = [self.collectionView numberOfItemsInSection:0];
     
     if (items > 0) {
-        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:items - 1 inSection:sections - 1]
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:items - 1 inSection:0]
                                     atScrollPosition:UICollectionViewScrollPositionTop
                                             animated:animated];
     }
@@ -335,13 +324,13 @@ UITextViewDelegate>
     return nil;
 }
 
-- (id<JSQMessagesImageViewSource>)collectionView:(JSQMessagesCollectionView *)collectionView bubbleImageViewSourceForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UIImageView *)collectionView:(JSQMessagesCollectionView *)collectionView bubbleImageViewForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSAssert(NO, @"ERROR: required method not implemented: %s", __PRETTY_FUNCTION__);
     return nil;
 }
 
-- (id<JSQMessagesImageViewSource>)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageViewSourceForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UIImageView *)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageViewForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSAssert(NO, @"ERROR: required method not implemented: %s", __PRETTY_FUNCTION__);
     return nil;
@@ -358,11 +347,6 @@ UITextViewDelegate>
 }
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
-{
-    return nil;
-}
-
-- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTimestampAtIndexPath:(NSIndexPath *)indexPath
 {
     return nil;
 }
@@ -390,29 +374,15 @@ UITextViewDelegate>
     BOOL isOutgoingMessage = [messageSender isEqualToString:self.sender];
     
     NSString *cellIdentifier = isOutgoingMessage ? self.outgoingCellIdentifier : self.incomingCellIdentifier;
-    
-    if (messageData.messageType == JSMessageTypeSystem || messageData.messageType == JSMessageTypeSystemAction)
-    {
-        cellIdentifier = self.systemCellIdentifier;
-    }
-    
     JSQMessagesCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
     
     NSString *messageText = [messageData text];
     NSAssert(messageText, @"ERROR: messageData text must not be nil: %s", __PRETTY_FUNCTION__);
     
-    if (messageData.messageType == JSMessageTypeSystem || messageData.messageType == JSMessageTypeSystemAction)
-    {
-        cell.messageLabel.text = messageText;
-    }
-    else
-    {
-        cell.textView.text = messageText;
-    }
-    cell.timestampLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForMessageBubbleTimestampAtIndexPath:indexPath];
-    cell.messageBubbleImageSource = [collectionView.dataSource collectionView:collectionView bubbleImageViewSourceForItemAtIndexPath:indexPath];
-    cell.avatarImageSource = [collectionView.dataSource collectionView:collectionView avatarImageViewSourceForItemAtIndexPath:indexPath];
+    cell.textView.text = messageText;
+    cell.messageBubbleImageView = [collectionView.dataSource collectionView:collectionView bubbleImageViewForItemAtIndexPath:indexPath];
+    cell.avatarImageView = [collectionView.dataSource collectionView:collectionView avatarImageViewForItemAtIndexPath:indexPath];
     cell.cellTopLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForCellTopLabelAtIndexPath:indexPath];
     cell.messageBubbleTopLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:indexPath];
     cell.cellBottomLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForCellBottomLabelAtIndexPath:indexPath];
@@ -432,15 +402,13 @@ UITextViewDelegate>
     
     cell.backgroundColor = [UIColor clearColor];
     
-    CGFloat bubbleTopLabelInset = 20.0f;
+    CGFloat bubbleTopLabelInset = 60.0f;
     
-    if (isOutgoingMessage)
-    {
+    if (isOutgoingMessage) {
         cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, bubbleTopLabelInset);
     }
-    else
-    {
-        cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, CGRectGetWidth(cell.avatarImageView.frame)+ bubbleTopLabelInset, 0.0f, 0.0f);
+    else {
+        cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, bubbleTopLabelInset, 0.0f, 0.0f);
     }
     
     cell.textView.dataDetectorTypes = UIDataDetectorTypeAll;
@@ -527,80 +495,17 @@ UITextViewDelegate>
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView
  didTapAvatarImageView:(UIImageView *)avatarImageView
-           atIndexPath:(NSIndexPath *)indexPath
-{
-}
-
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView
- didTapBubbleImageView:(UIImageView *)bubbleImageView
-           atIndexPath:(NSIndexPath *)indexPath
-{
-}
+           atIndexPath:(NSIndexPath *)indexPath { }
 
 #pragma mark - Messages collection view cell delegate
 
 - (void)messagesCollectionViewCellDidTapAvatar:(JSQMessagesCollectionViewCell *)cell
 {
-    [self dismissKeyboardOnTapIfNeeded];
-    if ([self.collectionView.delegate respondsToSelector:@selector(collectionView:didTapAvatarImageView:atIndexPath:)])
-    {
-        [self.collectionView.delegate collectionView:self.collectionView
-                               didTapAvatarImageView:cell.avatarImageView
-                                         atIndexPath:[self.collectionView indexPathForCell:cell]];
-    }
+    [self.collectionView.delegate collectionView:self.collectionView
+                           didTapAvatarImageView:cell.avatarImageView
+                                     atIndexPath:[self.collectionView indexPathForCell:cell]];
 }
 
-- (void)messagesCollectionViewCellDidTapBubble:(JSQMessagesCollectionViewCell *)cell
-{
-    [self dismissKeyboardOnTapIfNeeded];
-    if ([self.collectionView.delegate respondsToSelector:@selector(collectionView:didTapBubbleImageView:atIndexPath:)])
-    {
-        [self.collectionView.delegate collectionView:self.collectionView
-                               didTapBubbleImageView:cell.messageBubbleImageView
-                                         atIndexPath:[self.collectionView indexPathForCell:cell]];
-    }
-}
-
-- (void)messagesCollectionViewCellDidTapCell:(JSQMessagesCollectionViewCell *)cell
-{
-    [self dismissKeyboardOnTapIfNeeded];
-}
-
-- (void)handleTapGesture:(UITapGestureRecognizer *)gestureRecognizer
-{
-    [self dismissKeyboardOnTapIfNeeded];
-}
-
-- (void)messagesCollectionViewCellDidTapDelete:(JSQMessagesCollectionViewCell *)cell
-{
-    if ([self.collectionView.delegate respondsToSelector:@selector(collectionViewDidTapDelete:atIndexPath:)])
-    {
-        [self.collectionView.delegate collectionViewDidTapDelete:self.collectionView atIndexPath:[self.collectionView indexPathForCell:cell]];
-    }
-}
-
-- (void)messagesCollectionViewCellDidTapCopy:(JSQMessagesCollectionViewCell *)cell
-{
-    if ([self.collectionView.delegate respondsToSelector:@selector(collectionViewDidTapCopy:atIndexPath:)])
-    {
-        [self.collectionView.delegate collectionViewDidTapCopy:self.collectionView atIndexPath:[self.collectionView indexPathForCell:cell]];
-    }
-}
-
-- (void)messagesCollectionViewCellDidTapShare:(JSQMessagesCollectionViewCell *)cell
-{
-    if ([self.collectionView.delegate respondsToSelector:@selector(collectionViewDidTapShare:atIndexPath:)])
-    {
-        [self.collectionView.delegate collectionViewDidTapShare:self.collectionView atIndexPath:[self.collectionView indexPathForCell:cell]];
-    }
-}
-- (void)messagesCollectionViewCellDidTapResendFaildMessage:(JSQMessagesCollectionViewCell *)cell;
-{
-    if ([self.collectionView.delegate respondsToSelector:@selector(collectionViewDidTapResendFaildMessage:atIndexPath:)])
-    {
-        [self.collectionView.delegate collectionViewDidTapResendFaildMessage:self.collectionView atIndexPath:[self.collectionView indexPathForCell:cell]];
-    }
-}
 #pragma mark - Input toolbar delegate
 
 - (void)messagesInputToolbar:(JSQMessagesInputToolbar *)toolbar didPressLeftBarButton:(UIButton *)sender
@@ -635,14 +540,6 @@ UITextViewDelegate>
     NSString *text = self.inputToolbar.contentView.textView.text;
     self.inputToolbar.contentView.textView.text = [text stringByAppendingString:@" "];
     return [self.inputToolbar.contentView.textView.text jsq_stringByTrimingWhitespace];
-}
-
-- (void)dismissKeyboardOnTapIfNeeded
-{
-    if (self.shouldDismissKeyboardOnTap && [self.inputToolbar.contentView.textView isFirstResponder])
-    {
-        [self.inputToolbar.contentView.textView resignFirstResponder];
-    }
 }
 
 #pragma mark - Text view delegate
@@ -693,7 +590,7 @@ UITextViewDelegate>
             CGSize newContentSize = [[change objectForKey:NSKeyValueChangeNewKey] CGSizeValue];
             
             CGFloat dy = newContentSize.height - oldContentSize.height;
-            
+        
             [self jsq_adjustInputToolbarForComposerTextViewContentSizeChange:dy];
             [self jsq_updateCollectionViewInsets];
             if (self.automaticallyScrollsToMostRecentMessage) {
@@ -844,9 +741,7 @@ UITextViewDelegate>
 
 - (void)jsq_addObservers
 {
-    if (self.jsq_isObserving)
-        return;
-    self.jsq_isObserving = YES;
+    [self jsq_removeObservers];
     
     [self.inputToolbar.contentView.textView addObserver:self
                                              forKeyPath:NSStringFromSelector(@selector(contentSize))
@@ -856,13 +751,12 @@ UITextViewDelegate>
 
 - (void)jsq_removeObservers
 {
-    if (!self.jsq_isObserving)
-        return;
-    self.jsq_isObserving = NO;
-    
-    [self.inputToolbar.contentView.textView removeObserver:self
-                                                forKeyPath:NSStringFromSelector(@selector(contentSize))
-                                                   context:kJSQMessagesKeyValueObservingContext];
+    @try {
+        [self.inputToolbar.contentView.textView removeObserver:self
+                                                    forKeyPath:NSStringFromSelector(@selector(contentSize))
+                                                       context:kJSQMessagesKeyValueObservingContext];
+    }
+    @catch (NSException * __unused exception) { }
 }
 
 - (void)jsq_registerForNotifications:(BOOL)registerForNotifications

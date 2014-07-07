@@ -34,8 +34,6 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
 
 @property (weak, nonatomic) IBOutlet UIView *rightBarButtonContainerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonContainerViewWidthConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonContainerViewTopConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonContainerViewLeftConstraint;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftHorizontalSpacingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightHorizontalSpacingConstraint;
@@ -116,7 +114,6 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
     self.leftHorizontalSpacingConstraint.constant = kJSQMessagesToolbarContentViewHorizontalSpacingDefault;
     self.leftBarButtonItemWidth = CGRectGetWidth(leftBarButtonItem.frame);
     
-    leftBarButtonItem.translatesAutoresizingMaskIntoConstraints = NO;
     [self.leftBarButtonContainerView addSubview:leftBarButtonItem];
     [self.leftBarButtonContainerView jsq_pinAllEdgesOfSubview:leftBarButtonItem];
     [self setNeedsUpdateConstraints];
@@ -155,7 +152,6 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
     self.rightHorizontalSpacingConstraint.constant = kJSQMessagesToolbarContentViewHorizontalSpacingDefault;
     self.rightBarButtonItemWidth = CGRectGetWidth(rightBarButtonItem.frame);
     
-    rightBarButtonItem.translatesAutoresizingMaskIntoConstraints = NO;
     [self.rightBarButtonContainerView addSubview:rightBarButtonItem];
     [self.rightBarButtonContainerView jsq_pinAllEdgesOfSubview:rightBarButtonItem];
     [self setNeedsUpdateConstraints];
@@ -169,17 +165,6 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
     [self setNeedsUpdateConstraints];
 }
 
-- (void)setRightBarButtonItemTopConstraint:(CGFloat)rightBarButtonItemTopConstraint
-{
-    self.rightBarButtonContainerViewTopConstraint.constant = rightBarButtonItemTopConstraint;
-    [self setNeedsUpdateConstraints];
-}
-
-- (void)setRightBarButtonItemLeftConstraint:(CGFloat)rightBarButtonItemLeftConstraint
-{
-    self.rightBarButtonContainerViewLeftConstraint.constant = rightBarButtonItemLeftConstraint;
-    [self setNeedsUpdateConstraints];
-}
 #pragma mark - Getters
 
 - (CGFloat)leftBarButtonItemWidth

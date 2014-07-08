@@ -26,7 +26,7 @@
 #import "UIView+JSQMessages.h"
 
 
-@interface JSQMessagesCollectionViewCell ()
+@interface JSQMessagesCollectionViewCell () <UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet JSQMessagesLabel *cellTopLabel;
 @property (weak, nonatomic) IBOutlet JSQMessagesLabel *messageBubbleTopLabel;
@@ -147,6 +147,10 @@
     [self addGestureRecognizer:longPress];
     [self.messageBubbleContainerView addGestureRecognizer:longPress];
     self.longPressGestureRecognizer = longPress;
+    
+    if (![self isKindOfClass:[JSQMessagesCollectionViewCellSystem class]]) {
+        longPress.delegate = self;
+    }
     
     UITapGestureRecognizer *avatarTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jsq_handleAvatarTapGesture:)];
     [self.avatarContainerView addGestureRecognizer:avatarTap];
@@ -557,6 +561,22 @@
 - (IBAction)resendFailedMessage:(id)sender
 {
     [self.delegate messagesCollectionViewCellDidTapResendFaildMessage:self];
+}
+
+#pragma mark - Gesture recognizer delegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+    shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if (otherGestureRecognizer.view != self.textView) {
+        return NO;
+    }
+    
+    if (![otherGestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end

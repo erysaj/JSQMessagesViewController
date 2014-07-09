@@ -137,10 +137,10 @@
     return _messageTopLabel;
 }
 
-- (JSQMessagesBubbleMessageView *)messageView
+- (JSQMessagesBubbleContainer *)messageView
 {
     if (!_messageView) {
-        _messageView = [[JSQMessagesBubbleMessageView alloc] initWithFrame:CGRectZero];
+        _messageView = [[JSQMessagesBubbleContainer alloc] initWithFrame:CGRectZero];
     }
     return _messageView;
 }
@@ -190,14 +190,14 @@
 
 - (void)applyMetrics:(id)metrics contentSize:(CGSize)contentSize cellSizeConstraint:(CGSize)constraint;
 {
-    JSQMessagesGenericCellMetrics *m = metrics;
-    [self setCellTopLabelHeight:m.cellTopLabelHeight];
-    [self setMessageBubbleTopLabelHeight:m.messageTopLabelHeight];
-    [self setCellBottomLabelHeight:m.cellBottomLabelHeight];
-    
-    CGSize contentSizeConstraint = [JSQMessagesGenericCell contentSizeConstraintForSizeConstraint:constraint
-                                                                                      withMetrics:metrics];
-    [self.messageView applyMetrics:m.messageMetrics contentSize:contentSize constraint:contentSizeConstraint];
+//    JSQMessagesGenericCellMetrics *m = metrics;
+//    [self setCellTopLabelHeight:m.cellTopLabelHeight];
+//    [self setMessageBubbleTopLabelHeight:m.messageTopLabelHeight];
+//    [self setCellBottomLabelHeight:m.cellBottomLabelHeight];
+//    
+//    CGSize contentSizeConstraint = [JSQMessagesGenericCell contentSizeConstraintForSizeConstraint:constraint
+//                                                                                      withMetrics:metrics];
+//    [self.messageView applyMetrics:m.messageMetrics contentSize:contentSize constraint:contentSizeConstraint];
 }
 
 #pragma mark - Style attributes
@@ -212,28 +212,28 @@
 + (CGSize)sizeWithContentSize:(CGSize)contentSize
                       metrics:(id)metrics
 {
-    JSQMessagesGenericCellMetrics *m = metrics;
-    
-    contentSize = [JSQMessagesBubbleMessageView sizeWithContentSize:contentSize metrics:m.messageMetrics];
-    contentSize.height += m.messageTopLabelHeight;
-    contentSize.height += m.cellTopLabelHeight;
-    contentSize.height += m.cellBottomLabelHeight;
-    
-    return contentSize;
-
+//    JSQMessagesGenericCellMetrics *m = metrics;
+//    
+//    contentSize = [JSQMessagesBubbleMessageView sizeWithContentSize:contentSize metrics:m.messageMetrics];
+//    contentSize.height += m.messageTopLabelHeight;
+//    contentSize.height += m.cellTopLabelHeight;
+//    contentSize.height += m.cellBottomLabelHeight;
+//    
+//    return contentSize;
+    return CGSizeZero;
 }
 
 + (CGSize)contentSizeConstraintForSizeConstraint:(CGSize)constraint
                                      withMetrics:(id)metrics
 {
-    JSQMessagesGenericCellMetrics *m = metrics;
-    
-    constraint.height -= m.messageTopLabelHeight;
-    constraint.height -= m.cellTopLabelHeight;
-    constraint.height -= m.cellBottomLabelHeight;
-    
-    constraint = [JSQMessagesBubbleMessageView contentSizeConstraintForSizeConstraint:constraint
-                                                                          withMetrics:m.messageMetrics];
+//    JSQMessagesGenericCellMetrics *m = metrics;
+//    
+//    constraint.height -= m.messageTopLabelHeight;
+//    constraint.height -= m.cellTopLabelHeight;
+//    constraint.height -= m.cellBottomLabelHeight;
+//    
+//    constraint = [JSQMessagesBubbleMessageView contentSizeConstraintForSizeConstraint:constraint
+//                                                                          withMetrics:m.messageMetrics];
     
     return constraint;
 }

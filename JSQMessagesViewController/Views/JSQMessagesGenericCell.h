@@ -53,7 +53,7 @@
 @property (assign, nonatomic) CGFloat cellBottomLabelHeight;
 
 
-@property (strong, nonatomic) JSQMessagesBubbleMessageViewMetrics *messageMetrics;
+@property (strong, nonatomic) id messageMetrics;
 
 @end
 
@@ -107,7 +107,7 @@
 /**
  *  Returns the view that displays message's content and sender's avatar
  */
-@property (strong, nonatomic) JSQMessagesBubbleMessageView *messageView;
+@property (strong, nonatomic) JSQMessagesBubbleContainer *messageView;
 
 /**
  *  Returns the label that is pinned to the bottom of the cell.

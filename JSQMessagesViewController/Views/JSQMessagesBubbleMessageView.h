@@ -21,16 +21,18 @@
 #import "JSQMessagesBubbleView.h"
 
 
-@interface JSQMessagesBubbleMessageViewMetrics : NSObject
+@interface JSQMessagesBubbleContainerData : NSObject
 
 @property (assign, nonatomic) CGSize avatarSize;
-@property (assign, nonatomic) UIEdgeInsets insets;
-@property (assign, nonatomic) UIEdgeInsets contentInsets;
+@property (assign, nonatomic) CGFloat avatarMarginLeft;
+@property (assign, nonatomic) CGFloat avatarMarginRight;
+@property (assign, nonatomic) CGFloat bubbleMinimumMargin;
+@property (assign, nonatomic) UIEdgeInsets contentPadding;
 
 @end
 
 
-@interface JSQMessagesBubbleMessageView : UIView
+@interface JSQMessagesBubbleContainer : UIView
 
 + (Class)bubbleViewClass;
 
@@ -41,15 +43,21 @@
 @property (assign, nonatomic) NSLayoutAttribute avatarHorizontalAlign;
 @property (assign, nonatomic) NSLayoutAttribute avatarVerticalAlign;
 
-- (void)setInsets:(UIEdgeInsets)insets;
 - (void)setAvatarSize:(CGSize)avatarSize;
-- (void)setContentInsets:(UIEdgeInsets)contentInsets;
+- (void)setContentSize:(CGSize)contentSize;
+- (void)setAvatarMarginLeft:(CGFloat)margin;
+- (void)setAvatarMarginRight:(CGFloat)margin;
+- (void)setContentPadding:(UIEdgeInsets)padding;
 
-- (void)applyMetrics:(id)metrics
-         contentSize:(CGSize)contentSize
-          constraint:(CGSize)constraint;
+- (void)configureWithData:(id)containerData
+              contentSize:(CGSize)contentSize
+           sizeConstraint:(CGSize)sizeConstraint;
 
-+ (CGSize)sizeWithContentSize:(CGSize)contentSize metrics:(id)metrics;
-+ (CGSize)contentSizeConstraintForSizeConstraint:(CGSize)constraint withMetrics:(id)metrics;
++ (CGSize)contentSizeConstraintWithData:(id)containerData
+                         sizeConstraint:(CGSize)sizeConstraint;
+
++ (CGSize)sizeWithData:(id)containerData
+           contentSize:(CGSize)contentSize
+        sizeConstraint:(CGSize)sizeConstraint;
 
 @end

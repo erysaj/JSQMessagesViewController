@@ -24,5 +24,6 @@
  */
 @interface JSQMessagesCollectionViewLayoutAttributes : UICollectionViewLayoutAttributes
 
+@property (assign, nonatomic) CGSize contentSize;
 
 @end

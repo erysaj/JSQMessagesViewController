@@ -297,7 +297,12 @@
 
 - (void)jsq_configureMessageCellLayoutAttributes:(JSQMessagesCollectionViewLayoutAttributes *)layoutAttributes
 {
+    NSIndexPath *indexPath = layoutAttributes.indexPath;
     
+    NSValue *contentSize = _cellContentSizes[indexPath];
+    if (contentSize) {
+        layoutAttributes.contentSize = [contentSize CGSizeValue];
+    }
 }
 
 #pragma mark - Spring behavior utilities

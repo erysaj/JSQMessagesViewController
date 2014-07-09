@@ -22,42 +22,38 @@
 #import "UIView+JSQMessages.h"
 
 
-@implementation JSQMessagesBubbleMessageViewMetrics
+@implementation JSQMessagesBubbleContainerData
 
 
 @end
 
 
-@interface JSQMessagesBubbleMessageView ()
+@interface JSQMessagesBubbleContainer ()
 
 @property (strong, nonatomic, readwrite) UIImageView *avatarView;
 @property (strong, nonatomic, readwrite) JSQMessagesBubbleView *bubbleView;
 @property (strong, nonatomic, readwrite) UIView *contentView;
 
-@property (strong, nonatomic) UIView *avatarContainer;
-
-@property (strong, nonatomic) NSLayoutConstraint *contentInsetTConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *contentInsetLConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *contentInsetRConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *contentInsetBConstraint;
-
-@property (strong, nonatomic) NSLayoutConstraint *insetTConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *insetLConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *insetRConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *insetBConstraint;
-
 @property (strong, nonatomic) NSLayoutConstraint *avatarWConstraint;
 @property (strong, nonatomic) NSLayoutConstraint *avatarHConstraint;
 @property (strong, nonatomic) NSLayoutConstraint *avatarYConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *avatarSpacingLConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *avatarSpacingRConstraint;
 
-@property (strong, nonatomic) NSMutableArray *createdConstraints;
+@property (strong, nonatomic) NSLayoutConstraint *contentPaddingTConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *contentPaddingLConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *contentPaddingRConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *contentPaddingBConstraint;
 
-@property (strong, nonatomic) UIImageView *bubbleImageView;
+@property (strong, nonatomic) NSLayoutConstraint *contentWConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *contentHConstraint;
+
+@property (strong, nonatomic) NSLayoutConstraint *bubbleYConstraint;
 
 @end
 
 
-@implementation JSQMessagesBubbleMessageView
+@implementation JSQMessagesBubbleContainer
 
 #pragma mark - Initialization
 
@@ -65,16 +61,11 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _createdConstraints = [[NSMutableArray alloc] initWithCapacity:12];
-        
-        _avatarHorizontalAlign = NSLayoutAttributeRight;
-        _avatarVerticalAlign = NSLayoutAttributeBottom;
-        
-        self.avatarContainer.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:self.avatarContainer];
+        _avatarHorizontalAlign = NSLayoutAttributeNotAnAttribute;
+        _avatarVerticalAlign = NSLayoutAttributeNotAnAttribute;
         
         self.avatarView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.avatarContainer addSubview:self.avatarView];
+        [self addSubview:self.avatarView];
         
         self.bubbleView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.bubbleView];
@@ -83,70 +74,44 @@
         [self.bubbleView addSubview:self.contentView];
 
         
-        [self jsq_resetConstraints];
+        NSDictionary *views = @{
+            @"A" : self.avatarView,
+            @"B" : self.bubbleView,
+            @"C" : self.contentView,
+        };
+        
+        JSQLayoutConstraintsFactory cf = [self jsq_constraintsFactoryWithOptions:0 metrics:nil views:views];
+        
+        // avatar size
+        cf(@"H:[A(0)]", ^(NSArray *constraints) {
+            _avatarWConstraint = constraints[0];
+        });
+        cf(@"V:[A(0)]", ^(NSArray *constraints) {
+            _avatarHConstraint = constraints[0];
+        });
+        
+        // content size
+        cf(@"H:[C(0)]", ^(NSArray *constraints) {
+            _contentWConstraint = constraints[0];
+        });
+        cf(@"V:[C(0)]", ^(NSArray *constraints) {
+            _contentHConstraint = constraints[0];
+        });
+        
+        cf(@"H:|-(0)-[C]-(0)-|", ^(NSArray *constraints) {
+            _contentPaddingLConstraint = constraints[0];
+            _contentPaddingRConstraint = constraints[1];
+        });
+        
+        cf(@"V:|-(0)-[C]-(0)-|", ^(NSArray *constraints) {
+            _contentPaddingTConstraint = constraints[0];
+            _contentPaddingBConstraint = constraints[1];
+        });
+        
+        self.avatarHorizontalAlign = NSLayoutAttributeRight;
+        self.avatarVerticalAlign = NSLayoutAttributeBottom;
     }
     return self;
-}
-
-- (void)jsq_resetConstraints
-{
-    [self removeConstraints:_createdConstraints];
-    [_createdConstraints removeAllObjects];
-
-    NSDictionary *views = @{
-        @"a": self.avatarView,
-        @"A": self.avatarContainer,
-        @"B": self.bubbleView,
-        @"C": self.contentView,
-    };
-
-    JSQLayoutConstraintsFactory cf = [self jsq_constraintsFactoryWithOptions:0 metrics:nil views:views];
-    cf(@"H:|[a]|", ^(NSArray *constraints) {
-        [_createdConstraints addObjectsFromArray:constraints];
-    });
-    cf(@"V:[a(0)]", ^(NSArray *constraints) {
-        _avatarHConstraint = constraints[0];
-        [_createdConstraints addObjectsFromArray:constraints];
-    });
-    cf(@"H:[A(0)]", ^(NSArray *constraints) {
-        _avatarWConstraint = constraints[0];
-        [_createdConstraints addObjectsFromArray:constraints];
-    });
-
-    
-    // place bubble & avatar
-    cf(_avatarVerticalAlign == NSLayoutAttributeBottom? @"V:[a]|": @"V:|[a]", ^(NSArray *constraints) {
-        _avatarYConstraint = constraints[0];
-        [_createdConstraints addObjectsFromArray:constraints];
-    });
-    cf(@"V:|-(0)-[A]-(0)-|", ^(NSArray *constraints) {
-        [_createdConstraints addObjectsFromArray:constraints];
-    });
-
-    cf(_avatarHorizontalAlign == NSLayoutAttributeLeft? @"H:|-(0)-[A]-(0)-[B]-(0)-|": @"H:|-(0)-[B]-(0)-[A]-(0)-|", ^(NSArray *constraints) {
-        _insetLConstraint = constraints[0];
-        _insetRConstraint = constraints[2];
-        [_createdConstraints addObjectsFromArray:constraints];
-    });
-
-    cf(@"V:|-(0)-[B]-(0)-|", ^(NSArray *constraints) {
-        _insetTConstraint = constraints[0];
-        _insetBConstraint = constraints[1];
-        [_createdConstraints addObjectsFromArray:constraints];
-    });
-
-    // place content view
-    cf(@"H:|-(0)-[C]-(0)-|", ^(NSArray *constraints) {
-        _contentInsetLConstraint = constraints[0];
-        _contentInsetRConstraint = constraints[1];
-        [_createdConstraints addObjectsFromArray:constraints];
-    });
-
-    cf(@"V:|-(0)-[C]-(0)-|", ^(NSArray *constraints) {
-        _contentInsetTConstraint = constraints[0];
-        _contentInsetBConstraint = constraints[1];
-        [_createdConstraints addObjectsFromArray:constraints];        
-    });
 }
 
 #pragma mark - Lazily create subviews
@@ -162,14 +127,6 @@
         _avatarView = [[UIImageView alloc] initWithFrame:CGRectZero];
     }
     return _avatarView;
-}
-
-- (UIView *)avatarContainer
-{
-    if (!_avatarContainer) {
-        _avatarContainer = [[UIView alloc] initWithFrame:CGRectZero];
-    }
-    return _avatarContainer;
 }
 
 - (JSQMessagesBubbleView *)bubbleView
@@ -192,49 +149,109 @@
 
 - (void)setAvatarHorizontalAlign:(NSLayoutAttribute)avatarHorizontalAlign
 {
-    NSParameterAssert(avatarHorizontalAlign == NSLayoutAttributeLeft || avatarHorizontalAlign == NSLayoutAttributeRight);
     if (_avatarHorizontalAlign == avatarHorizontalAlign) {
         return;
     }
-    _avatarHorizontalAlign = avatarHorizontalAlign;
+
+    CGFloat sL = 0.0f;
+    if (_avatarSpacingLConstraint) {
+        sL = _avatarSpacingLConstraint.constant;
+        [self removeConstraint:_avatarSpacingLConstraint];
+        _avatarSpacingLConstraint = nil;
+    }
     
-    [self jsq_resetConstraints];
+    CGFloat sR = 0.0f;
+    if (_avatarSpacingRConstraint) {
+        sR = _avatarSpacingRConstraint.constant;
+        [self removeConstraint:_avatarSpacingRConstraint];
+        _avatarSpacingRConstraint = nil;
+    }
+
+    NSDictionary *views = @{
+        @"A" : self.avatarView,
+        @"B" : self.bubbleView,
+    };
+    
+    NSDictionary *metrics = @{
+        @"sL" : @(sL),
+        @"sR" : @(sR),
+    };
+    
+    JSQLayoutConstraintsFactory cf = [self jsq_constraintsFactoryWithOptions:0 metrics:metrics views:views];
+    NSString *fmt = nil;
+    switch (avatarHorizontalAlign) {
+        case NSLayoutAttributeLeft:
+            fmt = @"|-(0)-[A]-(0)-[B]";
+            break;
+            
+        case NSLayoutAttributeRight:
+            fmt = @"[B]-(0)-[A]-(0)-|";
+            break;
+            
+        default:
+            NSAssert(NO, @"Unsupported avatar horizontal align: %d", avatarHorizontalAlign);
+            return;
+    }
+    
+    cf(fmt, ^(NSArray *constraints) {
+        _avatarSpacingLConstraint = constraints[0];
+        _avatarSpacingRConstraint = constraints[1];
+    });
+    
+    _avatarHorizontalAlign = avatarHorizontalAlign;
 }
 
 - (void)setAvatarVerticalAlign:(NSLayoutAttribute)avatarVerticalAlign
 {
-    NSParameterAssert(avatarVerticalAlign == NSLayoutAttributeBottom || avatarVerticalAlign == NSLayoutAttributeTop);
     if (_avatarVerticalAlign == avatarVerticalAlign) {
         return;
     }
+    
+    CGFloat yA = 0.0f;
+    if (_avatarYConstraint) {
+        yA = _avatarYConstraint.constant;
+        [self removeConstraint:_avatarYConstraint];
+        _avatarYConstraint = nil;
+    }
+    
+    CGFloat yB = 0.0f;
+    if (_bubbleYConstraint) {
+        yB = _bubbleYConstraint.constant;
+        [self removeConstraint:_bubbleYConstraint];
+        _bubbleYConstraint = nil;
+    }
+    
+    switch (avatarVerticalAlign) {
+        case NSLayoutAttributeTop:
+            _avatarYConstraint = [self jsq_alignSubview:_avatarView
+                                            withSubview:self
+                                              attribute:avatarVerticalAlign];
+            _bubbleYConstraint = [self jsq_alignSubview:_bubbleView
+                                            withSubview:self
+                                              attribute:avatarVerticalAlign];
+            break;
+            
+        case NSLayoutAttributeBottom:
+            _avatarYConstraint = [self jsq_alignSubview:self
+                                            withSubview:_avatarView
+                                              attribute:avatarVerticalAlign];
+            _bubbleYConstraint = [self jsq_alignSubview:self
+                                            withSubview:_bubbleView
+                                              attribute:avatarVerticalAlign];
+            break;
+            
+        default:
+            NSAssert(NO, @"Unsupported vertical avatar align: %d", avatarVerticalAlign);
+            return;
+    }
+    
+    _avatarYConstraint.constant = yA;
+    _bubbleYConstraint.constant = yB;
+    
     _avatarVerticalAlign = avatarVerticalAlign;
-
-    [self removeConstraint:_avatarYConstraint];
-    [_createdConstraints removeObject:_avatarYConstraint];
-    
-    _avatarYConstraint = [NSLayoutConstraint constraintWithItem:self.avatarView
-                                                      attribute:avatarVerticalAlign
-                                                      relatedBy:NSLayoutRelationEqual
-                                                         toItem:self.avatarContainer
-                                                      attribute:avatarVerticalAlign
-                                                     multiplier:1.0f
-                                                       constant:0.0f];
-
-    [_createdConstraints addObject:_avatarYConstraint];
-    [self addConstraint:_avatarYConstraint];
-    
-    [self jsq_resetConstraints];
 }
 
 #pragma mark - Layout
-
-- (void)setInsets:(UIEdgeInsets)insets
-{
-    [self jsq_updateConstraint:_insetTConstraint withConstant:insets.top];
-    [self jsq_updateConstraint:_insetLConstraint withConstant:insets.left];
-    [self jsq_updateConstraint:_insetBConstraint withConstant:insets.bottom];
-    [self jsq_updateConstraint:_insetRConstraint withConstant:insets.right];
-}
 
 - (void)setAvatarSize:(CGSize)avatarSize
 {
@@ -242,80 +259,80 @@
     [self jsq_updateConstraint:_avatarHConstraint withConstant:avatarSize.height];
 }
 
-- (void)setContentInsets:(UIEdgeInsets)contentInsets
+- (void)setContentSize:(CGSize)contentSize
 {
-    [self jsq_updateConstraint:_contentInsetTConstraint withConstant:contentInsets.top];
-    [self jsq_updateConstraint:_contentInsetLConstraint withConstant:contentInsets.left];
-    [self jsq_updateConstraint:_contentInsetBConstraint withConstant:contentInsets.bottom];
-    [self jsq_updateConstraint:_contentInsetRConstraint withConstant:contentInsets.right];
+    [self jsq_updateConstraint:_contentWConstraint withConstant:contentSize.width];
+    [self jsq_updateConstraint:_contentHConstraint withConstant:contentSize.height];
 }
 
-- (void)applyMetrics:(id)metrics
-         contentSize:(CGSize)contentSize
-          constraint:(CGSize)constraint
+- (void)setAvatarMarginLeft:(CGFloat)margin
 {
-    JSQMessagesBubbleMessageViewMetrics *m = metrics;
-    UIEdgeInsets insets = m.insets;
-    CGFloat extraWidth = constraint.width - contentSize.width;
-    if (extraWidth > 0.0f) {
-        if (_avatarHorizontalAlign == NSLayoutAttributeLeft) {
-            insets.right += extraWidth;
-        }
-        else {
-            insets.left += extraWidth;
-        }
+    [self jsq_updateConstraint:_avatarSpacingLConstraint withConstant:margin];
+}
+
+- (void)setAvatarMarginRight:(CGFloat)margin
+{
+    [self jsq_updateConstraint:_avatarSpacingRConstraint withConstant:margin];
+}
+
+- (void)setContentPadding:(UIEdgeInsets)padding
+{
+    [self jsq_updateConstraint:_contentPaddingTConstraint withConstant:padding.top];
+    [self jsq_updateConstraint:_contentPaddingLConstraint withConstant:padding.left];
+    [self jsq_updateConstraint:_contentPaddingBConstraint withConstant:padding.bottom];
+    [self jsq_updateConstraint:_contentPaddingRConstraint withConstant:padding.right];
+}
+
+#pragma mark - Container
+
+- (void)configureWithData:(id)containerData
+              contentSize:(CGSize)contentSize
+           sizeConstraint:(CGSize)sizeConstraint
+{
+    JSQMessagesBubbleContainerData *data = containerData;
+    
+    [self setContentSize:contentSize];
+    [self setAvatarSize:data.avatarSize];
+    [self setContentPadding:data.contentPadding];
+    [self setAvatarMarginLeft:data.avatarMarginLeft];
+    [self setAvatarMarginRight:data.avatarMarginRight];
+}
+
++ (CGSize)contentSizeConstraintWithData:(id)containerData
+                         sizeConstraint:(CGSize)sizeConstraint
+{
+    JSQMessagesBubbleContainerData *data = containerData;
+    
+    CGSize avatarSize = data.avatarSize;
+    UIEdgeInsets contentPadding = data.contentPadding;
+
+    CGSize contentConstraint = sizeConstraint;
+    
+    contentConstraint.width -= avatarSize.width + data.avatarMarginLeft + data.avatarMarginRight;
+    contentConstraint.width -= data.bubbleMinimumMargin;
+    contentConstraint.width -= contentPadding.left + contentPadding.right;
+    contentConstraint.height -= contentPadding.top + contentPadding.bottom;
+    
+    return contentConstraint;
+}
+
++ (CGSize)sizeWithData:(id)containerData
+           contentSize:(CGSize)contentSize
+        sizeConstraint:(CGSize)sizeConstraint
+{
+    JSQMessagesBubbleContainerData *data = containerData;
+    
+    CGSize avatarSize = data.avatarSize;
+    UIEdgeInsets contentPadding = data.contentPadding;
+    
+    CGSize size = CGSizeMake(sizeConstraint.width, contentSize.height);
+    
+    size.height += contentPadding.top + contentPadding.bottom;
+    
+    if (avatarSize.height > size.height) {
+        size.height = avatarSize.height;
     }
-    
-    CGFloat extraHeight = constraint.height - contentSize.height;
-    if (extraHeight > 0.0f) {
-        if (_avatarVerticalAlign == NSLayoutAttributeTop) {
-            insets.bottom += extraHeight;
-        }
-        else {
-            insets.top += extraHeight;
-        }
-    }
-    
-    [self setInsets:insets];
-    [self setAvatarSize:m.avatarSize];
-    [self setContentInsets:m.contentInsets];
+    return size;
 }
-
-#pragma mark - Size computation
-
-+ (CGSize)sizeWithContentSize:(CGSize)contentSize metrics:(id)metrics
-{
-    JSQMessagesBubbleMessageViewMetrics *m = metrics;
-    CGSize avatarSize = m.avatarSize;
-    UIEdgeInsets contentInsets = m.contentInsets;
-    UIEdgeInsets insets = m.insets;
-
-    contentSize.width  += contentInsets.left + contentInsets.right;
-    contentSize.height += contentInsets.top + contentInsets.bottom;
-    
-    contentSize.width += avatarSize.width;
-    if (avatarSize.height > contentSize.height) {
-        contentSize.height = avatarSize.height;
-    }
-    
-    contentSize.width  += insets.left + insets.right;
-    contentSize.height += insets.top + insets.bottom;
-    return contentSize;
-}
-
-+ (CGSize)contentSizeConstraintForSizeConstraint:(CGSize)constraint withMetrics:(id)metrics
-{
-    JSQMessagesBubbleMessageViewMetrics *m = metrics;
-    CGSize avatarSize = m.avatarSize;
-    UIEdgeInsets contentInsets = m.contentInsets;
-    UIEdgeInsets insets = m.insets;
-
-    constraint.width  -= insets.left + insets.right;
-    constraint.height -= insets.top + insets.bottom;
-    constraint.width  -= avatarSize.width + contentInsets.left + contentInsets.right;
-    constraint.height -= contentInsets.top + contentInsets.bottom;
-    return constraint;
-}
-
 
 @end

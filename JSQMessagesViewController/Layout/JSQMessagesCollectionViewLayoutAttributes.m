@@ -21,5 +21,34 @@
 
 @implementation JSQMessagesCollectionViewLayoutAttributes
 
+#pragma mark - NSObject
+
+- (BOOL)isEqual:(id)object
+{
+    if (self == object) {
+        return YES;
+    }
+    
+    if (![object isKindOfClass:[self class]]) {
+        return NO;
+    }
+    
+    JSQMessagesCollectionViewLayoutAttributes *layoutAttributes = (JSQMessagesCollectionViewLayoutAttributes *)object;
+    
+    if (!CGSizeEqualToSize(self.contentSize, layoutAttributes.contentSize)) {
+        return NO;
+    }
+    
+    return [super isEqual:object];
+}
+
+#pragma mark - NSCopying
+
+- (instancetype)copyWithZone:(NSZone *)zone
+{
+    JSQMessagesCollectionViewLayoutAttributes *copy = [super copyWithZone:zone];
+    copy.contentSize = self.contentSize;
+    return copy;
+}
 
 @end

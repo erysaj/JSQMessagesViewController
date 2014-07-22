@@ -49,15 +49,19 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="leftBarButtonBottomVerticalSpaceConstraint" destination="OUX-jX-Hem" id="HhY-rh-cZg"/>
                 <outlet property="leftBarButtonContainerView" destination="LEq-G7-jGt" id="F0V-4N-1Mo"/>
                 <outlet property="leftBarButtonContainerViewSpacingLeftConstraint" destination="LAU-fo-GJJ" id="3dO-DG-1Pt"/>
                 <outlet property="leftBarButtonContainerViewSpacingRightConstraint" destination="bel-3t-t11" id="Xy6-gv-ZWA"/>
                 <outlet property="leftBarButtonContainerViewWidthConstraint" destination="eMy-Af-wwH" id="9Jw-2j-hrn"/>
+                <outlet property="rightBarButtonBottomVerticalSpaceConstraint" destination="MrS-9f-xyz" id="ss9-qY-VPX"/>
                 <outlet property="rightBarButtonContainerView" destination="Myo-1S-Vg1" id="0SR-cw-EkD"/>
                 <outlet property="rightBarButtonContainerViewSpacingLeftConstraint" destination="pv2-Ct-lcA" id="qMQ-2V-QYc"/>
                 <outlet property="rightBarButtonContainerViewSpacingRightConstraint" destination="ds6-61-GNv" id="CdY-1G-xOn"/>
                 <outlet property="rightBarButtonContainerViewWidthConstraint" destination="yde-S9-dHe" id="oU1-07-P3e"/>
                 <outlet property="textView" destination="dm4-NT-mvr" id="PFw-HO-oT8"/>
+                <outlet property="textViewBottomVerticalSpaceConstraint" destination="qgN-FG-QNm" id="Xo3-VU-E8p"/>
+                <outlet property="textViewTopVerticalSpaceConstraint" destination="nrs-7L-psn" id="230-RI-nxJ"/>
             </connections>
         </view>
     </objects>

@@ -21,7 +21,7 @@
 @class JSQMessagesComposerTextView;
 
 /**
- *  A constant value representing the default spacing to use for the left and right edges 
+ *  A constant value representing the default spacing to use for the left and right edges
  *  of the toolbar content view.
  */
 FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault;
@@ -64,6 +64,11 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingD
 @property (assign, nonatomic) CGFloat leftBarButtonItemRightSpacing;
 
 /**
+ *  Specifies the spacing between `leftBarButtonItem` and toolbar's bottom edge.
+ */
+@property (assign, nonatomic) CGFloat leftBarButtonBottomSpacing;
+/**
+ 
  *  A custom button item displayed on the right of the toolbar content view.
  *
  *  @discussion The frame of this button is ignored. When you set this property, the button
@@ -87,6 +92,21 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingD
  *  Specifies the spacing between `rightBarButtonItem` and toolbar's right edge.
  */
 @property (assign, nonatomic) CGFloat rightBarButtonItemRightSpacing;
+
+/**
+ *  Specifies the spacing between `rightBarButtonItem` and toolbar's bottom edge.
+ */
+@property (assign, nonatomic) CGFloat rightBarButtonBottomSpacing;
+
+/**
+ *  Specifies the spacing between `textView` and toolbar's top edge.
+ */
+@property (assign, nonatomic) CGFloat textViewTopVerticalSpacing;
+
+/**
+ *  Specifies the spacing between `textView` and toolbar's bottom edge.
+ */
+@property (assign, nonatomic) CGFloat textViewBottomVerticalSpacing;
 
 #pragma mark - Class methods
 

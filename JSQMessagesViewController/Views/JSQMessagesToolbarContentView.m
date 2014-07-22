@@ -33,11 +33,18 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftBarButtonContainerViewWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftBarButtonContainerViewSpacingLeftConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftBarButtonContainerViewSpacingRightConstraint;
+@property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *leftBarButtonBottomVerticalSpaceConstraint;
 
 @property (weak, nonatomic) IBOutlet UIView *rightBarButtonContainerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonContainerViewWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonContainerViewSpacingLeftConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonContainerViewSpacingRightConstraint;
+@property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonBottomVerticalSpaceConstraint;
+
+@property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *textViewBottomVerticalSpaceConstraint;
+@property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *textViewTopVerticalSpaceConstraint;
+
+
 
 @end
 
@@ -143,6 +150,12 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
     [self setNeedsUpdateConstraints];
 }
 
+- (void)setLeftBarButtonBottomSpacing:(CGFloat)leftBarButtonBottomSpacing
+{
+    self.leftBarButtonBottomVerticalSpaceConstraint.constant = leftBarButtonBottomSpacing;
+    [self setNeedsUpdateConstraints];
+}
+
 - (void)setRightBarButtonItem:(UIButton *)rightBarButtonItem
 {
     if (_rightBarButtonItem) {
@@ -191,6 +204,24 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
 - (void)setRightBarButtonItemRighttSpacing:(CGFloat)rightBarButtonItemRightSpacing
 {
     self.rightBarButtonContainerViewSpacingRightConstraint.constant = rightBarButtonItemRightSpacing;
+    [self setNeedsUpdateConstraints];
+}
+
+- (void)setRightBarButtonBottomSpacing:(CGFloat)rightBarButtonBottomSpacing
+{
+    self.rightBarButtonBottomVerticalSpaceConstraint.constant = rightBarButtonBottomSpacing;
+    [self setNeedsUpdateConstraints];
+}
+
+- (void)setTextViewTopVerticalSpacing:(CGFloat)textViewTopVerticalSpacing
+{
+    self.textViewTopVerticalSpaceConstraint.constant = textViewTopVerticalSpacing;
+    [self setNeedsUpdateConstraints];
+}
+
+- (void)setTextViewBottomVerticalSpacing:(CGFloat)textViewBottomVerticalSpacing
+{
+    self.textViewBottomVerticalSpaceConstraint.constant = textViewBottomVerticalSpacing;
     [self setNeedsUpdateConstraints];
 }
 

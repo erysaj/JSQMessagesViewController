@@ -33,16 +33,16 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftBarButtonContainerViewWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftBarButtonContainerViewSpacingLeftConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftBarButtonContainerViewSpacingRightConstraint;
-@property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *leftBarButtonBottomVerticalSpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftBarButtonBottomVerticalSpaceConstraint;
 
 @property (weak, nonatomic) IBOutlet UIView *rightBarButtonContainerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonContainerViewWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonContainerViewSpacingLeftConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonContainerViewSpacingRightConstraint;
-@property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonBottomVerticalSpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightBarButtonBottomVerticalSpaceConstraint;
 
-@property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *textViewBottomVerticalSpaceConstraint;
-@property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *textViewTopVerticalSpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewBottomVerticalSpaceConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewTopVerticalSpaceConstraint;
 
 
 

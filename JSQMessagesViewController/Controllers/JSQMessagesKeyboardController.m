@@ -30,9 +30,17 @@ static void * kJSQMessagesKeyboardControllerKeyValueObservingContext = &kJSQMess
 
 typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 
+typedef NS_ENUM(NSInteger, JSQMessagesKeyboardState) {
+    JSQMessagesKeyboardStateHidden,
+    JSQMessagesKeyboardStateShown,
+    JSQMessagesKeyboardStateAppear,
+    JSQMessagesKeyboardStateDisappear,
+};
 
 
 @interface JSQMessagesKeyboardController () <UIGestureRecognizerDelegate>
+
+@property (assign, nonatomic) JSQMessagesKeyboardState jsq_keyboardState;
 
 @property (weak, nonatomic) UIView *keyboardView;
 
@@ -132,6 +140,11 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 - (void)jsq_registerForNotifications
 {
     [self jsq_unregisterForNotifications];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(jsq_didReceiveKeyboardWillShowNotification:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(jsq_didReceiveKeyboardDidShowNotification:)
@@ -147,6 +160,11 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
                                              selector:@selector(jsq_didReceiveKeyboardDidChangeFrameNotification:)
                                                  name:UIKeyboardDidChangeFrameNotification
                                                object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(jsq_didReceiveKeyboardWillHideNotification:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(jsq_didReceiveKeyboardDidHideNotification:)
@@ -159,8 +177,17 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)jsq_didReceiveKeyboardWillShowNotification:(NSNotification *)notification
+{
+    self.jsq_keyboardState = JSQMessagesKeyboardStateAppear;
+    
+    [self jsq_handleKeyboardNotification:notification completion:nil];
+}
+
 - (void)jsq_didReceiveKeyboardDidShowNotification:(NSNotification *)notification
 {
+    self.jsq_keyboardState = JSQMessagesKeyboardStateShown;
+    
     self.keyboardView = self.textView.inputAccessoryView.superview;
     [self jsq_setKeyboardViewHidden:NO];
     
@@ -171,23 +198,35 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 
 - (void)jsq_didReceiveKeyboardWillChangeFrameNotification:(NSNotification *)notification
 {
+    if (self.jsq_keyboardState != JSQMessagesKeyboardStateShown) {
+        return;
+    }
     [self jsq_handleKeyboardNotification:notification completion:nil];
 }
 
 - (void)jsq_didReceiveKeyboardDidChangeFrameNotification:(NSNotification *)notification
 {
+    if (self.jsq_keyboardState != JSQMessagesKeyboardStateShown) {
+        return;
+    }
     [self jsq_setKeyboardViewHidden:NO];
     
     [self jsq_handleKeyboardNotification:notification completion:nil];
 }
 
-- (void)jsq_didReceiveKeyboardDidHideNotification:(NSNotification *)notification
+- (void)jsq_didReceiveKeyboardWillHideNotification:(NSNotification *)notification
 {
+    self.jsq_keyboardState = JSQMessagesKeyboardStateDisappear;
+
     self.keyboardView = nil;
-    
     [self jsq_handleKeyboardNotification:notification completion:^(BOOL finished) {
         [self.panGestureRecognizer removeTarget:self action:NULL];
     }];
+}
+
+- (void)jsq_didReceiveKeyboardDidHideNotification:(NSNotification *)notification
+{
+    self.jsq_keyboardState = JSQMessagesKeyboardStateHidden;
 }
 
 - (void)jsq_handleKeyboardNotification:(NSNotification *)notification completion:(JSQAnimationCompletionBlock)completion

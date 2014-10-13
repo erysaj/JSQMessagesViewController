@@ -318,7 +318,7 @@ typedef NS_ENUM(NSInteger, JSQMessagesKeyboardState) {
     //  system keyboard is added to a new UIWindow, need to operate in window coordinates
     //  also, keyboard always slides from bottom of screen, not the bottom of a view
     CGFloat contextViewWindowHeight = CGRectGetHeight(self.contextView.window.frame);
-    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) && [[[UIDevice currentDevice] systemVersion] integerValue] == 7) {
         contextViewWindowHeight = CGRectGetWidth(self.contextView.window.frame);
     }
     

@@ -140,6 +140,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     _collectionView.delegate = nil;
     _collectionView = nil;
     _inputToolbar.delegate = nil;
+    _inputToolbar.contentView.textView.delegate = nil;
     _inputToolbar = nil;
     
     _toolbarHeightConstraint = nil;

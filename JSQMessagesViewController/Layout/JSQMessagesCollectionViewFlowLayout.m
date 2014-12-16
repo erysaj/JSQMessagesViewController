@@ -171,14 +171,18 @@
 - (void)jsq_didReceiveApplicationMemoryWarningNotification:(NSNotification *)notification
 {
     [self.cellContentSizes removeAllObjects];
-    [self.dynamicAnimator removeAllBehaviors];
-    [self.visibleIndexPaths removeAllObjects];
+    if (self.springinessEnabled) {
+        [self.dynamicAnimator removeAllBehaviors];
+        [self.visibleIndexPaths removeAllObjects];
+    }
 }
 
 - (void)jsq_didReceiveDeviceOrientationDidChangeNotification:(NSNotification *)notification
 {
-    [self.dynamicAnimator removeAllBehaviors];
-    [self.visibleIndexPaths removeAllObjects];
+    if (self.springinessEnabled) {
+        [self.dynamicAnimator removeAllBehaviors];
+        [self.visibleIndexPaths removeAllObjects];
+    }
     [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
 }
 

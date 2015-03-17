@@ -22,6 +22,8 @@
 #import "JSQMessagesCollectionViewFlowLayout.h"
 #import "JSQMessagesInputToolbar.h"
 
+@protocol JSQMessagesItemDataSource;
+
 /**
  *  The `JSQMessagesViewController` class is an abstract class that represents a view controller whose content consists of
  *  a `JSQMessagesCollectionView` and `JSQMessagesInputToolbar` and is specialized to display a messaging interface.
@@ -55,10 +57,15 @@
  *  The string identifier that uniquely identifies the current user sending messages.
  *  
  *  @discussion This property is used to determine if a message is incoming or outgoing.
- *  All message data objects returned by `collectionView:messageDataForItemAtIndexPath:` are
+ *  All message data objects conforming to `JSQMessageData` protocol are
  *  checked against this identifier. This value must not be `nil`.
  */
 @property (copy, nonatomic) NSString *senderId;
+
+/**
+ *  Storage for message model objects.
+ */
+@property (strong, nonatomic) id<JSQMessagesItemDataSource> dataSource;
 
 /**
  *  Specifies whether or not the view controller should automatically scroll to the most recent message 

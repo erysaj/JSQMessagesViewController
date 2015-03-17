@@ -49,6 +49,7 @@
      *  Load up our fake data for the demo
      */
     self.demoData = [[DemoModelData alloc] init];
+    self.dataSource = [[JSQMessagesArrayItemDataSource alloc] initWithItems:self.demoData.messages];
     
     
     /**
@@ -349,11 +350,6 @@
 
 #pragma mark - JSQMessages CollectionView DataSource
 
-- (id<JSQMessageData>)collectionView:(JSQMessagesCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [self.demoData.messages objectAtIndex:indexPath.item];
-}
-
 - (id<JSQMessageBubbleImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     /**
@@ -457,11 +453,6 @@
 }
 
 #pragma mark - UICollectionView DataSource
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return [self.demoData.messages count];
-}
 
 - (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {

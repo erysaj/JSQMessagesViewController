@@ -21,6 +21,61 @@
 #import "JSQMessagesLabel.h"
 #import "JSQMessagesCellTextView.h"
 
+
+/**
+ *  The `JSQMessagesCollectionViewCellData` protocol defines properties necessary to
+ *  configure cell's displayed data (texts, images, etc.), style (fonts, colors, etc.)
+ *  and layout (paddings, offsets, etc.)
+ */
+@protocol JSQMessagesCollectionViewCellData <NSObject>
+
+/**
+ *  Message model object to be presented by the cell
+ */
+- (id)cellModel;
+
+@end
+
+
+/**
+ *  The `JSQMessagesCollectionViewCell` protocol must be implemented
+ *  by `UICollectionViewCell` subclass that is intended to be used in `JSQMessagesCollectionView`.
+ */
+@protocol JSQMessagesCollectionViewCell <NSObject>
+
+/**
+ *  Make computations necessary to layout cell of this class for displaying provided data withing
+ *  given size limitations.
+ * 
+ *  @param data The data to display in the cell of this class.
+ *  @param constraint The maximum space that the cell is allowed to occupy. Only `width` is relevant.
+ *
+ *  @return An opaque data that will simplify configuring the cell and determining its real size.
+ *  It is intended to be cached. Must not be `nil`.
+ *  For example, cell class designed for displaying text message might return the size occupied
+ *  by the message text computed for given cell width, since computing a rect occupied by text
+ *  is a rather expensive operation.
+ */
++ (id)computeMetricsWithData:(id<JSQMessagesCollectionViewCellData>)data
+          cellSizeConstraint:(CGSize)constraint;
+
+/**
+ *  Compute size required by the cell of this class to display provided data.
+ */
++ (CGSize)cellSizeWithData:(id<JSQMessagesCollectionViewCellData>)data
+                   metrics:(id)metrics
+        cellSizeConstraint:(CGSize)constraint;
+
+/**
+ *  Configure cell instance for displaying provided data.
+ */
+- (void)configureWithData:(id<JSQMessagesCollectionViewCellData>)data
+                  metrics:(id)metrics
+       cellSizeConstraint:(CGSize)constraint;
+
+@end
+
+
 @class JSQMessagesCollectionViewCell;
 
 /**

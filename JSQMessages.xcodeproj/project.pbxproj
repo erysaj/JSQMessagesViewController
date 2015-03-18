@@ -123,6 +123,9 @@
 		0844AD596023C7658D39E241 /* Pods-JSQMessagesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSQMessagesTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSQMessagesTests/Pods-JSQMessagesTests.release.xcconfig"; sourceTree = "<group>"; };
 		223FBACE0F24ADEF8B7F3F24 /* Pods-JSQMessagesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSQMessagesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JSQMessagesTests/Pods-JSQMessagesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		27B7FD1B722B36B26CB3460B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		44095AA31AB9DC9100DD983F /* JSQCollectionViewCellDisplayData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQCollectionViewCellDisplayData.h; sourceTree = "<group>"; };
+		44095AA41AB9DCE000DD983F /* JSQCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQCollectionViewCell.h; sourceTree = "<group>"; };
+		44095AA51AB9E5BC00DD983F /* JSQCollectionViewAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQCollectionViewAdapter.h; sourceTree = "<group>"; };
 		441BB4901AB86DED00BCA3D5 /* JSQItemDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSQItemDataSource.h; path = DataSource/JSQItemDataSource.h; sourceTree = "<group>"; };
 		441BB4911AB86F0500BCA3D5 /* JSQArrayItemDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSQArrayItemDataSource.h; path = DataSource/JSQArrayItemDataSource.h; sourceTree = "<group>"; };
 		441BB4921AB86F0500BCA3D5 /* JSQArrayItemDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSQArrayItemDataSource.m; path = DataSource/JSQArrayItemDataSource.m; sourceTree = "<group>"; };
@@ -528,6 +531,9 @@
 		88A25F8919D8E01A00924534 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				44095AA41AB9DCE000DD983F /* JSQCollectionViewCell.h */,
+				44095AA31AB9DC9100DD983F /* JSQCollectionViewCellDisplayData.h */,
+				44095AA51AB9E5BC00DD983F /* JSQCollectionViewAdapter.h */,
 				883C11761A09FB100092A16D /* JSQMessagesCellTextView.h */,
 				883C11771A09FB100092A16D /* JSQMessagesCellTextView.m */,
 				88A25F8A19D8E01A00924534 /* JSQMessagesCollectionView.h */,

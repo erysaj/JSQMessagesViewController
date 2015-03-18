@@ -405,7 +405,7 @@
 
 - (void)configureWithData:(id<JSQMessagesCollectionViewCellData>)data
                   metrics:(id)metrics
-       cellSizeConstraint:(CGSize)constraint
+                 cellSize:(CGSize)cellSize
 {
     CGSize messageBubbleSize = [(NSValue *)metrics CGSizeValue];
 

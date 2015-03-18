@@ -55,6 +55,6 @@
  */
 - (void)configureWithData:(id<JSQCollectionViewCellDisplayData>)data
                   metrics:(id)metrics
-       cellSizeConstraint:(CGSize)constraint;
+                 cellSize:(CGSize)cellSize;
 
 @end

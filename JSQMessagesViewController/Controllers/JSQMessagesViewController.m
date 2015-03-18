@@ -22,7 +22,7 @@
 
 #import "JSQMessagesCollectionViewFlowLayoutInvalidationContext.h"
 
-#import "JSQMessagesItemDataSource.h"
+#import "JSQItemDataSource.h"
 #import "JSQMessageData.h"
 #import "JSQMessageBubbleImageDataSource.h"
 #import "JSQMessageAvatarImageDataSource.h"

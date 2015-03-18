@@ -49,7 +49,7 @@
      *  Load up our fake data for the demo
      */
     self.demoData = [[DemoModelData alloc] init];
-    self.dataSource = [[JSQMessagesArrayItemDataSource alloc] initWithItems:self.demoData.messages];
+    self.dataSource = [[JSQArrayItemDataSource alloc] initWithItems:self.demoData.messages];
     
     
     /**

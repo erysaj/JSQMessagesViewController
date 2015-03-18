@@ -22,7 +22,7 @@
 #import "JSQMessagesCollectionViewFlowLayout.h"
 #import "JSQMessagesInputToolbar.h"
 
-@protocol JSQMessagesItemDataSource;
+@protocol JSQItemDataSource;
 
 /**
  *  The `JSQMessagesViewController` class is an abstract class that represents a view controller whose content consists of
@@ -65,7 +65,7 @@
 /**
  *  Storage for message model objects.
  */
-@property (strong, nonatomic) id<JSQMessagesItemDataSource> dataSource;
+@property (strong, nonatomic) id<JSQItemDataSource> dataSource;
 
 /**
  *  Specifies whether or not the view controller should automatically scroll to the most recent message 

@@ -1,6 +1,6 @@
 //
 //  Created by Jesse Squires
-//  http://www.hexedbits.com
+//  http://www.jessesquires.com
 //
 //
 //  Documentation
@@ -18,10 +18,12 @@
 
 #import <Foundation/Foundation.h>
 
-#import "JSQMessagesItemDataSource.h"
+@protocol JSQItemDataSource <NSObject>
 
-@interface JSQMessagesArrayItemDataSource : NSObject <JSQMessagesItemDataSource>
+@required
 
-- (instancetype)initWithItems:(NSArray *)items;
+- (id)itemAtIndexPath:(NSIndexPath *)indexPath;
+- (NSInteger)numberOfItemsInSection:(NSInteger)section;
+- (NSInteger)numberOfSections;
 
 @end

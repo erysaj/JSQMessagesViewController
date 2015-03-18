@@ -16,17 +16,17 @@
 //  Released under an MIT license: http://opensource.org/licenses/MIT
 //
 
-#import "JSQMessagesArrayItemDataSource.h"
+#import "JSQArrayItemDataSource.h"
 #import <UIKit/UIKit.h>
 
-@interface JSQMessagesArrayItemDataSource ()
+@interface JSQArrayItemDataSource ()
 
 @property (strong, nonatomic) NSArray *items;
 
 @end
 
 
-@implementation JSQMessagesArrayItemDataSource
+@implementation JSQArrayItemDataSource
 
 - (instancetype)initWithItems:(NSArray *)items
 {
@@ -37,7 +37,7 @@
     return self;
 }
 
-#pragma mark - JSQMessagesItemDataSource
+#pragma mark - JSQItemDataSource
 
 - (id)itemAtIndexPath:(NSIndexPath *)indexPath
 {

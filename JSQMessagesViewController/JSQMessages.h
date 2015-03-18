@@ -49,10 +49,10 @@
 #import "JSQMessagesBubbleImage.h"
 #import "JSQMessagesAvatarImage.h"
 
-#import "JSQMessagesArrayItemDataSource.h"
+#import "JSQArrayItemDataSource.h"
 
 //  Protocols
-#import "JSQMessagesItemDataSource.h"
+#import "JSQItemDataSource.h"
 #import "JSQMessageData.h"
 #import "JSQMessageMediaData.h"
 #import "JSQMessageAvatarImageDataSource.h"

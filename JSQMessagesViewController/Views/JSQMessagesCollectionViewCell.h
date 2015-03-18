@@ -18,6 +18,7 @@
 
 #import <UIKit/UIKit.h>
 
+#import "JSQMessageData.h"
 #import "JSQMessagesLabel.h"
 #import "JSQMessagesCellTextView.h"
 
@@ -32,7 +33,105 @@
 /**
  *  Message model object to be presented by the cell
  */
-- (id)cellModel;
+- (id<JSQMessageData>)message;
+
+/**
+ *  The size of the `avatarImageView` of a `JSQMessagesCollectionViewCell`.
+ *  Dimensions must be greater than or equal to `0.0`.
+ *
+ *  @see JSQMessagesCollectionViewCell.
+ */
+- (CGSize)avatarViewSize;
+
+/**
+ *  The height of the `cellTopLabel` of a `JSQMessagesCollectionViewCell`.
+ *  This value should be greater than or equal to `0.0`.
+ *
+ *  @see JSQMessagesCollectionViewCell.
+ */
+- (CGFloat)cellTopLabelHeight;
+
+/**
+ *  The height of the `messageBubbleTopLabel` of a `JSQMessagesCollectionViewCell`.
+ *  This value should be greater than or equal to `0.0`.
+ *
+ *  @see JSQMessagesCollectionViewCell.
+ */
+- (CGFloat)messageBubbleTopLabelHeight;
+
+/**
+ *  The height of the `cellBottomLabel` of a `JSQMessagesCollectionViewCell`.
+ *  This value should be greater than or equal to `0.0`.
+ *
+ *  @see JSQMessagesCollectionViewCell.
+ */
+- (CGFloat) cellBottomLabelHeight;
+
+/**
+ *  The font used to display the body a text message in the message bubble of each
+ *  `JSQMessagesCollectionViewCell` in the collectionView.
+ */
+- (UIFont *)messageBubbleFont;
+
+/**
+ *  The horizontal spacing used to lay out the `messageBubbleContainerView` frame within each `JSQMessagesCollectionViewCell`.
+ *  This container view holds the message bubble image and message contents of a cell.
+ *
+ *  This value specifies the horizontal spacing between the `messageBubbleContainerView` and
+ *  the edge of the collection view cell in which it is displayed. That is, the edge that is opposite the avatar image.
+ *
+ *  @discussion The default value is `40.0f` on iPhone and `240.0f` on iPad. This value must be positive.
+ *  For *outgoing* messages, this value specifies the amount of spacing from the left most
+ *  edge of the collectionView to the left most edge of a message bubble within a cell.
+ *
+ *  For *incoming* messages, this value specifies the amount of spacing from the right most
+ *  edge of the collectionView to the right most edge of a message bubble within a cell.
+ *
+ *  @warning This value may not be exact when the layout object finishes laying out its items, due to the constraints it must satisfy.
+ *  This value should be considered more of a recommendation or suggestion to the layout, not an exact value.
+ *
+ *  @see JSQMessagesCollectionViewCellIncoming.
+ *  @see JSQMessagesCollectionViewCellOutgoing.
+ */
+- (CGFloat)messageBubbleLeftRightMargin;
+
+/**
+ *  The inset of the frame of the text view within the `messageBubbleContainerView` of each `JSQMessagesCollectionViewCell`.
+ *  The inset values should be positive and are applied in the following ways:
+ *
+ *  1. The right value insets the text view frame on the side adjacent to the avatar image
+ *      (or where the avatar would normally appear). For outgoing messages this is the right side,
+ *      for incoming messages this is the left side.
+ *
+ *  2. The left value insets the text view frame on the side opposite the avatar image
+ *      (or where the avatar would normally appear). For outgoing messages this is the left side,
+ *      for incoming messages this is the right side.
+ *
+ *  3. The top value insets the top of the frame.
+ *
+ *  4. The bottom value insets the bottom of the frame.
+ *
+ *  @discussion The default value is `{0.0f, 0.0f, 0.0f, 6.0f}`.
+ *
+ *  @warning Adjusting this value is an advanced endeavour and not recommended.
+ *  You will only need to adjust this value should you choose to provide your own bubble image assets.
+ *  Changing this value may also require you to manually calculate the itemSize for each cell
+ *  in the layout by overriding the delegate method `collectionView:layout:sizeForItemAtIndexPath:`
+ */
+- (UIEdgeInsets)messageBubbleTextViewFrameInsets;
+
+/**
+ *  The inset of the text container's layout area within the text view's content area in each `JSQMessagesCollectionViewCell`.
+ *  The specified inset values should be positive.
+ *
+ *  @discussion The default value is `{7.0f, 14.0f, 7.0f, 14.0f}`.
+ *
+ *  @warning Adjusting this value is an advanced endeavour and not recommended.
+ *  You will only need to adjust this value should you choose to provide your own bubble image assets.
+ *  Changing this value may also require you to manually calculate the itemSize for each cell
+ *  in the layout by overriding the delegate method `collectionView:layout:sizeForItemAtIndexPath:`
+ */
+- (UIEdgeInsets)messageBubbleTextViewTextContainerInsets;
 
 @end
 
@@ -128,7 +227,7 @@
  *  @see JSQMessagesCollectionViewCellIncoming.
  *  @see JSQMessagesCollectionViewCellOutgoing.
  */
-@interface JSQMessagesCollectionViewCell : UICollectionViewCell
+@interface JSQMessagesCollectionViewCell : UICollectionViewCell <JSQMessagesCollectionViewCell>
 
 /**
  *  The object that acts as the delegate for the cell.

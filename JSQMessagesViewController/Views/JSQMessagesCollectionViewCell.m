@@ -339,4 +339,101 @@
     return YES;
 }
 
+#pragma mark - JSQMessagesCollectionViewCell protocol
+
++ (id)computeMetricsWithData:(id<JSQMessagesCollectionViewCellData>)data
+          cellSizeConstraint:(CGSize)constraint
+{
+    id<JSQMessageData> message = [data message];
+    
+    CGSize finalSize = CGSizeZero;
+    
+    if ([message isMediaMessage]) {
+        finalSize = [[message media] mediaViewDisplaySize];
+    }
+    else {
+        CGSize avatarSize = [data avatarViewSize];
+        
+        UIEdgeInsets textContainerInsets = [data messageBubbleTextViewTextContainerInsets];
+        UIEdgeInsets textFrameInsets = [data messageBubbleTextViewFrameInsets];
+        //  from the cell xibs, there is a 2 point space between avatar and bubble
+        CGFloat spacingBetweenAvatarAndBubble = 2.0f;
+        CGFloat horizontalContainerInsets = textContainerInsets.left + textContainerInsets.right;
+        CGFloat horizontalFrameInsets = textFrameInsets.left + textFrameInsets.right;
+        CGFloat horizontalInsetsTotal = horizontalContainerInsets + horizontalFrameInsets + spacingBetweenAvatarAndBubble;
+        
+        CGFloat maximumTextWidth = constraint.width - avatarSize.width - [data messageBubbleLeftRightMargin] - horizontalInsetsTotal;
+        
+        CGRect stringRect = [[message text] boundingRectWithSize:CGSizeMake(maximumTextWidth, CGFLOAT_MAX)
+                                                         options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                                      attributes:@{ NSFontAttributeName : [data messageBubbleFont] }
+                                                         context:nil];
+        
+        CGSize stringSize = CGRectIntegral(stringRect).size;
+        
+        CGFloat verticalContainerInsets = textContainerInsets.top + textContainerInsets.bottom;
+        CGFloat verticalFrameInsets = textFrameInsets.top + textFrameInsets.bottom;
+        
+        //  add extra 2 points of space, because `boundingRectWithSize:` is slightly off
+        //  not sure why. magix. (shrug) if you know, submit a PR
+        CGFloat verticalInsets = verticalContainerInsets + verticalFrameInsets + 2.0f;
+        
+        // FIXME: use cached value of [UIImage jsq_bubbleCompactImage].size.width
+        CGFloat bubbleWidth = 48;
+        //  same as above, an extra 2 points of magix
+        CGFloat finalWidth = MAX(stringSize.width + horizontalInsetsTotal, bubbleWidth) + 2.0f;
+        
+        finalSize = CGSizeMake(finalWidth, stringSize.height + verticalInsets);
+    }
+    
+    return [NSValue valueWithCGSize:finalSize];
+}
+
++ (CGSize)cellSizeWithData:(id<JSQMessagesCollectionViewCellData>)data
+                   metrics:(id)metrics
+        cellSizeConstraint:(CGSize)constraint
+{
+    CGSize messageBubbleSize = [(NSValue *)metrics CGSizeValue];
+    
+    CGFloat finalHeight = messageBubbleSize.height;
+    finalHeight += [data cellTopLabelHeight];
+    finalHeight += [data messageBubbleTopLabelHeight];
+    finalHeight += [data cellBottomLabelHeight];
+    
+    return CGSizeMake(constraint.width, ceilf(finalHeight));
+}
+
+- (void)configureWithData:(id<JSQMessagesCollectionViewCellData>)data
+                  metrics:(id)metrics
+       cellSizeConstraint:(CGSize)constraint
+{
+    CGSize messageBubbleSize = [(NSValue *)metrics CGSizeValue];
+
+    UIFont *messageBubbleFont = [data messageBubbleFont];
+    if (self.textView.font != messageBubbleFont) {
+        self.textView.font = messageBubbleFont;
+    }
+    
+    UIEdgeInsets textContainerInsets = [data messageBubbleTextViewTextContainerInsets];
+    if (!UIEdgeInsetsEqualToEdgeInsets(self.textView.textContainerInset, textContainerInsets)) {
+        self.textView.textContainerInset = textContainerInsets;
+    }
+    
+    self.textViewFrameInsets = [data messageBubbleTextViewFrameInsets];
+    
+    [self jsq_updateConstraint:self.messageBubbleContainerWidthConstraint
+                  withConstant:messageBubbleSize.width];
+    
+    [self jsq_updateConstraint:self.cellTopLabelHeightConstraint
+                  withConstant:[data cellTopLabelHeight]];
+    
+    [self jsq_updateConstraint:self.messageBubbleTopLabelHeightConstraint
+                  withConstant:[data messageBubbleTopLabelHeight]];
+    
+    [self jsq_updateConstraint:self.cellBottomLabelHeightConstraint
+                  withConstant:[data cellBottomLabelHeight]];
+    
+    self.avatarViewSize = [data avatarViewSize];
+}
+
 @end

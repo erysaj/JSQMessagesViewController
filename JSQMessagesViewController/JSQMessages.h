@@ -61,7 +61,6 @@
 #import "JSQMessageMediaData.h"
 #import "JSQMessageAvatarImageDataSource.h"
 #import "JSQMessageBubbleImageDataSource.h"
-#import "JSQMessagesCollectionViewDataSource.h"
 #import "JSQMessagesCollectionViewDelegateFlowLayout.h"
 
 //  Factories

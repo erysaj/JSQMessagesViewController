@@ -20,7 +20,6 @@
 
 #import "JSQMessagesCollectionViewFlowLayout.h"
 #import "JSQMessagesCollectionViewDelegateFlowLayout.h"
-#import "JSQMessagesCollectionViewDataSource.h"
 #import "JSQMessagesCollectionViewCell.h"
 
 @class JSQMessagesTypingIndicatorFooterView;
@@ -32,12 +31,6 @@
  *  them using a specialized layout for messages.
  */
 @interface JSQMessagesCollectionView : UICollectionView <JSQMessagesCollectionViewCellDelegate>
-
-/**
- *  The object that provides the data for the collection view.
- *  The data source must adopt the `JSQMessagesCollectionViewDataSource` protocol.
- */
-@property (weak, nonatomic) id<JSQMessagesCollectionViewDataSource> dataSource;
 
 /**
  *  The object that acts as the delegate of the collection view. 

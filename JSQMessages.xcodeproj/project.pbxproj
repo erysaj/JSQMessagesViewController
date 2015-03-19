@@ -214,7 +214,6 @@
 		88A25F8019D8E01A00924534 /* JSQMessagesAvatarImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQMessagesAvatarImage.m; sourceTree = "<group>"; };
 		88A25F8119D8E01A00924534 /* JSQMessagesBubbleImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQMessagesBubbleImage.h; sourceTree = "<group>"; };
 		88A25F8219D8E01A00924534 /* JSQMessagesBubbleImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQMessagesBubbleImage.m; sourceTree = "<group>"; };
-		88A25F8319D8E01A00924534 /* JSQMessagesCollectionViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQMessagesCollectionViewDataSource.h; sourceTree = "<group>"; };
 		88A25F8419D8E01A00924534 /* JSQMessagesCollectionViewDelegateFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQMessagesCollectionViewDelegateFlowLayout.h; sourceTree = "<group>"; };
 		88A25F8519D8E01A00924534 /* JSQPhotoMediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQPhotoMediaItem.h; sourceTree = "<group>"; };
 		88A25F8619D8E01A00924534 /* JSQPhotoMediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQPhotoMediaItem.m; sourceTree = "<group>"; };
@@ -529,7 +528,6 @@
 				88A25F8019D8E01A00924534 /* JSQMessagesAvatarImage.m */,
 				88A25F8119D8E01A00924534 /* JSQMessagesBubbleImage.h */,
 				88A25F8219D8E01A00924534 /* JSQMessagesBubbleImage.m */,
-				88A25F8319D8E01A00924534 /* JSQMessagesCollectionViewDataSource.h */,
 				88A25F8419D8E01A00924534 /* JSQMessagesCollectionViewDelegateFlowLayout.h */,
 				88A25F8519D8E01A00924534 /* JSQPhotoMediaItem.h */,
 				88A25F8619D8E01A00924534 /* JSQPhotoMediaItem.m */,

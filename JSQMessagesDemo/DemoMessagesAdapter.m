@@ -31,6 +31,7 @@
 - (instancetype)initWithModel:(DemoModelData *)model
 {
     JSQArrayItemDataSource *dataSource = [[JSQArrayItemDataSource alloc] initWithItems:model.messages];
+    
     self = [self initWithDataSource:dataSource senderId:nil];
     if (self) {
         self.model = model;
@@ -57,6 +58,35 @@
      */
     BOOL prevMessageHasSameSender = self.prevMessage && [[self.prevMessage senderId] isEqualToString:[self.currMessage senderId]];
     self.showMessageBubbleTopLabel = ![self isOutgoingMessage] && !prevMessageHasSameSender;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    JSQMessagesCollectionViewCell *cell = nil;
+    cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+    
+    /**
+     *  Perform additional configuration of the cell (colors, etc.).
+     *
+     *  DO NOT overwrite values set from display data object, override returned values.
+     *
+     *  DO NOT change anything related to layout.
+     *  Instead add more properties to `JSQMessagesCollectionViewCellData` protocol and subclass
+     *  `JSQMessagesCollectionViewCell` to account for more data.
+     *
+     */
+    
+    id<JSQMessageData> msg = self.currMessage;
+
+    if (![msg isMediaMessage]) {
+        cell.textView.textColor = [self isOutgoingMessage]? [UIColor blackColor]: [UIColor whiteColor];
+        
+        cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor,
+                                              NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
+    }
+    
+
+    return cell;
 }
 
 #pragma mark - JSQMessagesCollectionViewCellData

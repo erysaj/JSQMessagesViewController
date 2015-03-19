@@ -62,26 +62,6 @@
  */
 - (id<JSQMessageData>)collectionView:(JSQMessagesCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath;
 
-/**
- *  Asks the data source for the message bubble image data that corresponds to the specified message data item at indexPath in the collectionView.
- *
- *  @param collectionView The object representing the collection view requesting this information.
- *  @param indexPath      The index path that specifies the location of the item.
- *
- *  @return An initialized object that conforms to the `JSQMessageBubbleImageDataSource` protocol. You may return `nil` from this method if you do not
- *  want the specified item to display a message bubble image.
- *
- *  @discussion It is recommended that you utilize `JSQMessagesBubbleImageFactory` to return valid `JSQMessagesBubbleImage` objects.
- *  However, you may provide your own data source object as long as it conforms to the `JSQMessageBubbleImageDataSource` protocol.
- *  
- *  @warning Note that providing your own bubble image data source objects may require additional 
- *  configuration of the collectionView layout object, specifically regarding its `messageBubbleTextViewFrameInsets` and `messageBubbleTextViewTextContainerInsets`.
- *
- *  @see JSQMessagesBubbleImageFactory.
- *  @see JSQMessagesCollectionViewFlowLayout.
- */
-- (id<JSQMessageBubbleImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath;
-
 @optional
 
 /**

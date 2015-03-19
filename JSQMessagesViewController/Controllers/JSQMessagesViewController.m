@@ -405,12 +405,6 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     return [self.dataSource itemAtIndexPath:indexPath];
 }
 
-- (id<JSQMessageBubbleImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSAssert(NO, @"ERROR: required method not implemented: %s", __PRETTY_FUNCTION__);
-    return nil;
-}
-
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     return nil;

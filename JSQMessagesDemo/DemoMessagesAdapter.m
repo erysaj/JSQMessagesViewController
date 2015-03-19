@@ -58,4 +58,16 @@
     return [self.model.avatars objectForKey:self.currMessage.senderId];
 }
 
+- (id<JSQMessageBubbleImageDataSource>)messageBubbleImageData
+{
+    /**
+     *  You may return nil here if you do not want bubbles.
+     *  In this case, you should set the background color of your collection view cell's textView.
+     *
+     *  Otherwise, return your previously created bubble image data objects.
+     */
+    
+    return [self isOutgoingMessage]? self.model.outgoingBubbleImageData: self.model.incomingBubbleImageData;
+}
+
 @end

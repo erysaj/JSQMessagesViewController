@@ -234,4 +234,9 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     return nil;
 }
 
+- (id<JSQMessageBubbleImageDataSource>)messageBubbleImageData
+{
+    return nil;
+}
+
 @end

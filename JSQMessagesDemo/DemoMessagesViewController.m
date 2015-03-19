@@ -354,24 +354,6 @@
 
 #pragma mark - JSQMessages CollectionView DataSource
 
-- (id<JSQMessageBubbleImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    /**
-     *  You may return nil here if you do not want bubbles.
-     *  In this case, you should set the background color of your collection view cell's textView.
-     *
-     *  Otherwise, return your previously created bubble image data objects.
-     */
-    
-    JSQMessage *message = [self.demoData.messages objectAtIndex:indexPath.item];
-    
-    if ([message.senderId isEqualToString:self.senderId]) {
-        return self.demoData.outgoingBubbleImageData;
-    }
-    
-    return self.demoData.incomingBubbleImageData;
-}
-
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     /**

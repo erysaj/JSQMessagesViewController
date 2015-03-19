@@ -136,6 +136,22 @@
  */
 - (UIEdgeInsets)messageBubbleTextViewTextContainerInsets;
 
+/**
+ *  Asks for the message bubble image data to display in the cell.
+ *
+ *  @return An initialized object that conforms to the `JSQMessageBubbleImageDataSource` protocol.
+ *  You may return `nil` from this method if you do not the cell to display a message bubble image.
+ *
+ *  @discussion It is recommended that you utilize `JSQMessagesBubbleImageFactory` to return valid `JSQMessagesBubbleImage` objects.
+ *  However, you may provide your own data source object as long as it conforms to the `JSQMessageBubbleImageDataSource` protocol.
+ *
+ *  @warning Note that providing your own bubble image data source objects may require to update accrodingly additional
+ *  display data properties, especially `messageBubbleTextViewFrameInsets` and `messageBubbleTextViewTextContainerInsets`.
+ *
+ *  @see JSQMessagesBubbleImageFactory.
+ */
+- (id<JSQMessageBubbleImageDataSource>)messageBubbleImageData;
+
 @end
 
 

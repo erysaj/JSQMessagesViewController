@@ -407,12 +407,11 @@
 
         NSParameterAssert(self.textView.text != nil);
 
-        // FIXME: move to display data
-//        id<JSQMessageBubbleImageDataSource> bubbleImageDataSource = [collectionView.dataSource collectionView:collectionView messageBubbleImageDataForItemAtIndexPath:indexPath];
-//        if (bubbleImageDataSource != nil) {
-//            cell.messageBubbleImageView.image = [bubbleImageDataSource messageBubbleImage];
-//            cell.messageBubbleImageView.highlightedImage = [bubbleImageDataSource messageBubbleHighlightedImage];
-//        }
+        id<JSQMessageBubbleImageDataSource> bubbleImageDataSource = [data messageBubbleImageData];
+        if (bubbleImageDataSource != nil) {
+            self.messageBubbleImageView.image = [bubbleImageDataSource messageBubbleImage];
+            self.messageBubbleImageView.highlightedImage = [bubbleImageDataSource messageBubbleHighlightedImage];
+        }
     }
     else {
         id<JSQMessageMediaData> messageMedia = [message media];

@@ -36,8 +36,6 @@
 
 @interface JSQMessagesCollectionViewFlowLayout ()
 
-@property (strong, nonatomic) NSCache *messageBubbleCache;
-
 @property (strong, nonatomic) UIDynamicAnimator *dynamicAnimator;
 @property (strong, nonatomic) NSMutableSet *visibleIndexPaths;
 
@@ -77,10 +75,6 @@
     self.minimumLineSpacing = 4.0f;
     
     _bubbleImageAssetWidth = [UIImage jsq_bubbleCompactImage].size.width;
-    
-    _messageBubbleCache = [NSCache new];
-    _messageBubbleCache.name = @"JSQMessagesCollectionViewFlowLayout.messageBubbleCache";
-    _messageBubbleCache.countLimit = 200;
     
     _springinessEnabled = NO;
     _springResistanceFactor = 1000;
@@ -125,9 +119,6 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [_messageBubbleCache removeAllObjects];
-    _messageBubbleCache = nil;
-    
     [_dynamicAnimator removeAllBehaviors];
     _dynamicAnimator = nil;
     
@@ -152,11 +143,6 @@
     [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
 }
 
-- (void)setCacheLimit:(NSUInteger)cacheLimit
-{
-    self.messageBubbleCache.countLimit = cacheLimit;
-}
-
 #pragma mark - Getters
 
 - (CGFloat)itemWidth
@@ -178,11 +164,6 @@
         _visibleIndexPaths = [NSMutableSet new];
     }
     return _visibleIndexPaths;
-}
-
-- (NSUInteger)cacheLimit
-{
-    return self.messageBubbleCache.countLimit;
 }
 
 #pragma mark - Notifications
@@ -346,7 +327,7 @@
 
 - (void)jsq_resetLayout
 {
-    [self.messageBubbleCache removeAllObjects];
+    [self.layoutCache removeAllObjects];
     [self jsq_resetDynamicAnimator];
 }
 

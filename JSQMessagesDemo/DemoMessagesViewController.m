@@ -269,6 +269,8 @@
 
     DemoMessagesAdapter *adapter = [[DemoMessagesAdapter alloc] initWithModel:self.demoData];
     self.dataSource = adapter.dataSource;
+    self.collectionView.collectionViewLayout.layoutCache = adapter.metricsCache;
+    
     /**
      *  You can set custom avatar sizes
      */

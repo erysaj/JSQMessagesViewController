@@ -70,10 +70,10 @@
 @property (readonly, nonatomic) CGFloat itemWidth;
 
 /**
- *  The maximum number of items that the layout should keep in its cache of layout information.
+ *  The cache to be cleared when layout is invalidated.
  *
  *  @discussion The default value is `200`. A limit of `0` means no limit. This is not a strict limit.
  */
-@property (assign, nonatomic) NSUInteger cacheLimit;
+@property (strong, nonatomic) NSCache *layoutCache;
 
 @end

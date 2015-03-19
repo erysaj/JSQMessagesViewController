@@ -219,14 +219,29 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     return 0.0f;
 }
 
+- (NSAttributedString *)attributedTextForCellTopLabel
+{
+    return nil;
+}
+
 - (CGFloat)cellBottomLabelHeight
 {
     return 0.0f;
 }
 
+- (NSAttributedString *)attributedTextForCellBottomLabel
+{
+    return nil;
+}
+
 - (CGFloat)messageBubbleTopLabelHeight
 {
     return 0.0f;
+}
+
+- (NSAttributedString *)attributedTextForMessageBubbleTopLabel
+{
+    return nil;
 }
 
 - (id<JSQMessageAvatarImageDataSource>)avatarImageData

@@ -36,6 +36,7 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
 @property (nonatomic, strong) id<JSQMessageData> currMessage;
 @property (nonatomic, strong) id<JSQMessageData> prevMessage;
 @property (nonatomic, assign) BOOL isOutgoingMessage;
+@property (nonatomic, assign) BOOL showAvatar;
 
 @end
 
@@ -111,6 +112,7 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     }
     
     self.isOutgoingMessage = [_senderId isEqualToString:[_currMessage senderId]];
+    self.showAvatar = !CGSizeEqualToSize(CGSizeZero, [self avatarViewSize]);
 }
 
 - (Class<JSQCollectionViewCell>)cellClassForCurrentItem
@@ -237,6 +239,11 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
 - (CGFloat)messageBubbleTopLabelHeight
 {
     return 0.0f;
+}
+
+- (UIEdgeInsets)messageBubbleTopLabelInsets
+{
+    return UIEdgeInsetsZero;
 }
 
 - (NSAttributedString *)attributedTextForMessageBubbleTopLabel

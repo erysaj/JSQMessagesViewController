@@ -58,6 +58,12 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault;
  */
 @property (nonatomic, readonly) BOOL isOutgoingMessage;
 
+
+/**
+ *  Specifies if avatar should be shown for the current message;
+ */
+@property (nonatomic, readonly) BOOL showAvatar;
+
 /**
  *  The collection view cell identifier to use for dequeuing outgoing message collection view cells
  *  in the collectionView for text messages.

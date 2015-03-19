@@ -86,6 +86,13 @@
 - (CGFloat)messageBubbleTopLabelHeight;
 
 /**
+ *  Text insets for `messageBubbleTopLabel` of a `JSQMessagesCollectionViewCell`.
+ *
+ *  @see JSQMessagesCollectionViewCell.
+ */
+- (UIEdgeInsets)messageBubbleTopLabelInsets;
+
+/**
  *  Asks for the text to display in the cell's `messageBubbleTopLabel`.
  *
  *  @return A configured attributed string or `nil` if you do not want text displayed for the item at indexPath.

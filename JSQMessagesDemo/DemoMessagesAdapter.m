@@ -155,6 +155,17 @@
     return 0.0f;
 }
 
+- (UIEdgeInsets)messageBubbleTopLabelInsets
+{
+    CGFloat bubbleTopLabelInset = (self.showAvatar) ? 60.0f : 15.0f;
+    if (self.isOutgoingMessage) {
+        return UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, bubbleTopLabelInset);
+    }
+    else {
+        return UIEdgeInsetsMake(0.0f, bubbleTopLabelInset, 0.0f, 0.0f);
+    }
+}
+
 - (NSAttributedString *)attributedTextForMessageBubbleTopLabel
 {
     if (self.showMessageBubbleTopLabel) {

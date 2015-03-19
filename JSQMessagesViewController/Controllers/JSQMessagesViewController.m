@@ -26,9 +26,6 @@
 #import "JSQMessageBubbleImageDataSource.h"
 #import "JSQMessageAvatarImageDataSource.h"
 
-#import "JSQMessagesTypingIndicatorFooterView.h"
-#import "JSQMessagesLoadEarlierHeaderView.h"
-
 #import "JSQMessagesToolbarContentView.h"
 #import "JSQMessagesInputToolbar.h"
 #import "JSQMessagesComposerTextView.h"
@@ -375,7 +372,9 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     //  possibly a UIKit bug, see #480 on GitHub
     NSUInteger finalRow = MAX(0, [self.collectionView numberOfItemsInSection:0] - 1);
     NSIndexPath *finalIndexPath = [NSIndexPath indexPathForItem:finalRow inSection:0];
-    CGSize finalCellSize = [self.adapter sizeForItemAtIndexPath:finalIndexPath collectionView:self.collectionView layout:self.collectionView.collectionViewLayout];
+    CGSize finalCellSize = [self.adapter collectionView:self.collectionView
+                                                 layout:self.collectionView.collectionViewLayout
+                                 sizeForItemAtIndexPath:finalIndexPath];
 
     CGFloat maxHeightForVisibleMessage = CGRectGetHeight(self.collectionView.bounds) - self.collectionView.contentInset.top - CGRectGetHeight(self.inputToolbar.bounds);
 
@@ -413,15 +412,20 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     return cell;
 }
 
-- (UICollectionReusableView *)collectionView:(JSQMessagesCollectionView *)collectionView
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
            viewForSupplementaryElementOfKind:(NSString *)kind
                                  atIndexPath:(NSIndexPath *)indexPath
 {
     if (self.showTypingIndicator && [kind isEqualToString:UICollectionElementKindSectionFooter]) {
-        return [collectionView dequeueTypingIndicatorFooterViewForIndexPath:indexPath];
+        return [self.adapter collectionView:collectionView
+          viewForSupplementaryElementOfKind:kind
+                                atIndexPath:indexPath];
     }
-    else if (self.showLoadEarlierMessagesHeader && [kind isEqualToString:UICollectionElementKindSectionHeader]) {
-        return [collectionView dequeueLoadEarlierMessagesViewHeaderForIndexPath:indexPath];
+    
+    if (self.showLoadEarlierMessagesHeader && [kind isEqualToString:UICollectionElementKindSectionHeader]) {
+        return [self.adapter collectionView:collectionView
+          viewForSupplementaryElementOfKind:kind
+                                atIndexPath:indexPath];
     }
 
     return nil;
@@ -434,7 +438,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
         return CGSizeZero;
     }
 
-    return CGSizeMake([collectionViewLayout itemWidth], kJSQMessagesTypingIndicatorFooterViewHeight);
+    return [self.adapter collectionView:collectionView
+                                 layout:collectionViewLayout referenceSizeForFooterInSection:section];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
@@ -444,7 +449,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
         return CGSizeZero;
     }
 
-    return CGSizeMake([collectionViewLayout itemWidth], kJSQMessagesLoadEarlierHeaderViewHeight);
+    return [self.adapter collectionView:collectionView
+                                 layout:collectionViewLayout referenceSizeForHeaderInSection:section];
 }
 
 #pragma mark - Collection view delegate
@@ -488,10 +494,10 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 #pragma mark - Collection view delegate flow layout
 
-- (CGSize)collectionView:(JSQMessagesCollectionView *)collectionView
-                  layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.adapter sizeForItemAtIndexPath:indexPath collectionView:collectionView layout:collectionViewLayout];
+    return [self.adapter collectionView:collectionView layout:collectionViewLayout sizeForItemAtIndexPath:indexPath];
 }
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView

@@ -94,34 +94,36 @@
     return cell;
 }
 
-#pragma mark - JSQCollectionViewAdapter protocol
+#pragma mark - UICollectionViewDelegateFlowLayout protocol
 
-- (void)registerCellsForCollectionView:(UICollectionView *)collectionView
-{
-    NSAssert(NO, @"ERROR: required method not implemented: %s", __PRETTY_FUNCTION__);
-}
-
-- (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-                  collectionView:(UICollectionView *)collectionView
-                          layout:(UICollectionViewFlowLayout *)layout
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewFlowLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [self setCurrentItemIndexPath:indexPath];
     
     Class<JSQCollectionViewCell> cellClass = [self cellClassForCurrentItem];
     id<JSQCollectionViewCellDisplayData> displayData = [self displayDataForCurrentItem];
-
-    UIEdgeInsets sectionInset = layout.sectionInset;
+    
+    UIEdgeInsets sectionInset = collectionViewLayout.sectionInset;
     CGFloat maxWidth = CGRectGetWidth(collectionView.frame) - sectionInset.left - sectionInset.right;
     CGSize cellSizeConstraint = CGSizeMake(maxWidth, CGFLOAT_MAX);
-
+    
     id metrics = [self metricsForCurrentItemWithComputeBlock:^id{
         return [cellClass computeMetricsWithData:displayData cellSizeConstraint:cellSizeConstraint];
     }];
-
+    
     CGSize size = [cellClass cellSizeWithData:displayData
                                       metrics:metrics
                            cellSizeConstraint:cellSizeConstraint];
     return size;
+}
+
+#pragma mark - JSQCollectionViewAdapter protocol
+
+- (void)registerCellsForCollectionView:(UICollectionView *)collectionView
+{
+    NSAssert(NO, @"ERROR: required method not implemented: %s", __PRETTY_FUNCTION__);
 }
 
 #pragma mark - methods to override

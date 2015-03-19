@@ -30,7 +30,7 @@
  *  Such object will also encapsulate knowledge of what kinds of custom cells are used and how to
  *  configure each cell kind for displaying model data.
  */
-@protocol JSQCollectionViewAdapter <UICollectionViewDataSource>
+@protocol JSQCollectionViewAdapter <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @required
 
@@ -39,12 +39,5 @@
  */
 - (void)registerCellsForCollectionView:(UICollectionView *)collectionView;
 
-
-/**
- *  Compute cell size.
- */
-- (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-                  collectionView:(UICollectionView *)collectionView
-                          layout:(UICollectionViewFlowLayout *)layout;
 
 @end

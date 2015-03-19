@@ -18,6 +18,7 @@
 
 #import "JSQMessagesCollectionViewAdapter.h"
 
+#import "JSQMessagesCollectionView.h"
 #import "JSQMessagesCollectionViewCellIncoming.h"
 #import "JSQMessagesCollectionViewCellOutgoing.h"
 #import "JSQMessagesTypingIndicatorFooterView.h"
@@ -142,11 +143,40 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     return @([self.currMessage messageHash]);
 }
 
-#pragma mark -
+#pragma mark - UICollectionViewDataSource
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return [super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+}
+
+- (UICollectionReusableView *)collectionView:(JSQMessagesCollectionView *)collectionView
+           viewForSupplementaryElementOfKind:(NSString *)kind
+                                 atIndexPath:(NSIndexPath *)indexPath
+{
+    if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
+        return [(JSQMessagesCollectionView *)collectionView dequeueTypingIndicatorFooterViewForIndexPath:indexPath];
+    }
+    
+    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+        return [(JSQMessagesCollectionView *)collectionView dequeueLoadEarlierMessagesViewHeaderForIndexPath:indexPath];
+    }
+    
+    return nil;
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+{
+    return CGSizeMake([collectionViewLayout itemWidth], kJSQMessagesTypingIndicatorFooterViewHeight);
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    return CGSizeMake([collectionViewLayout itemWidth], kJSQMessagesLoadEarlierHeaderViewHeight);
 }
 
 #pragma mark - Setters

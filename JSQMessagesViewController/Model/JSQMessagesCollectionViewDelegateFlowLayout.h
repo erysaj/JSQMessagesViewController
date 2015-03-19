@@ -35,48 +35,6 @@
 @optional
 
 /**
- *  Asks the delegate for the height of the `cellTopLabel` for the item at the specified indexPath.
- *
- *  @param collectionView       The collection view object displaying the flow layout.
- *  @param collectionViewLayout The layout object requesting the information.
- *  @param indexPath            The index path of the item.
- *
- *  @return The height of the `cellTopLabel` for the item at indexPath.
- *
- *  @see JSQMessagesCollectionViewCell.
- */
-- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
- *  Asks the delegate for the height of the `messageBubbleTopLabel` for the item at the specified indexPath.
- *
- *  @param collectionView       The collection view object displaying the flow layout.
- *  @param collectionViewLayout The layout object requesting the information.
- *  @param indexPath            The index path of the item.
- *
- *  @return The height of the `messageBubbleTopLabel` for the item at indexPath.
- *
- *  @see JSQMessagesCollectionViewCell.
- */
-- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
- *  Asks the delegate for the height of the `cellBottomLabel` for the item at the specified indexPath.
- *
- *  @param collectionView       The collection view object displaying the flow layout.
- *  @param collectionViewLayout The layout object requesting the information.
- *  @param indexPath            The index path of the item.
- *
- *  @return The height of the `cellBottomLabel` for the item at indexPath.
- *
- *  @see JSQMessagesCollectionViewCell.
- */
-- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
  *  Notifies the delegate that the avatar image view at the specified indexPath did receive a tap event.
  *
  *  @param collectionView  The collection view object that is notifying the delegate of the tap event.

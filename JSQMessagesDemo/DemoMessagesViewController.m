@@ -270,16 +270,15 @@
 
     DemoMessagesAdapter *adapter = [[DemoMessagesAdapter alloc] initWithDataSource:self.dataSource senderId:self.senderId];
     
-    
     /**
      *  You can set custom avatar sizes
      */
     if (![NSUserDefaults incomingAvatarSetting]) {
-        self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
+        adapter.incomingAvatarViewSize = CGSizeZero;
     }
     
     if (![NSUserDefaults outgoingAvatarSetting]) {
-        self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+        adapter.outgoingAvatarViewSize = CGSizeZero;
     }
 
     return adapter;

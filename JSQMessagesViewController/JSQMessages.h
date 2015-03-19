@@ -23,6 +23,7 @@
 
 //  Views
 #import "JSQMessagesCollectionView.h"
+#import "JSQMessagesCollectionViewAdapter.h"
 #import "JSQMessagesCollectionViewCellIncoming.h"
 #import "JSQMessagesCollectionViewCellOutgoing.h"
 #import "JSQMessagesTypingIndicatorFooterView.h"
@@ -53,6 +54,9 @@
 
 //  Protocols
 #import "JSQItemDataSource.h"
+#import "JSQCollectionViewAdapter.h"
+#import "JSQCollectionViewCell.h"
+#import "JSQCollectionViewCellDisplayData.h"
 #import "JSQMessageData.h"
 #import "JSQMessageMediaData.h"
 #import "JSQMessageAvatarImageDataSource.h"

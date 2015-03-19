@@ -162,36 +162,7 @@
 {
     [super applyLayoutAttributes:layoutAttributes];
 
-    JSQMessagesCollectionViewLayoutAttributes *customAttributes = (JSQMessagesCollectionViewLayoutAttributes *)layoutAttributes;
-
-    if (self.textView.font != customAttributes.messageBubbleFont) {
-        self.textView.font = customAttributes.messageBubbleFont;
-    }
-
-    if (!UIEdgeInsetsEqualToEdgeInsets(self.textView.textContainerInset, customAttributes.textViewTextContainerInsets)) {
-        self.textView.textContainerInset = customAttributes.textViewTextContainerInsets;
-    }
-
-    self.textViewFrameInsets = customAttributes.textViewFrameInsets;
-
-    [self jsq_updateConstraint:self.messageBubbleContainerWidthConstraint
-                  withConstant:customAttributes.messageBubbleContainerViewWidth];
-
-    [self jsq_updateConstraint:self.cellTopLabelHeightConstraint
-                  withConstant:customAttributes.cellTopLabelHeight];
-
-    [self jsq_updateConstraint:self.messageBubbleTopLabelHeightConstraint
-                  withConstant:customAttributes.messageBubbleTopLabelHeight];
-
-    [self jsq_updateConstraint:self.cellBottomLabelHeightConstraint
-                  withConstant:customAttributes.cellBottomLabelHeight];
-
-    if ([self isKindOfClass:[JSQMessagesCollectionViewCellIncoming class]]) {
-        self.avatarViewSize = customAttributes.incomingAvatarViewSize;
-    }
-    else if ([self isKindOfClass:[JSQMessagesCollectionViewCellOutgoing class]]) {
-        self.avatarViewSize = customAttributes.outgoingAvatarViewSize;
-    }
+//    JSQMessagesCollectionViewLayoutAttributes *customAttributes = (JSQMessagesCollectionViewLayoutAttributes *)layoutAttributes;
 }
 
 - (void)setHighlighted:(BOOL)highlighted
@@ -344,11 +315,9 @@
 + (id)computeMetricsWithData:(id<JSQMessagesCollectionViewCellData>)data
           cellSizeConstraint:(CGSize)constraint
 {
-    if (!data) {
-        return [NSNull null];
-    }
+    NSParameterAssert(data);
     
-    id<JSQMessageData> message = [data message];
+    id<JSQMessageData> message = [data messageData];
     
     CGSize finalSize = CGSizeZero;
     
@@ -397,9 +366,8 @@
                    metrics:(id)metrics
         cellSizeConstraint:(CGSize)constraint
 {
-    if (!data) {
-        return CGSizeZero;
-    }
+    NSParameterAssert(data);
+    NSParameterAssert(metrics);
     
     CGSize messageBubbleSize = [(NSValue *)metrics CGSizeValue];
     
@@ -415,16 +383,78 @@
                   metrics:(id)metrics
                  cellSize:(CGSize)cellSize
 {
-    if (!data) {
-        return;
-    }
-    
+    NSParameterAssert(data);
+    NSParameterAssert(metrics);
+
+    id<JSQMessageData> message = [data messageData];
+    BOOL isMediaMessage = [message isMediaMessage];
+
+    // configure bubble
     CGSize messageBubbleSize = [(NSValue *)metrics CGSizeValue];
 
     UIFont *messageBubbleFont = [data messageBubbleFont];
     if (self.textView.font != messageBubbleFont) {
         self.textView.font = messageBubbleFont;
     }
+    
+    if (!isMediaMessage) {
+        self.textView.text = [message text];
+
+        if ([UIDevice jsq_isCurrentDeviceBeforeiOS8]) {
+            //  workaround for iOS 7 textView data detectors bug
+            self.textView.text = nil;
+            self.textView.attributedText = [[NSAttributedString alloc] initWithString:[message text]
+                                                                           attributes:@{ NSFontAttributeName : messageBubbleFont }];
+        }
+
+        NSParameterAssert(self.textView.text != nil);
+
+        // FIXME: move to display data
+//        id<JSQMessageBubbleImageDataSource> bubbleImageDataSource = [collectionView.dataSource collectionView:collectionView messageBubbleImageDataForItemAtIndexPath:indexPath];
+//        if (bubbleImageDataSource != nil) {
+//            cell.messageBubbleImageView.image = [bubbleImageDataSource messageBubbleImage];
+//            cell.messageBubbleImageView.highlightedImage = [bubbleImageDataSource messageBubbleHighlightedImage];
+//        }
+    }
+    else {
+        id<JSQMessageMediaData> messageMedia = [message media];
+        self.mediaView = [messageMedia mediaView] ?: [messageMedia mediaPlaceholderView];
+        NSParameterAssert(self.mediaView != nil);
+    }
+
+    CGSize avatarViewSize = [data avatarViewSize];
+    BOOL needsAvatar = !CGSizeEqualToSize(avatarViewSize, CGSizeZero);
+    if (needsAvatar) {
+//        id<JSQMessageAvatarImageDataSource> avatarImageDataSource = nil;
+//        avatarImageDataSource = [collectionView.dataSource collectionView:collectionView avatarImageDataForItemAtIndexPath:indexPath];
+//        if (avatarImageDataSource != nil) {
+//            
+//            UIImage *avatarImage = [avatarImageDataSource avatarImage];
+//            if (avatarImage == nil) {
+//                cell.avatarImageView.image = [avatarImageDataSource avatarPlaceholderImage];
+//                cell.avatarImageView.highlightedImage = nil;
+//            }
+//            else {
+//                cell.avatarImageView.image = avatarImage;
+//                cell.avatarImageView.highlightedImage = [avatarImageDataSource avatarHighlightedImage];
+//            }
+//        }
+    }
+//
+//    cell.cellTopLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForCellTopLabelAtIndexPath:indexPath];
+//    cell.messageBubbleTopLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:indexPath];
+//    cell.cellBottomLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForCellBottomLabelAtIndexPath:indexPath];
+//
+//    CGFloat bubbleTopLabelInset = (avatarImageDataSource != nil) ? 60.0f : 15.0f;
+//
+//    if (isOutgoingMessage) {
+//        cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, bubbleTopLabelInset);
+//    }
+//    else {
+//        cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, bubbleTopLabelInset, 0.0f, 0.0f);
+//    }
+//
+
     
     UIEdgeInsets textContainerInsets = [data messageBubbleTextViewTextContainerInsets];
     if (!UIEdgeInsetsEqualToEdgeInsets(self.textView.textContainerInset, textContainerInsets)) {
@@ -446,6 +476,13 @@
                   withConstant:[data cellBottomLabelHeight]];
     
     self.avatarViewSize = [data avatarViewSize];
+    
+    self.textView.dataDetectorTypes = UIDataDetectorTypeAll;
+    
+    self.backgroundColor = [UIColor clearColor];
+    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    self.layer.shouldRasterize = YES;
+
 }
 
 @end

@@ -57,7 +57,7 @@
  *
  *  @see JSQMessagesAvatarImageFactory.
  */
-- (id<JSQMessageAvatarImageDataSource>)avatarData;
+- (id<JSQMessageAvatarImageDataSource>)avatarImageData;
 
 /**
  *  The height of the `cellTopLabel` of a `JSQMessagesCollectionViewCell`.

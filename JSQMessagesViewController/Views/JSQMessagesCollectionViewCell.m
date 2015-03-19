@@ -429,7 +429,7 @@
     CGSize avatarViewSize = [data avatarViewSize];
     BOOL needsAvatar = !CGSizeEqualToSize(avatarViewSize, CGSizeZero);
     if (needsAvatar) {
-        id<JSQMessageAvatarImageDataSource> avatarImageDataSource = [data avatarData];
+        id<JSQMessageAvatarImageDataSource> avatarImageDataSource = [data avatarImageData];
         if (avatarImageDataSource != nil) {
             
             UIImage *avatarImage = [avatarImageDataSource avatarImage];

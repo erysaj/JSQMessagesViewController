@@ -32,7 +32,7 @@
 
 #pragma mark - JSQMessagesCollectionViewCellData
 
-- (id<JSQMessageAvatarImageDataSource>)avatarData
+- (id<JSQMessageAvatarImageDataSource>)avatarImageData
 {
     /**
      *  Return `nil` here if you do not want avatars.

@@ -52,26 +52,6 @@
     self.alwaysBounceVertical = YES;
     self.bounces = YES;
     
-    [self registerNib:[JSQMessagesCollectionViewCellIncoming nib]
-          forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellIncoming cellReuseIdentifier]];
-    
-    [self registerNib:[JSQMessagesCollectionViewCellOutgoing nib]
-          forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellOutgoing cellReuseIdentifier]];
-    
-    [self registerNib:[JSQMessagesCollectionViewCellIncoming nib]
-          forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellIncoming mediaCellReuseIdentifier]];
-    
-    [self registerNib:[JSQMessagesCollectionViewCellOutgoing nib]
-          forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellOutgoing mediaCellReuseIdentifier]];
-    
-    [self registerNib:[JSQMessagesTypingIndicatorFooterView nib]
-          forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
-          withReuseIdentifier:[JSQMessagesTypingIndicatorFooterView footerReuseIdentifier]];
-    
-    [self registerNib:[JSQMessagesLoadEarlierHeaderView nib]
-          forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-          withReuseIdentifier:[JSQMessagesLoadEarlierHeaderView headerReuseIdentifier]];
-
     _typingIndicatorDisplaysOnLeft = YES;
     _typingIndicatorMessageBubbleColor = [UIColor jsq_messageBubbleLightGrayColor];
     _typingIndicatorEllipsisColor = [_typingIndicatorMessageBubbleColor jsq_colorByDarkeningColorWithValue:0.3f];

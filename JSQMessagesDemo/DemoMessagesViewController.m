@@ -262,13 +262,13 @@
     self.demoData = [[DemoModelData alloc] init];
     self.dataSource = [[JSQArrayItemDataSource alloc] initWithItems:self.demoData.messages];
 
-    DemoMessagesAdapter *adapter = [[DemoMessagesAdapter alloc] initWithDataSource:self.dataSource];
-    
     /**
      *  You MUST set your senderId and display name
      */
     self.senderId = kJSQDemoAvatarIdSquires;
     self.senderDisplayName = kJSQDemoAvatarDisplayNameSquires;
+
+    DemoMessagesAdapter *adapter = [[DemoMessagesAdapter alloc] initWithDataSource:self.dataSource senderId:self.senderId];
     
     
     /**

@@ -18,12 +18,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import "JSQItemDataSource.h"
+#import "JSQCollectionViewAdapter.h"
+
 #import "JSQMessagesCollectionView.h"
 #import "JSQMessagesCollectionViewFlowLayout.h"
 #import "JSQMessagesInputToolbar.h"
-
-@protocol JSQItemDataSource;
-@protocol JSQCollectionViewAdapter;
 
 
 /**
@@ -82,78 +82,6 @@
  *  Set to `NO` if you want to manage scrolling yourself.
  */
 @property (assign, nonatomic) BOOL automaticallyScrollsToMostRecentMessage;
-
-/**
- *  The collection view cell identifier to use for dequeuing outgoing message collection view cells 
- *  in the collectionView for text messages.
- *
- *  @discussion This cell identifier is used for outgoing text message data items.
- *  The default value is the string returned by `[JSQMessagesCollectionViewCellOutgoing cellReuseIdentifier]`.
- *  This value must not be `nil`.
- *  
- *  @see JSQMessagesCollectionViewCellOutgoing.
- *
- *  @warning Overriding this property's default value is *not* recommended. 
- *  You should only override this property's default value if you are proividing your own cell prototypes.
- *  These prototypes must be registered with the collectionView for reuse and you are then responsible for 
- *  completely overriding many delegate and data source methods for the collectionView, 
- *  including `collectionView:cellForItemAtIndexPath:`.
- */
-@property (copy, nonatomic) NSString *outgoingCellIdentifier;
-
-/**
- *  The collection view cell identifier to use for dequeuing outgoing message collection view cells 
- *  in the collectionView for media messages.
- *
- *  @discussion This cell identifier is used for outgoing media message data items.
- *  The default value is the string returned by `[JSQMessagesCollectionViewCellOutgoing mediaCellReuseIdentifier]`.
- *  This value must not be `nil`.
- *
- *  @see JSQMessagesCollectionViewCellOutgoing.
- *
- *  @warning Overriding this property's default value is *not* recommended.
- *  You should only override this property's default value if you are proividing your own cell prototypes.
- *  These prototypes must be registered with the collectionView for reuse and you are then responsible for
- *  completely overriding many delegate and data source methods for the collectionView,
- *  including `collectionView:cellForItemAtIndexPath:`.
- */
-@property (copy, nonatomic) NSString *outgoingMediaCellIdentifier;
-
-/**
- *  The collection view cell identifier to use for dequeuing incoming message collection view cells 
- *  in the collectionView for text messages.
- *
- *  @discussion This cell identifier is used for incoming text message data items.
- *  The default value is the string returned by `[JSQMessagesCollectionViewCellIncoming cellReuseIdentifier]`.
- *  This value must not be `nil`.
- *
- *  @see JSQMessagesCollectionViewCellIncoming.
- *
- *  @warning Overriding this property's default value is *not* recommended. 
- *  You should only override this property's default value if you are proividing your own cell prototypes. 
- *  These prototypes must be registered with the collectionView for reuse and you are then responsible for 
- *  completely overriding many delegate and data source methods for the collectionView, 
- *  including `collectionView:cellForItemAtIndexPath:`.
- */
-@property (copy, nonatomic) NSString *incomingCellIdentifier;
-
-/**
- *  The collection view cell identifier to use for dequeuing incoming message collection view cells 
- *  in the collectionView for media messages.
- *
- *  @discussion This cell identifier is used for incoming media message data items.
- *  The default value is the string returned by `[JSQMessagesCollectionViewCellIncoming mediaCellReuseIdentifier]`.
- *  This value must not be `nil`.
- *
- *  @see JSQMessagesCollectionViewCellIncoming.
- *
- *  @warning Overriding this property's default value is *not* recommended.
- *  You should only override this property's default value if you are proividing your own cell prototypes.
- *  These prototypes must be registered with the collectionView for reuse and you are then responsible for
- *  completely overriding many delegate and data source methods for the collectionView,
- *  including `collectionView:cellForItemAtIndexPath:`.
- */
-@property (copy, nonatomic) NSString *incomingMediaCellIdentifier;
 
 /**
  *  Specifies whether or not the view controller should show the typing indicator for an incoming message.

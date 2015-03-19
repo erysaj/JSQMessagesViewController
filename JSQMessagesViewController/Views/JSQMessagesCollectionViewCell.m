@@ -344,6 +344,10 @@
 + (id)computeMetricsWithData:(id<JSQMessagesCollectionViewCellData>)data
           cellSizeConstraint:(CGSize)constraint
 {
+    if (!data) {
+        return [NSNull null];
+    }
+    
     id<JSQMessageData> message = [data message];
     
     CGSize finalSize = CGSizeZero;
@@ -393,6 +397,10 @@
                    metrics:(id)metrics
         cellSizeConstraint:(CGSize)constraint
 {
+    if (!data) {
+        return CGSizeZero;
+    }
+    
     CGSize messageBubbleSize = [(NSValue *)metrics CGSizeValue];
     
     CGFloat finalHeight = messageBubbleSize.height;
@@ -407,6 +415,10 @@
                   metrics:(id)metrics
                  cellSize:(CGSize)cellSize
 {
+    if (!data) {
+        return;
+    }
+    
     CGSize messageBubbleSize = [(NSValue *)metrics CGSizeValue];
 
     UIFont *messageBubbleFont = [data messageBubbleFont];

@@ -19,10 +19,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "JSQItemDataSource.h"
 #import "JSQCollectionViewAdapter.h"
+#import "JSQCollectionViewCell.h"
 
-@protocol JSQItemDataSource;
-@protocol JSQCollectionViewCell;
+
 @protocol JSQCollectionViewCellDisplayData;
 
 

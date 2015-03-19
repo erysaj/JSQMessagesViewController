@@ -22,8 +22,6 @@
 
 #import "JSQMessagesCollectionViewFlowLayoutInvalidationContext.h"
 
-#import "JSQItemDataSource.h"
-#import "JSQCollectionViewAdapter.h"
 #import "JSQMessageData.h"
 #import "JSQMessageBubbleImageDataSource.h"
 #import "JSQMessageAvatarImageDataSource.h"
@@ -139,12 +137,6 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
     self.automaticallyScrollsToMostRecentMessage = YES;
 
-    self.outgoingCellIdentifier = [JSQMessagesCollectionViewCellOutgoing cellReuseIdentifier];
-    self.outgoingMediaCellIdentifier = [JSQMessagesCollectionViewCellOutgoing mediaCellReuseIdentifier];
-
-    self.incomingCellIdentifier = [JSQMessagesCollectionViewCellIncoming cellReuseIdentifier];
-    self.incomingMediaCellIdentifier = [JSQMessagesCollectionViewCellIncoming mediaCellReuseIdentifier];
-
     self.showTypingIndicator = NO;
 
     self.showLoadEarlierMessagesHeader = NO;
@@ -174,8 +166,6 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
     _senderId = nil;
     _senderDisplayName = nil;
-    _outgoingCellIdentifier = nil;
-    _incomingCellIdentifier = nil;
 
     [_keyboardController endListeningForKeyboard];
     _keyboardController = nil;
@@ -446,12 +436,12 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.dataSource numberOfItemsInSection:section];
+    return [self.adapter collectionView:collectionView numberOfItemsInSection:section];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return [self.dataSource numberOfSections];
+    return [self.adapter numberOfSectionsInCollectionView:collectionView];
 }
 
 - (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -465,15 +455,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     BOOL isOutgoingMessage = [messageSenderId isEqualToString:self.senderId];
     BOOL isMediaMessage = [messageItem isMediaMessage];
 
-    NSString *cellIdentifier = nil;
-    if (isMediaMessage) {
-        cellIdentifier = isOutgoingMessage ? self.outgoingMediaCellIdentifier : self.incomingMediaCellIdentifier;
-    }
-    else {
-        cellIdentifier = isOutgoingMessage ? self.outgoingCellIdentifier : self.incomingCellIdentifier;
-    }
-
-    JSQMessagesCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    JSQMessagesCollectionViewCell *cell;
+    cell = (JSQMessagesCollectionViewCell *)[self.adapter collectionView:collectionView cellForItemAtIndexPath:indexPath];
     cell.delegate = collectionView;
 
     if (!isMediaMessage) {

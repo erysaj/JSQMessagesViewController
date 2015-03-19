@@ -17,8 +17,7 @@
 //
 
 #import "JSQCollectionViewAdapterBase.h"
-#import "JSQItemDataSource.h"
-#import "JSQCollectionViewCell.h"
+
 
 @interface JSQCollectionViewAdapterBase ()
 

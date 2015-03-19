@@ -17,7 +17,7 @@
 //
 
 #import "DemoMessagesViewController.h"
-
+#import "DemoMessagesAdapter.h"
 
 @implementation DemoMessagesViewController
 
@@ -37,31 +37,6 @@
     [super viewDidLoad];
     
     self.title = @"JSQMessages";
-    
-    /**
-     *  You MUST set your senderId and display name
-     */
-    self.senderId = kJSQDemoAvatarIdSquires;
-    self.senderDisplayName = kJSQDemoAvatarDisplayNameSquires;
-    
-    
-    /**
-     *  Load up our fake data for the demo
-     */
-    self.demoData = [[DemoModelData alloc] init];
-    self.dataSource = [[JSQArrayItemDataSource alloc] initWithItems:self.demoData.messages];
-    
-    
-    /**
-     *  You can set custom avatar sizes
-     */
-    if (![NSUserDefaults incomingAvatarSetting]) {
-        self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
-    }
-    
-    if (![NSUserDefaults outgoingAvatarSetting]) {
-        self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-    }
     
     self.showLoadEarlierMessagesHeader = YES;
     
@@ -278,6 +253,37 @@
 
 
 #pragma mark - JSQMessagesViewController method overrides
+
+- (id<JSQCollectionViewAdapter>)createAdapter
+{
+    /**
+     *  Load up our fake data for the demo
+     */
+    self.demoData = [[DemoModelData alloc] init];
+    self.dataSource = [[JSQArrayItemDataSource alloc] initWithItems:self.demoData.messages];
+
+    DemoMessagesAdapter *adapter = [[DemoMessagesAdapter alloc] initWithDataSource:self.dataSource];
+    
+    /**
+     *  You MUST set your senderId and display name
+     */
+    self.senderId = kJSQDemoAvatarIdSquires;
+    self.senderDisplayName = kJSQDemoAvatarDisplayNameSquires;
+    
+    
+    /**
+     *  You can set custom avatar sizes
+     */
+    if (![NSUserDefaults incomingAvatarSetting]) {
+        self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
+    }
+    
+    if (![NSUserDefaults outgoingAvatarSetting]) {
+        self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+    }
+
+    return adapter;
+}
 
 - (void)didPressSendButton:(UIButton *)button
            withMessageText:(NSString *)text

@@ -23,6 +23,8 @@
 #import "JSQMessagesInputToolbar.h"
 
 @protocol JSQItemDataSource;
+@protocol JSQCollectionViewAdapter;
+
 
 /**
  *  The `JSQMessagesViewController` class is an abstract class that represents a view controller whose content consists of
@@ -66,6 +68,11 @@
  *  Storage for message model objects.
  */
 @property (strong, nonatomic) id<JSQItemDataSource> dataSource;
+
+/**
+ *  Adapter for `collectionView`.
+ */
+@property (strong, nonatomic) id<JSQCollectionViewAdapter> adapter;
 
 /**
  *  Specifies whether or not the view controller should automatically scroll to the most recent message 
@@ -197,6 +204,11 @@
 + (instancetype)messagesViewController;
 
 #pragma mark - Messages view controller
+
+/**
+ *  Override in subclass to provide an appropriate collection view adapter.
+ */
+- (id<JSQCollectionViewAdapter>)createAdapter;
 
 /**
  *  This method is called when the user taps the send button on the inputToolbar

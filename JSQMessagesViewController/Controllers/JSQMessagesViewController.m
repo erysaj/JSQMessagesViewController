@@ -23,6 +23,7 @@
 #import "JSQMessagesCollectionViewFlowLayoutInvalidationContext.h"
 
 #import "JSQItemDataSource.h"
+#import "JSQCollectionViewAdapter.h"
 #import "JSQMessageData.h"
 #import "JSQMessageBubbleImageDataSource.h"
 #import "JSQMessageAvatarImageDataSource.h"
@@ -120,6 +121,9 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (void)jsq_configureMessagesViewController
 {
+    self.adapter = [self createAdapter];
+    [self.adapter registerCellsForCollectionView:self.collectionView];
+    
     self.view.backgroundColor = [UIColor whiteColor];
 
     self.jsq_isObserving = NO;
@@ -303,6 +307,12 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 }
 
 #pragma mark - Messages view controller
+
+- (id<JSQCollectionViewAdapter>)createAdapter
+{
+    NSAssert(NO, @"Error! required method not implemented in subclass. Need to implement %s", __PRETTY_FUNCTION__);
+    return nil;
+}
 
 - (void)didPressSendButton:(UIButton *)button
            withMessageText:(NSString *)text

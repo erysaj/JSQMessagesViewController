@@ -38,11 +38,6 @@
 @property (nonatomic, readonly) id<JSQItemDataSource> dataSource;
 
 /**
- *  Collection view that displays items stored in `dataSource`.
- */
-@property (nonatomic, weak) UICollectionView *collectionView;
-
-/**
  *  Cache to store precomputed metrics information.
  */
 @property (nonatomic, readonly) NSCache *metricsCache;

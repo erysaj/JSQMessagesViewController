@@ -32,7 +32,7 @@
 {
     JSQArrayItemDataSource *dataSource = [[JSQArrayItemDataSource alloc] initWithItems:model.messages];
     
-    self = [self initWithDataSource:dataSource senderId:nil];
+    self = [self initWithDataSource:dataSource senderId:model.senderId];
     if (self) {
         self.model = model;
     }

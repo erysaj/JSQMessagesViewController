@@ -127,7 +127,7 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         NSMutableArray *userIds = [[self.demoData.users allKeys] mutableCopy];
-        [userIds removeObject:self.senderId];
+        [userIds removeObject:self.demoData.senderId];
         NSString *randomUserId = userIds[arc4random_uniform((int)[userIds count])];
         
         JSQMessage *newMessage = nil;
@@ -258,12 +258,6 @@
      */
     self.demoData = [[DemoModelData alloc] init];
 
-    /**
-     *  You MUST set your senderId and display name
-     */
-    self.senderId = self.demoData.senderId;
-    self.senderDisplayName = self.demoData.senderDisplayName;
-
     DemoMessagesAdapter *adapter = [[DemoMessagesAdapter alloc] initWithModel:self.demoData];
     self.dataSource = adapter.dataSource;
     self.collectionView.collectionViewLayout.layoutCache = adapter.metricsCache;
@@ -284,9 +278,6 @@
 
 - (void)didPressSendButton:(UIButton *)button
            withMessageText:(NSString *)text
-                  senderId:(NSString *)senderId
-         senderDisplayName:(NSString *)senderDisplayName
-                      date:(NSDate *)date
 {
     /**
      *  Sending a message. Your implementation of this method should do *at least* the following:
@@ -297,9 +288,9 @@
      */
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
-    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:senderId
-                                             senderDisplayName:senderDisplayName
-                                                          date:date
+    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:self.demoData.senderId
+                                             senderDisplayName:self.demoData.senderDisplayName
+                                                          date:[NSDate date]
                                                           text:text];
     
     [self.demoData.messages addObject:message];

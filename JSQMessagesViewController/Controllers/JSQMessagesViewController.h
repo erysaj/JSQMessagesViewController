@@ -49,22 +49,6 @@
 @property (weak, nonatomic, readonly) JSQMessagesInputToolbar *inputToolbar;
 
 /**
- *  The display name of the current user who is sending messages.
- *
- *  @discussion This value does not have to be unique. This value must not be `nil`.
- */
-@property (copy, nonatomic) NSString *senderDisplayName;
-
-/**
- *  The string identifier that uniquely identifies the current user sending messages.
- *  
- *  @discussion This property is used to determine if a message is incoming or outgoing.
- *  All message data objects conforming to `JSQMessageData` protocol are
- *  checked against this identifier. This value must not be `nil`.
- */
-@property (copy, nonatomic) NSString *senderId;
-
-/**
  *  Storage for message model objects.
  */
 @property (strong, nonatomic) id<JSQItemDataSource> dataSource;
@@ -144,15 +128,9 @@
  *
  *  @param button            The send button that was pressed by the user.
  *  @param text              The message text.
- *  @param senderId          The message sender identifier.
- *  @param senderDisplayName The message sender display name.
- *  @param date              The message date.
  */
 - (void)didPressSendButton:(UIButton *)button
-           withMessageText:(NSString *)text
-                  senderId:(NSString *)senderId
-         senderDisplayName:(NSString *)senderDisplayName
-                      date:(NSDate *)date;
+           withMessageText:(NSString *)text;
 
 /**
  *  This method is called when the user taps the accessory button on the `inputToolbar`.

@@ -82,23 +82,6 @@
  */
 - (id<JSQMessageBubbleImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath;
 
-/**
- *  Asks the data source for the avatar image data that corresponds to the specified message data item at indexPath in the collectionView.
- *
- *  @param collectionView The object representing the collection view requesting this information.
- *  @param indexPath      The index path that specifies the location of the item.
- *
- *  @return A initialized object that conforms to the `JSQMessageAvatarImageDataSource` protocol. You may return `nil` from this method if you do not want
- *  the specified item to display an avatar.
- *
- *  @discussion It is recommended that you utilize `JSQMessagesAvatarImageFactory` to return valid `JSQMessagesAvatarImage` objects.
- *  However, you may provide your own data source object as long as it conforms to the `JSQMessageAvatarImageDataSource` protocol.
- *
- *  @see JSQMessagesAvatarImageFactory.
- *  @see JSQMessagesCollectionViewFlowLayout.
- */
-- (id<JSQMessageAvatarImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath;
-
 @optional
 
 /**

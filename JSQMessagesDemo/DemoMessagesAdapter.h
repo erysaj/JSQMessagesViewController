@@ -17,8 +17,12 @@
 //
 
 #import "JSQMessagesCollectionViewAdapter.h"
-
+#import "DemoModelData.h"
 
 @interface DemoMessagesAdapter : JSQMessagesCollectionViewAdapter
+
+@property (nonatomic, strong) DemoModelData *model;
+
+- (instancetype)initWithModel:(DemoModelData *)model;
 
 @end

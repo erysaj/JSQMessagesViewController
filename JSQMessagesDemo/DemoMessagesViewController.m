@@ -260,16 +260,15 @@
      *  Load up our fake data for the demo
      */
     self.demoData = [[DemoModelData alloc] init];
-    self.dataSource = [[JSQArrayItemDataSource alloc] initWithItems:self.demoData.messages];
 
     /**
      *  You MUST set your senderId and display name
      */
-    self.senderId = kJSQDemoAvatarIdSquires;
-    self.senderDisplayName = kJSQDemoAvatarDisplayNameSquires;
+    self.senderId = self.demoData.senderId;
+    self.senderDisplayName = self.demoData.senderDisplayName;
 
-    DemoMessagesAdapter *adapter = [[DemoMessagesAdapter alloc] initWithDataSource:self.dataSource senderId:self.senderId];
-    
+    DemoMessagesAdapter *adapter = [[DemoMessagesAdapter alloc] initWithModel:self.demoData];
+    self.dataSource = adapter.dataSource;
     /**
      *  You can set custom avatar sizes
      */
@@ -371,45 +370,6 @@
     }
     
     return self.demoData.incomingBubbleImageData;
-}
-
-- (id<JSQMessageAvatarImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    /**
-     *  Return `nil` here if you do not want avatars.
-     *  If you do return `nil`, be sure to do the following in `viewDidLoad`:
-     *
-     *  self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
-     *  self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-     *
-     *  It is possible to have only outgoing avatars or only incoming avatars, too.
-     */
-    
-    /**
-     *  Return your previously created avatar image data objects.
-     *
-     *  Note: these the avatars will be sized according to these values:
-     *
-     *  self.collectionView.collectionViewLayout.incomingAvatarViewSize
-     *  self.collectionView.collectionViewLayout.outgoingAvatarViewSize
-     *
-     *  Override the defaults in `viewDidLoad`
-     */
-    JSQMessage *message = [self.demoData.messages objectAtIndex:indexPath.item];
-    
-    if ([message.senderId isEqualToString:self.senderId]) {
-        if (![NSUserDefaults outgoingAvatarSetting]) {
-            return nil;
-        }
-    }
-    else {
-        if (![NSUserDefaults incomingAvatarSetting]) {
-            return nil;
-        }
-    }
-    
-    
-    return [self.demoData.avatars objectForKey:message.senderId];
 }
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath

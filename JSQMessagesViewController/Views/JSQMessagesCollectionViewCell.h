@@ -20,6 +20,8 @@
 
 #import "JSQCollectionViewCell.h"
 #import "JSQMessageData.h"
+#import "JSQMessageBubbleImageDataSource.h"
+#import "JSQMessageAvatarImageDataSource.h"
 #import "JSQMessagesLabel.h"
 #import "JSQMessagesCellTextView.h"
 
@@ -42,6 +44,20 @@
  *  Using `CGSizeZero` indicates that no space for avatar should be reserved.
  */
 - (CGSize)avatarViewSize;
+
+/**
+ *  Asks for the avatar image data.
+ *
+ *  @return A initialized object that conforms to the `JSQMessageAvatarImageDataSource` protocol.
+ *  You may return `nil` from this method if you do not want
+ *  the cell to display an avatar.
+ *
+ *  @discussion It is recommended that you utilize `JSQMessagesAvatarImageFactory` to return valid `JSQMessagesAvatarImage` objects.
+ *  However, you may provide your own data source object as long as it conforms to the `JSQMessageAvatarImageDataSource` protocol.
+ *
+ *  @see JSQMessagesAvatarImageFactory.
+ */
+- (id<JSQMessageAvatarImageDataSource>)avatarData;
 
 /**
  *  The height of the `cellTopLabel` of a `JSQMessagesCollectionViewCell`.

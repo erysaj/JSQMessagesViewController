@@ -389,9 +389,7 @@
     id<JSQMessageData> message = [data messageData];
     BOOL isMediaMessage = [message isMediaMessage];
 
-    // configure bubble
-    CGSize messageBubbleSize = [(NSValue *)metrics CGSizeValue];
-
+    // configure content
     UIFont *messageBubbleFont = [data messageBubbleFont];
     if (self.textView.font != messageBubbleFont) {
         self.textView.font = messageBubbleFont;
@@ -421,25 +419,33 @@
         self.mediaView = [messageMedia mediaView] ?: [messageMedia mediaPlaceholderView];
         NSParameterAssert(self.mediaView != nil);
     }
+    
+    UIEdgeInsets textContainerInsets = [data messageBubbleTextViewTextContainerInsets];
+    if (!UIEdgeInsetsEqualToEdgeInsets(self.textView.textContainerInset, textContainerInsets)) {
+        self.textView.textContainerInset = textContainerInsets;
+    }
+    self.textView.dataDetectorTypes = UIDataDetectorTypeAll;
 
+    // configure avatar
     CGSize avatarViewSize = [data avatarViewSize];
     BOOL needsAvatar = !CGSizeEqualToSize(avatarViewSize, CGSizeZero);
     if (needsAvatar) {
-//        id<JSQMessageAvatarImageDataSource> avatarImageDataSource = nil;
-//        avatarImageDataSource = [collectionView.dataSource collectionView:collectionView avatarImageDataForItemAtIndexPath:indexPath];
-//        if (avatarImageDataSource != nil) {
-//            
-//            UIImage *avatarImage = [avatarImageDataSource avatarImage];
-//            if (avatarImage == nil) {
-//                cell.avatarImageView.image = [avatarImageDataSource avatarPlaceholderImage];
-//                cell.avatarImageView.highlightedImage = nil;
-//            }
-//            else {
-//                cell.avatarImageView.image = avatarImage;
-//                cell.avatarImageView.highlightedImage = [avatarImageDataSource avatarHighlightedImage];
-//            }
-//        }
+        id<JSQMessageAvatarImageDataSource> avatarImageDataSource = [data avatarData];
+        if (avatarImageDataSource != nil) {
+            
+            UIImage *avatarImage = [avatarImageDataSource avatarImage];
+            if (avatarImage == nil) {
+                self.avatarImageView.image = [avatarImageDataSource avatarPlaceholderImage];
+                self.avatarImageView.highlightedImage = nil;
+            }
+            else {
+                self.avatarImageView.image = avatarImage;
+                self.avatarImageView.highlightedImage = [avatarImageDataSource avatarHighlightedImage];
+            }
+        }
     }
+    self.avatarViewSize = [data avatarViewSize];
+
 //
 //    cell.cellTopLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForCellTopLabelAtIndexPath:indexPath];
 //    cell.messageBubbleTopLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:indexPath];
@@ -456,13 +462,10 @@
 //
 
     
-    UIEdgeInsets textContainerInsets = [data messageBubbleTextViewTextContainerInsets];
-    if (!UIEdgeInsetsEqualToEdgeInsets(self.textView.textContainerInset, textContainerInsets)) {
-        self.textView.textContainerInset = textContainerInsets;
-    }
-    
     self.textViewFrameInsets = [data messageBubbleTextViewFrameInsets];
     
+    CGSize messageBubbleSize = [(NSValue *)metrics CGSizeValue];
+
     [self jsq_updateConstraint:self.messageBubbleContainerWidthConstraint
                   withConstant:messageBubbleSize.width];
     
@@ -474,10 +477,6 @@
     
     [self jsq_updateConstraint:self.cellBottomLabelHeightConstraint
                   withConstant:[data cellBottomLabelHeight]];
-    
-    self.avatarViewSize = [data avatarViewSize];
-    
-    self.textView.dataDetectorTypes = UIDataDetectorTypeAll;
     
     self.backgroundColor = [UIColor clearColor];
     self.layer.rasterizationScale = [UIScreen mainScreen].scale;

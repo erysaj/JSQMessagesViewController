@@ -34,6 +34,9 @@
     self = [super init];
     if (self) {
         
+        self.senderId = kJSQDemoAvatarIdSquires;
+        self.senderDisplayName = kJSQDemoAvatarDisplayNameSquires;
+        
         if ([NSUserDefaults emptyMessagesSetting]) {
             self.messages = [NSMutableArray new];
         }

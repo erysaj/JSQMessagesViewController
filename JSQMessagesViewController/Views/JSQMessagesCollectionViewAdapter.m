@@ -229,4 +229,9 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     return 0.0f;
 }
 
+- (id<JSQMessageAvatarImageDataSource>)avatarData
+{
+    return nil;
+}
+
 @end

@@ -68,6 +68,16 @@
 - (CGFloat)cellTopLabelHeight;
 
 /**
+ *  Asks for the text to display in the cell's `cellTopLabel`.
+ *
+ *  @return A configured attributed string or `nil` if you do not want text displayed for the item at indexPath.
+ *  Return an attributed string with `nil` attributes to use the default attributes.
+ *
+ *  @see JSQMessagesCollectionViewCell.
+ */
+- (NSAttributedString *)attributedTextForCellTopLabel;
+
+/**
  *  The height of the `messageBubbleTopLabel` of a `JSQMessagesCollectionViewCell`.
  *  This value should be greater than or equal to `0.0`.
  *
@@ -76,12 +86,32 @@
 - (CGFloat)messageBubbleTopLabelHeight;
 
 /**
+ *  Asks for the text to display in the cell's `messageBubbleTopLabel`.
+ *
+ *  @return A configured attributed string or `nil` if you do not want text displayed for the item at indexPath.
+ *  Return an attributed string with `nil` attributes to use the default attributes.
+ *
+ *  @see JSQMessagesCollectionViewCell.
+ */
+- (NSAttributedString *)attributedTextForMessageBubbleTopLabel;
+
+/**
  *  The height of the `cellBottomLabel` of a `JSQMessagesCollectionViewCell`.
  *  This value should be greater than or equal to `0.0`.
  *
  *  @see JSQMessagesCollectionViewCell.
  */
 - (CGFloat) cellBottomLabelHeight;
+
+/**
+ *  Asks for the text to display in the cell's `cellBottomLabel`.
+ *
+ *  @return A configured attributed string or `nil` if you do not want text displayed for the item at indexPath.
+ *  Return an attributed string with `nil` attributes to use the default attributes.
+ *
+ *  @see JSQMessagesCollectionViewCell.
+ */
+- (NSAttributedString *)attributedTextForCellBottomLabel;
 
 /**
  *  The font used to display the body a text message in the message bubble of each

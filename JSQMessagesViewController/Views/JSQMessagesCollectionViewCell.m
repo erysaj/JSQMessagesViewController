@@ -406,12 +406,6 @@
         }
 
         NSParameterAssert(self.textView.text != nil);
-
-        id<JSQMessageBubbleImageDataSource> bubbleImageDataSource = [data messageBubbleImageData];
-        if (bubbleImageDataSource != nil) {
-            self.messageBubbleImageView.image = [bubbleImageDataSource messageBubbleImage];
-            self.messageBubbleImageView.highlightedImage = [bubbleImageDataSource messageBubbleHighlightedImage];
-        }
     }
     else {
         id<JSQMessageMediaData> messageMedia = [message media];
@@ -446,10 +440,6 @@
     self.avatarViewSize = [data avatarViewSize];
 
 //
-//    cell.cellTopLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForCellTopLabelAtIndexPath:indexPath];
-//    cell.messageBubbleTopLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:indexPath];
-//    cell.cellBottomLabel.attributedText = [collectionView.dataSource collectionView:collectionView attributedTextForCellBottomLabelAtIndexPath:indexPath];
-//
 //    CGFloat bubbleTopLabelInset = (avatarImageDataSource != nil) ? 60.0f : 15.0f;
 //
 //    if (isOutgoingMessage) {
@@ -460,23 +450,35 @@
 //    }
 //
 
-    
+    // configure bubble
+    if (!isMediaMessage) {
+        id<JSQMessageBubbleImageDataSource> bubbleImageDataSource = [data messageBubbleImageData];
+        if (bubbleImageDataSource != nil) {
+            self.messageBubbleImageView.image = [bubbleImageDataSource messageBubbleImage];
+            self.messageBubbleImageView.highlightedImage = [bubbleImageDataSource messageBubbleHighlightedImage];
+        }
+    }
     self.textViewFrameInsets = [data messageBubbleTextViewFrameInsets];
     
     CGSize messageBubbleSize = [(NSValue *)metrics CGSizeValue];
 
     [self jsq_updateConstraint:self.messageBubbleContainerWidthConstraint
                   withConstant:messageBubbleSize.width];
-    
+
+    // configure labels
+    self.cellTopLabel.attributedText = [data attributedTextForCellTopLabel];
     [self jsq_updateConstraint:self.cellTopLabelHeightConstraint
                   withConstant:[data cellTopLabelHeight]];
     
+    self.messageBubbleTopLabel.attributedText = [data attributedTextForMessageBubbleTopLabel];
     [self jsq_updateConstraint:self.messageBubbleTopLabelHeightConstraint
                   withConstant:[data messageBubbleTopLabelHeight]];
     
+    self.cellBottomLabel.attributedText = [data attributedTextForCellBottomLabel];
     [self jsq_updateConstraint:self.cellBottomLabelHeightConstraint
                   withConstant:[data cellBottomLabelHeight]];
     
+    // miscellanious
     self.backgroundColor = [UIColor clearColor];
     self.layer.rasterizationScale = [UIScreen mainScreen].scale;
     self.layer.shouldRasterize = YES;

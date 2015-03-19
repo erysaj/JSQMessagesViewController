@@ -399,17 +399,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    id<JSQMessageData> messageItem = [self.dataSource itemAtIndexPath:indexPath];
-    NSParameterAssert(messageItem != nil);
-
-    NSString *messageSenderId = [messageItem senderId];
-    NSParameterAssert(messageSenderId != nil);
-
-    JSQMessagesCollectionViewCell *cell;
-    cell = (JSQMessagesCollectionViewCell *)[self.adapter collectionView:collectionView cellForItemAtIndexPath:indexPath];
-    cell.delegate = collectionView;
-
-    return cell;
+    return [self.adapter collectionView:collectionView cellForItemAtIndexPath:indexPath];
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
@@ -499,16 +489,6 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 {
     return [self.adapter collectionView:collectionView layout:collectionViewLayout sizeForItemAtIndexPath:indexPath];
 }
-
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView
- didTapAvatarImageView:(UIImageView *)avatarImageView
-           atIndexPath:(NSIndexPath *)indexPath { }
-
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath { }
-
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView
- didTapCellAtIndexPath:(NSIndexPath *)indexPath
-         touchLocation:(CGPoint)touchLocation { }
 
 #pragma mark - Input toolbar delegate
 

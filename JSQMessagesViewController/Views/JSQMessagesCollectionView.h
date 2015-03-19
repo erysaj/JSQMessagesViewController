@@ -30,7 +30,7 @@
  *  The `JSQMessagesCollectionView` class manages an ordered collection of message data items and presents
  *  them using a specialized layout for messages.
  */
-@interface JSQMessagesCollectionView : UICollectionView <JSQMessagesCollectionViewCellDelegate>
+@interface JSQMessagesCollectionView : UICollectionView
 
 /**
  *  The object that acts as the delegate of the collection view. 

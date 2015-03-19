@@ -346,7 +346,40 @@
 {
     JSQMessagesCollectionViewCell *cell;
     cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+    cell.delegate = self;
     return cell;
+}
+
+#pragma mark - Messages collection view cell delegate
+
+- (void)messagesCollectionViewCellDidTapAvatar:(JSQMessagesCollectionViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    if (indexPath == nil) {
+        return;
+    }
+    
+    NSLog(@"Tapped avatar!");
+}
+
+- (void)messagesCollectionViewCellDidTapMessageBubble:(JSQMessagesCollectionViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    if (indexPath == nil) {
+        return;
+    }
+    
+    NSLog(@"Tapped message bubble!");
+}
+
+- (void)messagesCollectionViewCellDidTapCell:(JSQMessagesCollectionViewCell *)cell atPosition:(CGPoint)position
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    if (indexPath == nil) {
+        return;
+    }
+    
+    NSLog(@"Tapped cell at %@!", NSStringFromCGPoint(position));
 }
 
 #pragma mark - Responding to collection view tap events
@@ -355,21 +388,6 @@
                 header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender
 {
     NSLog(@"Load earlier messages!");
-}
-
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapAvatarImageView:(UIImageView *)avatarImageView atIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"Tapped avatar!");
-}
-
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"Tapped message bubble!");
-}
-
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView didTapCellAtIndexPath:(NSIndexPath *)indexPath touchLocation:(CGPoint)touchLocation
-{
-    NSLog(@"Tapped cell at %@!", NSStringFromCGPoint(touchLocation));
 }
 
 @end

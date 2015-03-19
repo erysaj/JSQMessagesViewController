@@ -35,7 +35,8 @@
 
 
 
-@interface DemoMessagesViewController : JSQMessagesViewController <UIActionSheetDelegate>
+@interface DemoMessagesViewController : JSQMessagesViewController <UIActionSheetDelegate,
+                                                                   JSQMessagesCollectionViewCellDelegate>
 
 @property (weak, nonatomic) id<JSQDemoViewControllerDelegate> delegateModal;
 

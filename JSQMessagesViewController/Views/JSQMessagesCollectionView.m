@@ -113,40 +113,4 @@
     }
 }
 
-#pragma mark - Messages collection view cell delegate
-
-- (void)messagesCollectionViewCellDidTapAvatar:(JSQMessagesCollectionViewCell *)cell
-{
-    NSIndexPath *indexPath = [self indexPathForCell:cell];
-    if (indexPath == nil) {
-        return;
-    }
-    
-    [self.delegate collectionView:self
-            didTapAvatarImageView:cell.avatarImageView
-                      atIndexPath:indexPath];
-}
-
-- (void)messagesCollectionViewCellDidTapMessageBubble:(JSQMessagesCollectionViewCell *)cell
-{
-    NSIndexPath *indexPath = [self indexPathForCell:cell];
-    if (indexPath == nil) {
-        return;
-    }
-    
-    [self.delegate collectionView:self didTapMessageBubbleAtIndexPath:indexPath];
-}
-
-- (void)messagesCollectionViewCellDidTapCell:(JSQMessagesCollectionViewCell *)cell atPosition:(CGPoint)position
-{
-    NSIndexPath *indexPath = [self indexPathForCell:cell];
-    if (indexPath == nil) {
-        return;
-    }
-    
-    [self.delegate collectionView:self
-            didTapCellAtIndexPath:indexPath
-                    touchLocation:position];
-}
-
 @end

@@ -259,6 +259,7 @@
     self.demoData = [[DemoModelData alloc] init];
 
     DemoMessagesAdapter *adapter = [[DemoMessagesAdapter alloc] initWithModel:self.demoData];
+    adapter.delegate = self;
     self.dataSource = adapter.dataSource;
     self.collectionView.collectionViewLayout.layoutCache = adapter.metricsCache;
     
@@ -384,8 +385,7 @@
 
 #pragma mark - Responding to collection view tap events
 
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView
-                header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender
+- (void)collectionViewAdapter:(JSQMessagesCollectionViewAdapter *)adapter didTapLoadEarlierMessagesButton:(UIButton *)sender
 {
     NSLog(@"Load earlier messages!");
 }

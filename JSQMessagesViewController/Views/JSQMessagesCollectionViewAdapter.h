@@ -17,10 +17,11 @@
 //
 
 #import "JSQCollectionViewAdapterBase.h"
+#import "JSQMessageData.h"
 #import "JSQMessagesCollectionViewCell.h"
 
 
-@protocol JSQMessageData;
+@class JSQMessagesCollectionViewAdapter;
 
 
 /**
@@ -37,11 +38,33 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault;
 
 
 /**
+ *  The `JSQMessagesCollectionViewAdapterDelegate` protocol defines methods that allow you to
+ *  respond to additional actions on managed collection view items.
+ *  The methods of this protocol are all optional.
+ */
+@protocol JSQMessagesCollectionViewAdapterDelegate <NSObject>
+
+@optional
+
+/**
+ *  Notifies the delegate that the "load earlier" header did receive a tap event.
+ *
+ *  @param adapter  The adapter that is notifying the delegate of the tap event.
+ *  @param sender   The button that was tapped.
+ */
+- (void)collectionViewAdapter:(JSQMessagesCollectionViewAdapter *)adapter didTapLoadEarlierMessagesButton:(UIButton *)sender;
+
+@end
+
+
+/**
  *  `JSQMessagesCollectionViewAdapter` is a concrete class representing a
  *  collection view adapter that is designed to display model objects conforming to
  *  `JSQMessageData` protocol using cells of `JSQMessagesCollectionViewCell` class.
  */
 @interface JSQMessagesCollectionViewAdapter : JSQCollectionViewAdapterBase <JSQMessagesCollectionViewCellData>
+
+@property (nonatomic, weak) id<JSQMessagesCollectionViewAdapterDelegate> delegate;
 
 /**
  *  Current item as selected by calling `setCurrentItemIndexPath:`.
@@ -228,5 +251,32 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault;
  *  You may use `kJSQMessagesCollectionViewAvatarSizeDefault` to size your avatars to the default value.
  */
 @property (assign, nonatomic) CGSize outgoingAvatarViewSize;
+
+/**
+ *  Specifies whether the typing indicator displays on the left or right side of the collection view
+ *  when shown. That is, whether it displays for an "incoming" or "outgoing" message.
+ *  The default value is `YES`, meaning that the typing indicator will display on the left side of the
+ *  collection view for incoming messages.
+ *
+ *  @discussion If your `JSQMessagesViewController` subclass displays messages for right-to-left
+ *  languages, such as Arabic, set this property to `NO`.
+ *
+ */
+@property (assign, nonatomic) BOOL typingIndicatorDisplaysOnLeft;
+
+/**
+ *  The color of the typing indicator message bubble. The default value is a light gray color.
+ */
+@property (strong, nonatomic) UIColor *typingIndicatorMessageBubbleColor;
+
+/**
+ *  The color of the typing indicator ellipsis. The default value is a dark gray color.
+ */
+@property (strong, nonatomic) UIColor *typingIndicatorEllipsisColor;
+
+/**
+ *  The color of the text in the load earlier messages header. The default value is a bright blue color.
+ */
+@property (strong, nonatomic) UIColor *loadEarlierMessagesHeaderTextColor;
 
 @end

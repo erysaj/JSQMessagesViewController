@@ -24,12 +24,14 @@
 #import "JSQMessagesTypingIndicatorFooterView.h"
 #import "JSQMessagesLoadEarlierHeaderView.h"
 
+#import "UIColor+JSQMessages.h"
+
 
 const CGFloat kJSQMessagesCollectionViewCellLabelHeightDefault = 20.0f;
 const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
 
 
-@interface JSQMessagesCollectionViewAdapter ()
+@interface JSQMessagesCollectionViewAdapter () <JSQMessagesLoadEarlierHeaderViewDelegate>
 {
     NSString *_senderId;
 }
@@ -72,6 +74,12 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
         CGSize defaultAvatarSize = CGSizeMake(kJSQMessagesCollectionViewAvatarSizeDefault, kJSQMessagesCollectionViewAvatarSizeDefault);
         _incomingAvatarViewSize = defaultAvatarSize;
         _outgoingAvatarViewSize = defaultAvatarSize;
+        
+        _typingIndicatorDisplaysOnLeft = YES;
+        _typingIndicatorMessageBubbleColor = [UIColor jsq_messageBubbleLightGrayColor];
+        _typingIndicatorEllipsisColor = [_typingIndicatorMessageBubbleColor jsq_colorByDarkeningColorWithValue:0.3f];
+        
+        _loadEarlierMessagesHeaderTextColor = [UIColor jsq_messageBubbleBlueColor];
     }
     return self;
 }
@@ -143,6 +151,15 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     return @([self.currMessage messageHash]);
 }
 
+#pragma mark - Load earlier messages header delegate
+
+- (void)headerView:(JSQMessagesLoadEarlierHeaderView *)headerView didPressLoadButton:(UIButton *)sender
+{
+    if ([self.delegate respondsToSelector:@selector(collectionViewAdapter:didTapLoadEarlierMessagesButton:)]) {
+        [self.delegate collectionViewAdapter:self didTapLoadEarlierMessagesButton:sender];
+    }
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -155,11 +172,25 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
                                  atIndexPath:(NSIndexPath *)indexPath
 {
     if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
-        return [(JSQMessagesCollectionView *)collectionView dequeueTypingIndicatorFooterViewForIndexPath:indexPath];
+        JSQMessagesTypingIndicatorFooterView *footerView;
+        footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter
+                                                        withReuseIdentifier:[JSQMessagesTypingIndicatorFooterView footerReuseIdentifier]
+                                                               forIndexPath:indexPath];
+        [footerView configureWithEllipsisColor:self.typingIndicatorEllipsisColor
+                            messageBubbleColor:self.typingIndicatorMessageBubbleColor
+                           shouldDisplayOnLeft:self.typingIndicatorDisplaysOnLeft
+                             forCollectionView:collectionView];
+        return footerView;
     }
     
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
-        return [(JSQMessagesCollectionView *)collectionView dequeueLoadEarlierMessagesViewHeaderForIndexPath:indexPath];
+        JSQMessagesLoadEarlierHeaderView *headerView;
+        headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                                        withReuseIdentifier:[JSQMessagesLoadEarlierHeaderView headerReuseIdentifier]
+                                                               forIndexPath:indexPath];
+        headerView.loadButton.tintColor = self.loadEarlierMessagesHeaderTextColor;
+        headerView.delegate = self;
+        return headerView;
     }
     
     return nil;

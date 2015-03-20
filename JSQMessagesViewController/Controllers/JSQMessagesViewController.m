@@ -445,42 +445,42 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 #pragma mark - Collection view delegate
 
-- (BOOL)collectionView:(JSQMessagesCollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    //  disable menu for media messages
-    id<JSQMessageData> messageItem = [self.dataSource itemAtIndexPath:indexPath];
-    if ([messageItem isMediaMessage]) {
-        return NO;
-    }
+//- (BOOL)collectionView:(JSQMessagesCollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    //  disable menu for media messages
+//    id<JSQMessageData> messageItem = [self.dataSource itemAtIndexPath:indexPath];
+//    if ([messageItem isMediaMessage]) {
+//        return NO;
+//    }
+//
+//    self.selectedIndexPathForMenu = indexPath;
+//
+//    //  textviews are selectable to allow data detectors
+//    //  however, this allows the 'copy, define, select' UIMenuController to show
+//    //  which conflicts with the collection view's UIMenuController
+//    //  temporarily disable 'selectable' to prevent this issue
+//    JSQMessagesCollectionViewCell *selectedCell = (JSQMessagesCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+//    selectedCell.textView.selectable = NO;
+//
+//    return YES;
+//}
 
-    self.selectedIndexPathForMenu = indexPath;
-
-    //  textviews are selectable to allow data detectors
-    //  however, this allows the 'copy, define, select' UIMenuController to show
-    //  which conflicts with the collection view's UIMenuController
-    //  temporarily disable 'selectable' to prevent this issue
-    JSQMessagesCollectionViewCell *selectedCell = (JSQMessagesCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    selectedCell.textView.selectable = NO;
-
-    return YES;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
-{
-    if (action == @selector(copy:)) {
-        return YES;
-    }
-
-    return NO;
-}
-
-- (void)collectionView:(JSQMessagesCollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
-{
-    if (action == @selector(copy:)) {
-        id<JSQMessageData> messageData = [self.dataSource itemAtIndexPath:indexPath];
-        [[UIPasteboard generalPasteboard] setString:[messageData text]];
-    }
-}
+//- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
+//{
+//    if (action == @selector(copy:)) {
+//        return YES;
+//    }
+//
+//    return NO;
+//}
+//
+//- (void)collectionView:(JSQMessagesCollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
+//{
+//    if (action == @selector(copy:)) {
+//        id<JSQMessageData> messageData = [self.dataSource itemAtIndexPath:indexPath];
+//        [[UIPasteboard generalPasteboard] setString:[messageData text]];
+//    }
+//}
 
 #pragma mark - Collection view delegate flow layout
 
@@ -571,23 +571,23 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
         return;
     }
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIMenuControllerWillShowMenuNotification
-                                                  object:nil];
-
-    UIMenuController *menu = [notification object];
-    [menu setMenuVisible:NO animated:NO];
-
-    JSQMessagesCollectionViewCell *selectedCell = (JSQMessagesCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:self.selectedIndexPathForMenu];
-    CGRect selectedCellMessageBubbleFrame = [selectedCell convertRect:selectedCell.messageBubbleContainerView.frame toView:self.view];
-
-    [menu setTargetRect:selectedCellMessageBubbleFrame inView:self.view];
-    [menu setMenuVisible:YES animated:YES];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(jsq_didReceiveMenuWillShowNotification:)
-                                                 name:UIMenuControllerWillShowMenuNotification
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self
+//                                                    name:UIMenuControllerWillShowMenuNotification
+//                                                  object:nil];
+//
+//    UIMenuController *menu = [notification object];
+//    [menu setMenuVisible:NO animated:NO];
+//
+//    JSQMessagesCollectionViewCell *selectedCell = (JSQMessagesCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:self.selectedIndexPathForMenu];
+//    CGRect selectedCellMessageBubbleFrame = [selectedCell convertRect:selectedCell.messageBubbleContainerView.frame toView:self.view];
+//
+//    [menu setTargetRect:selectedCellMessageBubbleFrame inView:self.view];
+//    [menu setMenuVisible:YES animated:YES];
+//
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(jsq_didReceiveMenuWillShowNotification:)
+//                                                 name:UIMenuControllerWillShowMenuNotification
+//                                               object:nil];
 }
 
 - (void)jsq_didReceiveMenuWillHideNotification:(NSNotification *)notification
@@ -598,8 +598,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
     //  per comment above in 'shouldShowMenuForItemAtIndexPath:'
     //  re-enable 'selectable', thus re-enabling data detectors if present
-    JSQMessagesCollectionViewCell *selectedCell = (JSQMessagesCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:self.selectedIndexPathForMenu];
-    selectedCell.textView.selectable = YES;
+//    JSQMessagesCollectionViewCell *selectedCell = (JSQMessagesCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:self.selectedIndexPathForMenu];
+//    selectedCell.textView.selectable = YES;
     self.selectedIndexPathForMenu = nil;
 }
 

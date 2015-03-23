@@ -59,16 +59,6 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingD
 @property (assign, nonatomic) CGFloat leftBarButtonItemWidth;
 
 /**
- *  The container view for the leftBarButtonItem.
- *
- *  @discussion
- *  You may use this property to add additional button items to the left side of the toolbar content view.
- *  However, you will be completely responsible for responding to all touch events for these buttons
- *  in your `JSQMessagesViewController` subclass.
- */
-@property (weak, nonatomic, readonly) UIView *leftBarButtonContainerView;
-
-/**
  *  Specifies the spacing between `leftBarButtonItem` and left toolbar's edge.
  */
 @property (assign, nonatomic) CGFloat leftBarButtonItemLeftSpacing;
@@ -77,6 +67,21 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingD
  *  Specifies the spacing between `leftBarButtonItem` and `textView`
  */
 @property (assign, nonatomic) CGFloat leftBarButtonItemRightSpacing;
+
+/**
+ *  Specifies the spacing between `leftBarButtonItem` and toolbar's bottom edge.
+ */
+@property (assign, nonatomic) CGFloat leftBarButtonItemBottomSpacing;
+
+/**
+ *  The container view for the leftBarButtonItem.
+ *
+ *  @discussion
+ *  You may use this property to add additional button items to the left side of the toolbar content view.
+ *  However, you will be completely responsible for responding to all touch events for these buttons
+ *  in your `JSQMessagesViewController` subclass.
+ */
+@property (weak, nonatomic, readonly) UIView *leftBarButtonContainerView;
 
 /**
  *  A custom button item displayed on the right of the toolbar content view.
@@ -98,6 +103,21 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingD
 @property (assign, nonatomic) CGFloat rightBarButtonItemWidth;
 
 /**
+ *  Specifies the spacing between `rightBarButtonItem` and `textView`.
+ */
+@property (assign, nonatomic) CGFloat rightBarButtonItemLeftSpacing;
+
+/**
+ *  Specifies the spacing between `rightBarButtonItem` and toolbar's right edge.
+ */
+@property (assign, nonatomic) CGFloat rightBarButtonItemRightSpacing;
+
+/**
+ *  Specifies the spacing between `rightBarButtonItem` and toolbar's bottom edge.
+ */
+@property (assign, nonatomic) CGFloat rightBarButtonItemBottomSpacing;
+
+/**
  *  The container view for the rightBarButtonItem.
  *
  *  @discussion 
@@ -108,14 +128,14 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingD
 @property (weak, nonatomic, readonly) UIView *rightBarButtonContainerView;
 
 /**
- *  Specifies the spacing between `rightBarButtonItem` and `textView`.
+ *  Specifies the spacing between `textView` and toolbar's top edge.
  */
-@property (assign, nonatomic) CGFloat rightBarButtonItemLeftSpacing;
+@property (assign, nonatomic) CGFloat textViewTopSpacing;
 
 /**
- *  Specifies the spacing between `rightBarButtonItem` and toolbar's right edge.
+ *  Specifies the spacing between `textView` and toolbar's bottom edge.
  */
-@property (assign, nonatomic) CGFloat rightBarButtonItemRightSpacing;
+@property (assign, nonatomic) CGFloat textViewBottomSpacing;
 
 #pragma mark - Class methods
 

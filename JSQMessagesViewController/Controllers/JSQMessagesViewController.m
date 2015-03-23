@@ -345,13 +345,13 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (void)scrollToBottomAnimated:(BOOL)animated
 {
-    if ([self.collectionView numberOfSections] == 0) {
+    NSInteger sectionsCount = [self.dataSource numberOfSections];
+    if (sectionsCount == 0) {
         return;
     }
 
-    NSInteger items = [self.collectionView numberOfItemsInSection:0];
-
-    if (items == 0) {
+    NSInteger itemsCount = [self.dataSource numberOfItemsInSection:(sectionsCount - 1)];
+    if (itemsCount == 0) {
         return;
     }
 
@@ -370,8 +370,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     //  workaround for really long messages not scrolling
     //  if last message is too long, use scroll position bottom for better appearance, else use top
     //  possibly a UIKit bug, see #480 on GitHub
-    NSUInteger finalRow = MAX(0, [self.collectionView numberOfItemsInSection:0] - 1);
-    NSIndexPath *finalIndexPath = [NSIndexPath indexPathForItem:finalRow inSection:0];
+    NSUInteger finalRow = MAX(0, itemsCount - 1);
+    NSIndexPath *finalIndexPath = [NSIndexPath indexPathForItem:finalRow inSection:(sectionsCount - 1)];
     CGSize finalCellSize = [self.adapter collectionView:self.collectionView
                                                  layout:self.collectionView.collectionViewLayout
                                  sizeForItemAtIndexPath:finalIndexPath];

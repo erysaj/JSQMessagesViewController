@@ -62,10 +62,10 @@
     JSQMessagesCollectionViewLayoutAttributes *copy = [super copyWithZone:zone];
     
     if (copy.representedElementCategory != UICollectionElementCategoryCell) {
-        copy.metrics = self.metrics;
         return copy;
     }
-    
+
+    copy.metrics = self.metrics;
     return copy;
 }
 

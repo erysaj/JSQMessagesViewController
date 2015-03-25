@@ -30,7 +30,7 @@
 #import "JSQMessagesInputToolbar.h"
 #import "JSQMessagesComposerTextView.h"
 
-#import "JSQMessagesTimestampFormatter.h"
+#import "JSQMessagesCollectionViewCell.h"
 
 #import "NSString+JSQMessages.h"
 #import "UIColor+JSQMessages.h"

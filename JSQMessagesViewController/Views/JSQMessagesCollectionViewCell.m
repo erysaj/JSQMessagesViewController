@@ -162,7 +162,14 @@
 {
     [super applyLayoutAttributes:layoutAttributes];
 
-//    JSQMessagesCollectionViewLayoutAttributes *customAttributes = (JSQMessagesCollectionViewLayoutAttributes *)layoutAttributes;
+    JSQMessagesCollectionViewLayoutAttributes *customAttributes = (JSQMessagesCollectionViewLayoutAttributes *)layoutAttributes;
+    id metrics = customAttributes.metrics;
+    if (metrics) {
+        CGSize messageBubbleSize = [(NSValue *)metrics CGSizeValue];
+        
+        [self jsq_updateConstraint:self.messageBubbleContainerWidthConstraint
+                      withConstant:messageBubbleSize.width];
+    }
 }
 
 - (void)setHighlighted:(BOOL)highlighted

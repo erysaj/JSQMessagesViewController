@@ -30,7 +30,7 @@
 #import "JSQMessagesInputToolbar.h"
 #import "JSQMessagesComposerTextView.h"
 
-#import "JSQMessagesTimestampFormatter.h"
+#import "JSQMessagesCollectionViewCell.h"
 
 #import "NSString+JSQMessages.h"
 #import "UIColor+JSQMessages.h"
@@ -490,6 +490,12 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
                   layout:(UICollectionViewFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return [self.adapter collectionView:collectionView layout:collectionViewLayout sizeForItemAtIndexPath:indexPath];
+}
+
+- (id)collectionView:(JSQMessagesCollectionView *)collectionView
+              layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout metricsForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.adapter collectionView:collectionView layout:collectionViewLayout metricsForItemAtIndexPath:indexPath];
 }
 
 #pragma mark - Input toolbar delegate

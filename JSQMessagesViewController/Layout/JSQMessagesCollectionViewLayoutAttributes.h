@@ -24,5 +24,6 @@
  */
 @interface JSQMessagesCollectionViewLayoutAttributes : UICollectionViewLayoutAttributes <NSCopying>
 
+@property (strong, nonatomic) id metrics;
 
 @end

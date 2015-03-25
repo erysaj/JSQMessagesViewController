@@ -27,7 +27,16 @@
 
 @protocol JSQMessagesCollectionViewDelegateFlowLayout <UICollectionViewDelegateFlowLayout>
 
-@optional
-
+/**
+ *  Asks the delegate for computed metrics of specified item.
+ *
+ *  @param collectionView       The collection view object displaying the flow layout.
+ *  @param collectionViewLayout The layout object requesting the information.
+ *  @param indexPath            The index path of the item.
+ *
+ *  @see JSQMessagesCollectionViewCell.
+ */
+- (id)collectionView:(JSQMessagesCollectionView *)collectionView
+              layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout metricsForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

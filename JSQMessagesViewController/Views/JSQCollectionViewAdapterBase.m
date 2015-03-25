@@ -119,6 +119,16 @@
     return size;
 }
 
+- (id)collectionView:(JSQMessagesCollectionView *)collectionView
+              layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout metricsForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self setCurrentItemIndexPath:indexPath];
+    id metrics = [self metricsForCurrentItemWithComputeBlock:nil];
+    
+//    NSParameterAssert(metrics);
+    return metrics;
+}
+
 #pragma mark - JSQCollectionViewAdapter protocol
 
 - (void)registerCellsForCollectionView:(UICollectionView *)collectionView

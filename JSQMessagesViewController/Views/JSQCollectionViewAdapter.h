@@ -17,6 +17,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "JSQMessagesCollectionViewDelegateFlowLayout.h"
 
 
 @protocol JSQMessagesItemDataSource;
@@ -26,11 +27,11 @@
 
 /**
  *  `JSQCollectionViewAdapter` defines an objects that makes the heavy work
- *  required to implement `UICollectionViewDataSource` and `UICollectionViewDelegateFlowLayout`.
+ *  required to implement `UICollectionViewDataSource` and `JSQMessagesCollectionViewDelegateFlowLayout`.
  *  Such object will also encapsulate knowledge of what kinds of custom cells are used and how to
  *  configure each cell kind for displaying model data.
  */
-@protocol JSQCollectionViewAdapter <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@protocol JSQCollectionViewAdapter <UICollectionViewDataSource, JSQMessagesCollectionViewDelegateFlowLayout>
 
 @required
 

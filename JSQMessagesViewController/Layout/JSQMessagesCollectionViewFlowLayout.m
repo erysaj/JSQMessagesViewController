@@ -343,7 +343,10 @@
 
 - (void)jsq_configureMessageCellLayoutAttributes:(JSQMessagesCollectionViewLayoutAttributes *)layoutAttributes
 {
-    
+    JSQMessagesCollectionView *collectionView = self.collectionView;
+    id<JSQMessagesCollectionViewDelegateFlowLayout> delegate = collectionView.delegate;
+    layoutAttributes.metrics = [delegate collectionView:collectionView
+                                                 layout:self metricsForItemAtIndexPath:layoutAttributes.indexPath];
 }
 
 #pragma mark - Spring behavior utilities

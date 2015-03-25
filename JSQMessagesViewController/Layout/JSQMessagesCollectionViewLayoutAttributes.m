@@ -41,8 +41,10 @@
     }
     
     if (self.representedElementCategory == UICollectionElementCategoryCell) {
-        // perform comparison here
-        // JSQMessagesCollectionViewLayoutAttributes *layoutAttributes = (JSQMessagesCollectionViewLayoutAttributes *)object;
+         JSQMessagesCollectionViewLayoutAttributes *layoutAttributes = (JSQMessagesCollectionViewLayoutAttributes *)object;
+        if (![layoutAttributes.metrics isEqual:self.metrics]) {
+            return NO;
+        }
     }
     
     return [super isEqual:object];
@@ -60,9 +62,9 @@
     JSQMessagesCollectionViewLayoutAttributes *copy = [super copyWithZone:zone];
     
     if (copy.representedElementCategory != UICollectionElementCategoryCell) {
+        copy.metrics = self.metrics;
         return copy;
     }
-    
     
     return copy;
 }

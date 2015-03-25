@@ -490,6 +490,12 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     return [self.adapter collectionView:collectionView layout:collectionViewLayout sizeForItemAtIndexPath:indexPath];
 }
 
+- (id)collectionView:(JSQMessagesCollectionView *)collectionView
+              layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout metricsForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.adapter collectionView:collectionView layout:collectionViewLayout metricsForItemAtIndexPath:indexPath];
+}
+
 #pragma mark - Input toolbar delegate
 
 - (void)messagesInputToolbar:(JSQMessagesInputToolbar *)toolbar didPressLeftBarButton:(UIButton *)sender

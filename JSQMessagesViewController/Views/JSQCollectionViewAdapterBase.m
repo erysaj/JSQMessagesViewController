@@ -17,7 +17,8 @@
 //
 
 #import "JSQCollectionViewAdapterBase.h"
-
+#import "JSQMessagesCollectionView.h"
+#import "JSQMessagesCollectionViewFlowLayout.h"
 
 @interface JSQCollectionViewAdapterBase ()
 
@@ -44,6 +45,7 @@
 
 - (id)metricsForCurrentItemWithComputeBlock:(id(^)())compute
 {
+    NSParameterAssert(compute);
     id cacheKey = [self cacheKeyForCurrentItem];
     id metrics = [_metricsCache objectForKey:cacheKey];
     if (!metrics)
@@ -123,9 +125,14 @@
               layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout metricsForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [self setCurrentItemIndexPath:indexPath];
-    id metrics = [self metricsForCurrentItemWithComputeBlock:nil];
+    id metrics = [self metricsForCurrentItemWithComputeBlock:^id{
+        Class<JSQCollectionViewCell> cellClass = [self cellClassForCurrentItem];
+        id<JSQCollectionViewCellDisplayData> displayData = [self displayDataForCurrentItem];
+        CGSize cellSizeConstraint = CGSizeMake(collectionViewLayout.itemWidth, CGFLOAT_MAX);
+
+        return [cellClass computeMetricsWithData:displayData cellSizeConstraint:cellSizeConstraint];
+    }];
     
-//    NSParameterAssert(metrics);
     return metrics;
 }
 

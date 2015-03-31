@@ -50,7 +50,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 @property (strong, nonatomic) JSQMessagesKeyboardController *keyboardController;
 
 @property (assign, nonatomic) CGFloat statusBarChangeInHeight;
-
+@property (assign, nonatomic) BOOL jsq_isRotating;
+@property (assign, nonatomic) BOOL jsq_isEditingMessage;
 @property (assign, nonatomic) BOOL jsq_isObserving;
 
 - (void)jsq_configureMessagesViewController;
@@ -249,7 +250,26 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    self.jsq_isRotating = YES;
     [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    self.jsq_isRotating = NO;
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    self.jsq_isRotating = YES;
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        self.jsq_isRotating = NO;
+    }];
 }
 
 #pragma mark - Messages view controller
@@ -435,7 +455,11 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    [textView becomeFirstResponder];
+    if (textView != self.inputToolbar.contentView.textView) {
+        return;
+    }
+    
+    self.jsq_isEditingMessage = YES;
     
     if (self.automaticallyScrollsToMostRecentMessage) {
         [self scrollToBottomAnimated:YES];
@@ -449,13 +473,22 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    [textView resignFirstResponder];
+    if (textView != self.inputToolbar.contentView.textView) {
+        return;
+    }
+    
+    self.jsq_isEditingMessage = NO;
 }
 
 #pragma mark - Notifications
 
 - (void)jsq_handleDidChangeStatusBarFrameNotification:(NSNotification *)notification
 {
+    if (self.jsq_isRotating) {
+        return;
+    }
+
+
     CGRect previousStatusBarFrame = [[[notification userInfo] objectForKey:UIApplicationStatusBarFrameUserInfoKey] CGRectValue];
     CGRect currentStatusBarFrame = [UIApplication sharedApplication].statusBarFrame;
     CGFloat statusBarHeightDelta = CGRectGetHeight(currentStatusBarFrame) - CGRectGetHeight(previousStatusBarFrame);
@@ -493,6 +526,13 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (void)keyboardDidChangeFrame:(CGRect)keyboardFrame
 {
+    // when text view is becoming first responder we'll get keyboard notification
+    // before jsq_isEditingMessage flag is set and it must not be ignored
+    BOOL isEditing = self.jsq_isEditingMessage || [self.inputToolbar.contentView.textView isFirstResponder];
+    if (!isEditing && self.toolbarBottomLayoutGuide.constant == 0.0f) {
+        return;
+    }
+    
     CGFloat heightFromBottom = CGRectGetHeight(self.collectionView.frame) - CGRectGetMinY(keyboardFrame);
     
     heightFromBottom = MAX(0.0f, heightFromBottom + self.statusBarChangeInHeight);

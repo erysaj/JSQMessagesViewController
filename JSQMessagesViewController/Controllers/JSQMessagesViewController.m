@@ -56,6 +56,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 @property (strong, nonatomic) JSQMessagesKeyboardController *keyboardController;
 
 @property (assign, nonatomic) BOOL jsq_isRotating;
+@property (assign, nonatomic) BOOL jsq_isEditingMessage;
 @property (assign, nonatomic) BOOL jsq_isObserving;
 
 @property (strong, nonatomic) NSIndexPath *selectedIndexPathForMenu;
@@ -554,7 +555,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
         return;
     }
 
-    [textView becomeFirstResponder];
+    self.jsq_isEditingMessage = YES;
 
     if (self.automaticallyScrollsToMostRecentMessage) {
         [self scrollToBottomAnimated:YES];
@@ -576,7 +577,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
         return;
     }
 
-    [textView resignFirstResponder];
+    self.jsq_isEditingMessage = NO;
 }
 
 #pragma mark - Notifications
@@ -657,7 +658,10 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (void)keyboardController:(JSQMessagesKeyboardController *)keyboardController keyboardDidChangeFrame:(CGRect)keyboardFrame
 {
-    if (![self.inputToolbar.contentView.textView isFirstResponder] && self.toolbarBottomLayoutGuide.constant == 0.0f) {
+    // when text view is becoming first responder we'll get keyboard notification
+    // before jsq_isEditingMessage flag is set and it must not be ignored
+    BOOL isEditing = self.jsq_isEditingMessage || [self.inputToolbar.contentView.textView isFirstResponder];
+    if (!isEditing && self.toolbarBottomLayoutGuide.constant == 0.0f) {
         return;
     }
     

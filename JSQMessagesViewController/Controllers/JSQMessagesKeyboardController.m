@@ -34,21 +34,26 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 
 @interface JSQMessagesKeyboardController () <UIGestureRecognizerDelegate>
 
+@property (assign, nonatomic) JSQMessagesKeyboardState keyboardState;
 @property (weak, nonatomic) UIView *keyboardView;
+@property (assign, nonatomic) CGRect currentKeyboardFrame;
+
+@property (assign, nonatomic) BOOL jsq_isObserving;
 
 - (void)jsq_registerForNotifications;
 - (void)jsq_unregisterForNotifications;
 
-- (void)jsq_didReceiveKeyboardDidShowNotification:(NSNotification *)notification;
-- (void)jsq_didReceiveKeyboardWillChangeFrameNotification:(NSNotification *)notification;
-- (void)jsq_didReceiveKeyboardDidChangeFrameNotification:(NSNotification *)notification;
-- (void)jsq_didReceiveKeyboardDidHideNotification:(NSNotification *)notification;
+- (void)jsq_didReceiveKeyboardNotification:(NSNotification *)notification;
 - (void)jsq_handleKeyboardNotification:(NSNotification *)notification completion:(JSQAnimationCompletionBlock)completion;
 
 - (void)jsq_setKeyboardViewHidden:(BOOL)hidden;
 - (void)jsq_postKeyboardFrameNotificationForFrame:(CGRect)frame;
 
-- (void)jsq_removeKeyboardFrameObserver;
+- (void)jsq_updateKeyboardState;
+
+- (NSArray *)jsq_observedLayerKeyPaths;
+- (void)jsq_addKeyboardObserver;
+- (void)jsq_removeKeyboardObserver;
 
 - (void)jsq_handlePanGestureRecognizer:(UIPanGestureRecognizer *)pan;
 
@@ -82,7 +87,7 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 
 - (void)dealloc
 {
-    [self jsq_removeKeyboardFrameObserver];
+    [self jsq_removeKeyboardObserver];
     [self jsq_unregisterForNotifications];
     _textView = nil;
     _contextView = nil;
@@ -95,17 +100,20 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 
 - (void)setKeyboardView:(UIView *)keyboardView
 {
+    if (keyboardView == _keyboardView) {
+        return;
+    }
+    
     if (_keyboardView) {
-        [self jsq_removeKeyboardFrameObserver];
+        [self jsq_removeKeyboardObserver];
+
     }
     
     _keyboardView = keyboardView;
+    self.currentKeyboardFrame = keyboardView? keyboardView.frame: CGRectNull;
     
-    if (keyboardView) {
-        [_keyboardView addObserver:self
-                        forKeyPath:NSStringFromSelector(@selector(frame))
-                           options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew)
-                           context:kJSQMessagesKeyboardControllerKeyValueObservingContext];
+    if (_keyboardView) {
+        [self jsq_addKeyboardObserver];
     }
 }
 
@@ -113,18 +121,37 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 
 - (void)beginListeningForKeyboard
 {
-    self.textView.inputAccessoryView = [[UIView alloc] init];
+    if (self.keyboardState != JSQMessagesKeyboardStateUnknown) {
+        // already listening
+        return;
+    }
+    
+    if (self.textView.inputAccessoryView == nil) {
+        self.textView.inputAccessoryView = [[UIView alloc] init];
+    }
+    
     [self jsq_registerForNotifications];
+    [self jsq_updateKeyboardState];
 }
 
 - (void)endListeningForKeyboard
 {
-    self.textView.inputAccessoryView = nil;
+    if (self.keyboardState == JSQMessagesKeyboardStateUnknown) {
+        return;
+    }
     
     [self jsq_unregisterForNotifications];
     
     [self jsq_setKeyboardViewHidden:NO];
     self.keyboardView = nil;
+    self.keyboardState = JSQMessagesKeyboardStateUnknown;
+}
+
+#pragma mark - Getters
+
+- (BOOL)keyboardIsVisible
+{
+    return self.keyboardState == JSQMessagesKeyboardStateDocked || self.keyboardState == JSQMessagesKeyboardStateUndocked;
 }
 
 #pragma mark - Notifications
@@ -133,25 +160,20 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 {
     [self jsq_unregisterForNotifications];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(jsq_didReceiveKeyboardDidShowNotification:)
-                                                 name:UIKeyboardDidShowNotification
-                                               object:nil];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    NSArray *notificationNames = @[
+        UIKeyboardDidShowNotification,
+        UIKeyboardDidHideNotification,
+        UIKeyboardWillChangeFrameNotification,
+        UIKeyboardDidChangeFrameNotification,
+    ];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(jsq_didReceiveKeyboardWillChangeFrameNotification:)
-                                                 name:UIKeyboardWillChangeFrameNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(jsq_didReceiveKeyboardDidChangeFrameNotification:)
-                                                 name:UIKeyboardDidChangeFrameNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(jsq_didReceiveKeyboardDidHideNotification:)
-                                                 name:UIKeyboardDidHideNotification
-                                               object:nil];
+    for (NSString *name in notificationNames) {
+        [nc addObserver:self
+               selector:@selector(jsq_didReceiveKeyboardNotification:)
+                   name:name
+                 object:nil];
+    }
 }
 
 - (void)jsq_unregisterForNotifications
@@ -159,34 +181,32 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)jsq_didReceiveKeyboardDidShowNotification:(NSNotification *)notification
+- (void)jsq_didReceiveKeyboardNotification:(NSNotification *)notification
 {
-    self.keyboardView = self.textView.inputAccessoryView.superview;
-    [self jsq_setKeyboardViewHidden:NO];
+    JSQMessagesKeyboardState prevState = self.keyboardState;
+    JSQMessagesKeyboardState nextState = prevState;
+    
+    if ([notification.name isEqualToString:UIKeyboardDidChangeFrameNotification]) {
+        
+        [self jsq_setKeyboardViewHidden:NO];
+        [self jsq_updateKeyboardState];
+        
+        nextState = self.keyboardState;
+    }
     
     [self jsq_handleKeyboardNotification:notification completion:^(BOOL finished) {
-        [self.panGestureRecognizer addTarget:self action:@selector(jsq_handlePanGestureRecognizer:)];
-    }];
-}
-
-- (void)jsq_didReceiveKeyboardWillChangeFrameNotification:(NSNotification *)notification
-{
-    [self jsq_handleKeyboardNotification:notification completion:nil];
-}
-
-- (void)jsq_didReceiveKeyboardDidChangeFrameNotification:(NSNotification *)notification
-{
-    [self jsq_setKeyboardViewHidden:NO];
-    
-    [self jsq_handleKeyboardNotification:notification completion:nil];
-}
-
-- (void)jsq_didReceiveKeyboardDidHideNotification:(NSNotification *)notification
-{
-    self.keyboardView = nil;
-    
-    [self jsq_handleKeyboardNotification:notification completion:^(BOOL finished) {
-        [self.panGestureRecognizer removeTarget:self action:NULL];
+        if (prevState != nextState) {
+            
+            if (nextState == JSQMessagesKeyboardStateDocked) {
+                // enter `JSQMessagesKeyboardStateDocked`
+                [self.panGestureRecognizer addTarget:self action:@selector(jsq_handlePanGestureRecognizer:)];
+            }
+            
+            if (prevState == JSQMessagesKeyboardStateDocked) {
+                // leave `JSQMessagesKeyboardStateDocked`
+                [self.panGestureRecognizer removeTarget:self action:NULL];
+            }
+        }
     }];
 }
 
@@ -236,38 +256,105 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
                                                       userInfo:@{ JSQMessagesKeyboardControllerUserInfoKeyKeyboardDidChangeFrame : [NSValue valueWithCGRect:frame] }];
 }
 
+- (void)jsq_updateKeyboardState
+{
+    // determine an actual keyboard state
+    UIView *keyboardView = self.textView.inputAccessoryView.superview;
+    self.keyboardView = keyboardView;
+    
+    if (!keyboardView) {
+        self.keyboardState = JSQMessagesKeyboardStateHidden;
+    }
+    else if (keyboardView) {
+        UIWindow *window = self.textView.window;
+        CGRect keyboardRect = keyboardView.bounds;
+        CGRect windowRect = [window convertRect:window.bounds toView:keyboardView];
+        NSInteger dockedSidesCount =
+        (CGRectGetMinX(keyboardRect) == CGRectGetMinX(windowRect)) +
+        (CGRectGetMaxX(keyboardRect) == CGRectGetMaxX(windowRect)) +
+        (CGRectGetMaxY(keyboardRect) == CGRectGetMaxY(windowRect));
+        
+        self.keyboardState = (dockedSidesCount < 3)? JSQMessagesKeyboardStateUndocked: JSQMessagesKeyboardStateDocked;
+    }
+}
+
 #pragma mark - Key-value observing
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == kJSQMessagesKeyboardControllerKeyValueObservingContext) {
         
-        if (object == self.keyboardView && [keyPath isEqualToString:NSStringFromSelector(@selector(frame))]) {
+        UIView *keyboardView = self.keyboardView;
+        if (object == keyboardView.layer || object == keyboardView) {
+            CGRect oldKeyboardFrame = self.currentKeyboardFrame;
+            CGRect newKeyboardFrame = keyboardView.frame;
             
-            CGRect oldKeyboardFrame = [[change objectForKey:NSKeyValueChangeOldKey] CGRectValue];
-            CGRect newKeyboardFrame = [[change objectForKey:NSKeyValueChangeNewKey] CGRectValue];
+            self.currentKeyboardFrame = newKeyboardFrame;
             
             if (CGRectEqualToRect(newKeyboardFrame, oldKeyboardFrame) || CGRectIsNull(newKeyboardFrame)) {
                 return;
             }
             
-            //  do not convert frame to contextView coordinates here
-            //  KVO is triggered during panning (see below)
-            //  panning occurs in contextView coordinates already
-            [self.delegate keyboardDidChangeFrame:newKeyboardFrame];
-            [self jsq_postKeyboardFrameNotificationForFrame:newKeyboardFrame];
+            CGRect keyboardEndFrameConverted = [self.contextView convertRect:newKeyboardFrame
+                                                                    fromView:self.keyboardView.superview];
+
+            [self.delegate keyboardDidChangeFrame:keyboardEndFrameConverted];
+            [self jsq_postKeyboardFrameNotificationForFrame:keyboardEndFrameConverted];
         }
     }
 }
 
-- (void)jsq_removeKeyboardFrameObserver
+- (NSArray *)jsq_observedLayerKeyPaths
 {
-    @try {
-        [_keyboardView removeObserver:self
-                           forKeyPath:NSStringFromSelector(@selector(frame))
-                              context:kJSQMessagesKeyboardControllerKeyValueObservingContext];
+    static NSArray *keyPaths = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        keyPaths = @[
+            NSStringFromSelector(@selector(bounds)),
+            NSStringFromSelector(@selector(transform)),
+            NSStringFromSelector(@selector(position)),
+            NSStringFromSelector(@selector(zPosition)),
+            NSStringFromSelector(@selector(anchorPoint)),
+            NSStringFromSelector(@selector(anchorPointZ)),
+            NSStringFromSelector(@selector(frame)),
+        ];
+    });
+    
+    return keyPaths;
+}
+
+- (void)jsq_addKeyboardObserver
+{
+    if (_jsq_isObserving) {
+        return;
     }
-    @catch (NSException * __unused exception) { }
+    
+    void *context = kJSQMessagesKeyboardControllerKeyValueObservingContext;
+    [_keyboardView addObserver:self
+                    forKeyPath:NSStringFromSelector(@selector(frame))
+                       options:0
+                       context:context];
+    for (NSString *keyPath in [self jsq_observedLayerKeyPaths]) {
+        [_keyboardView.layer addObserver:self forKeyPath:keyPath options:0 context:context];
+    }
+    _jsq_isObserving = YES;
+}
+
+- (void)jsq_removeKeyboardObserver
+{
+    if (!_jsq_isObserving) {
+        return;
+    }
+    
+    void *context = kJSQMessagesKeyboardControllerKeyValueObservingContext;
+    [_keyboardView removeObserver:self
+                       forKeyPath:NSStringFromSelector(@selector(frame))
+                          context:context];
+    for (NSString *keyPath in [self jsq_observedLayerKeyPaths]) {
+        [_keyboardView.layer removeObserver:self forKeyPath:keyPath context:context];
+    }
+    _jsq_isObserving = NO;
 }
 
 #pragma mark - Pan gesture recognizer
@@ -342,7 +429,7 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
                                  
                                  if (shouldHide) {
                                      [self jsq_setKeyboardViewHidden:YES];
-                                     [self jsq_removeKeyboardFrameObserver];
+                                     [self jsq_removeKeyboardObserver];
                                      [self.textView resignFirstResponder];
                                  }
                              }];

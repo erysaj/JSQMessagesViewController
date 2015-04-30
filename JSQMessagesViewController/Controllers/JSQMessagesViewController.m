@@ -49,7 +49,6 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 @property (strong, nonatomic) JSQMessagesKeyboardController *keyboardController;
 
-@property (assign, nonatomic) CGFloat statusBarChangeInHeight;
 @property (assign, nonatomic) BOOL jsq_isRotating;
 @property (assign, nonatomic) BOOL jsq_isEditingMessage;
 @property (assign, nonatomic) BOOL jsq_isObserving;
@@ -488,14 +487,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
         return;
     }
 
-
-    CGRect previousStatusBarFrame = [[[notification userInfo] objectForKey:UIApplicationStatusBarFrameUserInfoKey] CGRectValue];
-    CGRect currentStatusBarFrame = [UIApplication sharedApplication].statusBarFrame;
-    CGFloat statusBarHeightDelta = CGRectGetHeight(currentStatusBarFrame) - CGRectGetHeight(previousStatusBarFrame);
-    self.statusBarChangeInHeight = MAX(statusBarHeightDelta, 0.0f);
-    
-    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-        self.statusBarChangeInHeight = 0.0f;
+    if (self.keyboardController.keyboardIsVisible) {
+        [self jsq_setToolbarBottomLayoutGuideConstant:CGRectGetHeight(self.keyboardController.currentKeyboardFrame)];
     }
 }
 
@@ -532,10 +525,10 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     if (!isEditing && self.toolbarBottomLayoutGuide.constant == 0.0f) {
         return;
     }
+
+    CGFloat heightFromBottom = CGRectGetMaxY(self.collectionView.frame) - CGRectGetMinY(keyboardFrame);
     
-    CGFloat heightFromBottom = CGRectGetHeight(self.collectionView.frame) - CGRectGetMinY(keyboardFrame);
-    
-    heightFromBottom = MAX(0.0f, heightFromBottom + self.statusBarChangeInHeight);
+    heightFromBottom = MAX(0.0f, heightFromBottom);
     
     [self jsq_setToolbarBottomLayoutGuideConstant:heightFromBottom];
 }

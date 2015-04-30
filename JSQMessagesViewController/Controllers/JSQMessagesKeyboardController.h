@@ -37,6 +37,14 @@ FOUNDATION_EXPORT NSString * const JSQMessagesKeyboardControllerNotificationKeyb
 FOUNDATION_EXPORT NSString * const JSQMessagesKeyboardControllerUserInfoKeyKeyboardDidChangeFrame;
 
 
+typedef NS_ENUM(NSUInteger, JSQMessagesKeyboardState) {
+    JSQMessagesKeyboardStateUnknown,
+    JSQMessagesKeyboardStateHidden,
+    JSQMessagesKeyboardStateDocked,
+    JSQMessagesKeyboardStateUndocked,
+};
+
+
 /**
  *  The `JSQMessagesKeyboardControllerDelegate` protocol defines methods that 
  *  allow you to respond to the frame change events of the system keyboard.
@@ -120,5 +128,22 @@ FOUNDATION_EXPORT NSString * const JSQMessagesKeyboardControllerUserInfoKeyKeybo
  *  Tells the keyboard controller that it should end listening for system keyboard notifications.
  */
 - (void)endListeningForKeyboard;
+
+/**
+ *  Returns `YES` if the keyboard is currently visible, `NO` otherwise.
+ */
+@property (assign, nonatomic, readonly) BOOL keyboardIsVisible;
+
+/**
+ *  Returns the current frame of the keyboard if it is visible, otherwise `CGRectNull`.
+ */
+@property (assign, nonatomic, readonly) CGRect currentKeyboardFrame;
+
+/**
+ *  Returns current state of the keyboard.
+ *
+ *  @see JSQMessagesKeyboardState
+ */
+@property (assign, nonatomic, readonly) JSQMessagesKeyboardState keyboardState;
 
 @end

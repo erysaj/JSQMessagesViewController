@@ -35,8 +35,10 @@
     
     JSQMessagesCollectionViewLayoutAttributes *layoutAttributes = (JSQMessagesCollectionViewLayoutAttributes *)object;
     
-    if (!CGSizeEqualToSize(self.contentSize, layoutAttributes.contentSize)) {
-        return NO;
+    if (layoutAttributes.representedElementCategory == UICollectionElementCategoryCell && self.representedElementCategory == UICollectionElementCategoryCell) {
+        if (!CGSizeEqualToSize(self.contentSize, layoutAttributes.contentSize)) {
+            return NO;
+        }
     }
     
     return [super isEqual:object];

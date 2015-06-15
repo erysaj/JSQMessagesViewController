@@ -233,7 +233,12 @@
     }
     
     [attributes enumerateObjectsUsingBlock:^(JSQMessagesCollectionViewLayoutAttributes *attributes, NSUInteger idx, BOOL *stop) {
-        [self jsq_configureMessageCellLayoutAttributes:attributes];
+        if (attributes.representedElementCategory == UICollectionElementCategoryCell) {
+            [self jsq_configureMessageCellLayoutAttributes:attributes];
+        }
+        else {
+            attributes.zIndex = -1;
+        }
     }];
     
     return attributes;
@@ -242,7 +247,9 @@
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     JSQMessagesCollectionViewLayoutAttributes *customAttributes = (JSQMessagesCollectionViewLayoutAttributes *)[super layoutAttributesForItemAtIndexPath:indexPath];
-    [self jsq_configureMessageCellLayoutAttributes:customAttributes];
+    if (customAttributes.representedElementCategory == UICollectionElementCategoryCell) {
+        [self jsq_configureMessageCellLayoutAttributes:customAttributes];
+    }
     return customAttributes;
 }
 
@@ -284,7 +291,11 @@
                 
                 CGSize size = self.collectionView.bounds.size;
                 JSQMessagesCollectionViewLayoutAttributes *attributes = [JSQMessagesCollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:updateItem.indexPathAfterUpdate];
-                [self jsq_configureMessageCellLayoutAttributes:attributes];
+                
+                if (attributes.representedElementCategory == UICollectionElementCategoryCell) {
+                    [self jsq_configureMessageCellLayoutAttributes:attributes];
+                }
+
                 attributes.frame = CGRectMake(0.0f,
                                               size.height - size.width,
                                               size.width,

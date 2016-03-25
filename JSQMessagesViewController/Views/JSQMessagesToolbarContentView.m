@@ -25,7 +25,10 @@
 const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
 
 
-@interface JSQMessagesToolbarContentView ()
+@interface JSQMessagesToolbarContentView () <UITextViewDelegate>
+{
+    BOOL _isObserving;
+}
 
 @property (weak, nonatomic) IBOutlet JSQMessagesComposerTextView *textView;
 
@@ -79,15 +82,92 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
     self.rightBarButtonItem = nil;
     
     self.backgroundColor = [UIColor clearColor];
+    
+    self.textView.delegate = self;
+    [self jsq_addObservers];
 }
 
 - (void)dealloc
 {
+    [self jsq_removeObservers];
+    
+    _textView.delegate = nil;
     _textView = nil;
     _leftBarButtonItem = nil;
     _rightBarButtonItem = nil;
     _leftBarButtonContainerView = nil;
     _rightBarButtonContainerView = nil;
+}
+
+#pragma mark - KVO
+
+- (void)jsq_addObservers
+{
+    if (_isObserving)
+        return;
+    _isObserving = YES;
+    
+    [_textView addObserver:self
+                forKeyPath:NSStringFromSelector(@selector(contentSize))
+                   options:0
+                   context:NULL];
+}
+
+- (void)jsq_removeObservers
+{
+    if (!_isObserving)
+        return;
+    _isObserving = NO;
+    
+    [_textView removeObserver:self
+                   forKeyPath:NSStringFromSelector(@selector(contentSize))
+                      context:NULL];
+    
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSString *,id> *)change
+                       context:(void *)context
+{
+    if (object == _textView) {
+        if ([keyPath isEqualToString:NSStringFromSelector(@selector(contentSize))]) {
+            CGSize oldContentSize = [[change objectForKey:NSKeyValueChangeOldKey] CGSizeValue];
+            CGSize newContentSize = [[change objectForKey:NSKeyValueChangeNewKey] CGSizeValue];
+
+            [self.delegate messagesToolbarContent:self didChangeSize:oldContentSize toSize:newContentSize];
+            return;
+        }
+    }
+    
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+}
+
+#pragma mark - Text view delegate
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [self.delegate messagesToolbarContentDidBeginEditing:self];
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    [self.delegate messagesToolbarContentDidChange:self];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    [self.delegate messagesToolbarContentDidEndEditing:self];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if (self.maximumMessageLength == 0)
+        return YES;
+    
+    NSString *currText = textView.text;
+    NSString *nextText = [currText stringByReplacingCharactersInRange:range withString:text];
+    return nextText.length <= self.maximumMessageLength;
 }
 
 #pragma mark - Setters
@@ -237,12 +317,88 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
     return self.rightBarButtonContainerViewWidthConstraint.constant;
 }
 
+- (UIView *)composerView
+{
+    return _textView;
+}
+
+- (UIScrollView *)scrollView
+{
+    return _textView;
+}
+
+- (UIView *)inputContainer
+{
+    return _textView;
+}
+
 #pragma mark - UIView overrides
 
 - (void)setNeedsDisplay
 {
     [super setNeedsDisplay];
-    [self.textView setNeedsDisplay];
+    [self.composerView setNeedsDisplay];
+}
+
+#pragma mark -
+
+- (NSString *)placeholderText
+{
+    return [_textView placeHolder];
+}
+
+- (void)setPlaceholderText:(NSString *)placeholderText
+{
+    [_textView setPlaceHolder:placeholderText];
+}
+
+- (NSString *)text
+{
+    return [_textView text];
+}
+
+- (void)setText:(NSString *)text
+{
+    [_textView setText:text];
+}
+
+- (UITextAutocorrectionType)autocorrectionType
+{
+    return [_textView autocorrectionType];
+}
+
+- (void)setAutocorrectionType:(UITextAutocorrectionType)autocorrectionType
+{
+    [_textView setAutocorrectionType:autocorrectionType];
+}
+
+- (NSTextAlignment)textAlignment
+{
+    return [_textView textAlignment];
+}
+
+- (void)setTextAlignment:(NSTextAlignment)textAlignment
+{
+    [_textView setTextAlignment:textAlignment];
+}
+
+- (void)scrollToBottomAnimated:(BOOL)animated
+{
+    CGPoint contentOffsetToShowLastLine = CGPointMake(0.0f, self.textView.contentSize.height - CGRectGetHeight(self.textView.bounds));
+    
+    if (!animated) {
+        self.textView.contentOffset = contentOffsetToShowLastLine;
+        return;
+    }
+    
+    [UIView animateWithDuration:0.01
+                          delay:0.01
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         self.textView.contentOffset = contentOffsetToShowLastLine;
+                     }
+                     completion:nil];
+
 }
 
 @end

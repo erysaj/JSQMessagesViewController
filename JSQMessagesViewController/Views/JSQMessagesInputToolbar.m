@@ -26,6 +26,7 @@
 #import "UIColor+JSQMessages.h"
 #import "UIImage+JSQMessages.h"
 #import "UIView+JSQMessages.h"
+#import "NSString+JSQMessages.h"
 
 const CGFloat kJSQMessagesInputToolbarHeightDefault = 44.0f;
 
@@ -50,6 +51,11 @@ static void * kJSQMessagesInputToolbarKeyValueObservingContext = &kJSQMessagesIn
 
 #pragma mark - Initialization
 
++ (UINib *)contentViewNib
+{
+    return [JSQMessagesToolbarContentView nib];
+}
+
 - (void)awakeFromNib
 {
     [super awakeFromNib];
@@ -57,7 +63,7 @@ static void * kJSQMessagesInputToolbarKeyValueObservingContext = &kJSQMessagesIn
     
     self.sendButtonOnRight = YES;
     
-    NSArray *nibViews = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([JSQMessagesToolbarContentView class]) owner:nil options:nil];
+    NSArray *nibViews = [[[self class] contentViewNib] instantiateWithOwner:nil options:nil];
     JSQMessagesToolbarContentView *toolbarContentView = [nibViews firstObject];
     toolbarContentView.frame = self.frame;
     [self addSubview:toolbarContentView];
@@ -95,7 +101,7 @@ static void * kJSQMessagesInputToolbarKeyValueObservingContext = &kJSQMessagesIn
 
 - (void)toggleSendButtonEnabled
 {
-    BOOL hasText = [self.contentView.textView hasText];
+    BOOL hasText = [[self.contentView.text jsq_stringByTrimingWhitespace] length] > 0;
     
     if (self.sendButtonOnRight) {
         self.contentView.rightBarButtonItem.enabled = hasText;
@@ -151,6 +157,7 @@ static void * kJSQMessagesInputToolbarKeyValueObservingContext = &kJSQMessagesIn
                        forKeyPath:NSStringFromSelector(@selector(rightBarButtonItem))
                           options:0
                           context:kJSQMessagesInputToolbarKeyValueObservingContext];
+    
 }
 
 - (void)jsq_removeObservers
@@ -165,7 +172,7 @@ static void * kJSQMessagesInputToolbarKeyValueObservingContext = &kJSQMessagesIn
     
     [_contentView removeObserver:self
                       forKeyPath:NSStringFromSelector(@selector(rightBarButtonItem))
-                         context:kJSQMessagesInputToolbarKeyValueObservingContext];
+                         context:kJSQMessagesInputToolbarKeyValueObservingContext];    
 }
 
 @end

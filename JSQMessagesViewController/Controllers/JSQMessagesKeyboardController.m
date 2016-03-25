@@ -65,19 +65,19 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 
 #pragma mark - Initialization
 
-- (instancetype)initWithTextView:(UITextView *)textView
-                     contextView:(UIView *)contextView
-            panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer
-                        delegate:(id<JSQMessagesKeyboardControllerDelegate>)delegate
+- (instancetype)initWithComposerView:(UIView *)composerView
+                         contextView:(UIView *)contextView
+                panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer
+                            delegate:(id<JSQMessagesKeyboardControllerDelegate>)delegate
 
 {
-    NSParameterAssert(textView != nil);
+    NSParameterAssert(composerView != nil);
     NSParameterAssert(contextView != nil);
     NSParameterAssert(panGestureRecognizer != nil);
     
     self = [super init];
     if (self) {
-        _textView = textView;
+        _composerView = composerView;
         _contextView = contextView;
         _panGestureRecognizer = panGestureRecognizer;
         _delegate = delegate;
@@ -89,7 +89,7 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 {
     [self jsq_removeKeyboardObserver];
     [self jsq_unregisterForNotifications];
-    _textView = nil;
+    _composerView = nil;
     _contextView = nil;
     _panGestureRecognizer = nil;
     _delegate = nil;
@@ -126,8 +126,12 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
         return;
     }
     
-    if (self.textView.inputAccessoryView == nil) {
-        self.textView.inputAccessoryView = [[UIView alloc] init];
+    if (self.composerView.inputAccessoryView == nil) {
+        if ([_composerView respondsToSelector:@selector(setInputAccessoryView:)])
+        {
+            [_composerView performSelector:@selector(setInputAccessoryView:)
+                                withObject:[[UIView alloc] init]];
+        }
     }
     
     [self jsq_registerForNotifications];
@@ -259,14 +263,14 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 - (void)jsq_updateKeyboardState
 {
     // determine an actual keyboard state
-    UIView *keyboardView = self.textView.inputAccessoryView.superview;
+    UIView *keyboardView = self.composerView.inputAccessoryView.superview;
     self.keyboardView = keyboardView;
     
     if (!keyboardView) {
         self.keyboardState = JSQMessagesKeyboardStateHidden;
     }
     else if (keyboardView) {
-        UIWindow *window = self.textView.window;
+        UIWindow *window = self.composerView.window;
         CGRect keyboardRect = keyboardView.bounds;
         CGRect windowRect = [window convertRect:window.bounds toView:keyboardView];
         NSInteger dockedSidesCount =
@@ -430,7 +434,7 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
                                  if (shouldHide) {
                                      [self jsq_setKeyboardViewHidden:YES];
                                      [self jsq_removeKeyboardObserver];
-                                     [self.textView resignFirstResponder];
+                                     [self.composerView resignFirstResponder];
                                  }
                              }];
         }

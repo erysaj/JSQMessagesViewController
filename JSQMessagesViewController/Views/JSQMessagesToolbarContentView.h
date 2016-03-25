@@ -18,7 +18,23 @@
 
 #import <UIKit/UIKit.h>
 
-@class JSQMessagesComposerTextView;
+
+@class JSQMessagesToolbarContentView;
+
+
+@protocol JSQMessagesToolbarContentViewDelegate <NSObject>
+
+- (void)messagesToolbarContent:(JSQMessagesToolbarContentView *)contentView
+                 didChangeSize:(CGSize)oldSize
+                        toSize:(CGSize)newSize;
+
+- (void)messagesToolbarContentDidBeginEditing:(JSQMessagesToolbarContentView *)contentView;
+- (void)messagesToolbarContentDidChange:(JSQMessagesToolbarContentView *)contentView;
+- (void)messagesToolbarContentDidEndEditing:(JSQMessagesToolbarContentView *)contentView;
+
+
+@end
+
 
 /**
  *  A constant value representing the default spacing to use for the left and right edges
@@ -36,7 +52,20 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingD
 /**
  *  Returns the text view in which the user composes a message.
  */
-@property (weak, nonatomic, readonly) JSQMessagesComposerTextView *textView;
+@property (weak, nonatomic, readonly) UIView *composerView;
+@property (weak, nonatomic, readonly) UIScrollView *scrollView;
+@property (weak, nonatomic, readonly) UIView *inputContainer;
+
+@property (strong, nonatomic) NSString *placeholderText;
+@property (strong, nonatomic) NSString *text;
+@property (assign, nonatomic) UITextAutocorrectionType autocorrectionType;
+@property (assign, nonatomic) NSTextAlignment textAlignment;
+
+@property (weak, nonatomic) id<JSQMessagesToolbarContentViewDelegate> delegate;
+
+@property (assign, nonatomic) NSUInteger maximumMessageLength;
+
+- (void)scrollToBottomAnimated:(BOOL)animated;
 
 /**
  *  A custom button item displayed on the left of the toolbar content view.

@@ -52,6 +52,11 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesInputToolbarHeightDefault;
 - (void)messagesInputToolbar:(JSQMessagesInputToolbar *)toolbar
        didPressLeftBarButton:(UIButton *)sender;
 
+
+- (void)messagesInputToolbar:(JSQMessagesInputToolbar *)toolbar
+        didChangeContentSize:(CGSize)oldSize
+                      toSize:(CGSize)newSize;
+
 @end
 
 
@@ -90,5 +95,8 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesInputToolbarHeightDefault;
  *  That is, the send button will be enabled if there is text in the `textView`, and disabled otherwise.
  */
 - (void)toggleSendButtonEnabled;
+
+
++ (UINib *)contentViewNib;
 
 @end

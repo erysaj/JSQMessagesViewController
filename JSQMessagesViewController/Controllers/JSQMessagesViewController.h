@@ -24,7 +24,7 @@
 
 @class JSQMessagesInputToolbar;
 @protocol JSQMessagesCellConfigurator;
-
+@protocol JSQMessagesToolbarContentViewDelegate;
 
 
 /**
@@ -34,7 +34,8 @@
  *  @warning This class is intended to be subclassed. You should not use it directly.
  */
 @interface JSQMessagesViewController : UIViewController <UICollectionViewDataSource,
-                                                         UICollectionViewDelegateFlowLayout>
+                                                         UICollectionViewDelegateFlowLayout,
+                                                         JSQMessagesToolbarContentViewDelegate>
 
 /**
  *  Returns the collection view object managed by this view controller. 

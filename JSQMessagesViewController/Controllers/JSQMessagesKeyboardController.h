@@ -84,7 +84,7 @@ typedef NS_ENUM(NSUInteger, JSQMessagesKeyboardState) {
 /**
  *  The text view in which the user is editing with the system keyboard.
  */
-@property (weak, nonatomic, readonly) UITextView *textView;
+@property (weak, nonatomic, readonly) UIView *composerView;
 
 /**
  *  The view in which the keyboard will be shown. This should be the parent or a sibling of `textView`.
@@ -114,10 +114,10 @@ typedef NS_ENUM(NSUInteger, JSQMessagesKeyboardState) {
  *
  *  @return An initialized `JSQMessagesKeyboardController` if created successfully, `nil` otherwise.
  */
-- (instancetype)initWithTextView:(UITextView *)textView
-                     contextView:(UIView *)contextView
-            panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer
-                        delegate:(id<JSQMessagesKeyboardControllerDelegate>)delegate;
+- (instancetype)initWithComposerView:(UIView *)composerView
+                         contextView:(UIView *)contextView
+                panGestureRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer
+                            delegate:(id<JSQMessagesKeyboardControllerDelegate>)delegate;
 
 /**
  *  Tells the keyboard controller that it should begin listening for system keyboard notifications.

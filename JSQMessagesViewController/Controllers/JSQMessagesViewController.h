@@ -99,6 +99,7 @@
  *  or the nib file could not be located.
  */
 + (UINib *)nib;
+- (UINib *)nib;
 
 /**
  *  Creates and returns a new `JSQMessagesViewController` object.

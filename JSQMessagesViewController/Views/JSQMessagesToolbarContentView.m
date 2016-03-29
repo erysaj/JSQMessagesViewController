@@ -109,7 +109,7 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
     
     [_textView addObserver:self
                 forKeyPath:NSStringFromSelector(@selector(contentSize))
-                   options:0
+                   options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
                    context:NULL];
 }
 

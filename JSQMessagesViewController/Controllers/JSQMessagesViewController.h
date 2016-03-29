@@ -93,15 +93,6 @@
 #pragma mark - Class methods
 
 /**
- *  Returns the `UINib` object initialized for `JSQMessagesViewController`.
- *
- *  @return The initialized `UINib` object or `nil` if there were errors during initialization 
- *  or the nib file could not be located.
- */
-+ (UINib *)nib;
-- (UINib *)nib;
-
-/**
  *  Creates and returns a new `JSQMessagesViewController` object.
  *  
  *  @discussion This is the designated initializer for programmatic instantiation.

@@ -83,12 +83,6 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 #pragma mark - Class methods
 
-+ (UINib *)nib
-{
-    return [UINib nibWithNibName:NSStringFromClass([JSQMessagesViewController class])
-                          bundle:[NSBundle mainBundle]];
-}
-
 + (instancetype)messagesViewController
 {
     return [[[self class] alloc] initWithNibName:NSStringFromClass([JSQMessagesViewController class])
@@ -172,17 +166,12 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
 }
 
-- (UINib *)nib
-{
-    return [[self class] nib];
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[self nib] instantiateWithOwner:self options:nil];
+
     [self jsq_configureMessagesViewController];
     [self jsq_registerForNotifications:YES];
 }

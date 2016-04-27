@@ -65,7 +65,8 @@ static void * kJSQMessagesInputToolbarKeyValueObservingContext = &kJSQMessagesIn
     
     NSArray *nibViews = [[[self class] contentViewNib] instantiateWithOwner:nil options:nil];
     JSQMessagesToolbarContentView *toolbarContentView = [nibViews firstObject];
-    toolbarContentView.frame = self.frame;
+    toolbarContentView.frame = self.bounds;
+    [toolbarContentView layoutIfNeeded];
     [self addSubview:toolbarContentView];
     [self jsq_pinAllEdgesOfSubview:toolbarContentView];
     [self setNeedsUpdateConstraints];

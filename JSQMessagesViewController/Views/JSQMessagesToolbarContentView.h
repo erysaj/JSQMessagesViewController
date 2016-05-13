@@ -67,6 +67,8 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingD
 
 - (void)scrollToBottomAnimated:(BOOL)animated;
 
+@property (copy, nonatomic) NSArray<UIButton *> *accessoryItems;
+
 /**
  *  A custom button item displayed on the left of the toolbar content view.
  *

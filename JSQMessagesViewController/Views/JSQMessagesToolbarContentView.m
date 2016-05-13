@@ -47,7 +47,7 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewBottomVerticalSpaceConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewTopVerticalSpaceConstraint;
 
-
+@property (strong, nonatomic) NSMutableArray *accessoryItemsConstraints;
 
 @end
 
@@ -97,6 +97,55 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
     _rightBarButtonItem = nil;
     _leftBarButtonContainerView = nil;
     _rightBarButtonContainerView = nil;
+}
+
+- (void)updateConstraints
+{
+    [super updateConstraints];
+    
+    if (!_accessoryItemsConstraints && _accessoryItems)
+    {
+        CGFloat const padding = 5.0;
+        NSUInteger itemsCount = _accessoryItems.count;
+        
+        NSMutableArray *constraints = [[NSMutableArray alloc] init];
+        UIView *container = self.inputContainer;
+        
+        [_accessoryItems enumerateObjectsUsingBlock:^(UIButton *currItem, NSUInteger idx, BOOL *stop) {
+            
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:currItem
+                                                                attribute:NSLayoutAttributeCenterY
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:container
+                                                                attribute:NSLayoutAttributeCenterY
+                                                               multiplier:1.0
+                                                                 constant:0.0]];
+
+            if (idx + 1 == itemsCount)
+            {
+                [constraints addObject:[NSLayoutConstraint constraintWithItem:currItem
+                                                                    attribute:NSLayoutAttributeTrailing
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                       toItem:container
+                                                                    attribute:NSLayoutAttributeTrailing
+                                                                   multiplier:1.0
+                                                                     constant:-padding]];
+            }
+            else
+            {
+                [constraints addObject:[NSLayoutConstraint constraintWithItem:currItem
+                                                                    attribute:NSLayoutAttributeTrailing
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                       toItem:_accessoryItems[idx + 1]
+                                                                    attribute:NSLayoutAttributeLeading
+                                                                   multiplier:1.0
+                                                                     constant:-padding]];
+            }
+        }];
+
+        _accessoryItemsConstraints = constraints;
+        [self addConstraints:constraints];
+    }
 }
 
 #pragma mark - KVO
@@ -399,6 +448,30 @@ const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingDefault = 4.0f;
                      }
                      completion:nil];
 
+}
+
+- (void)setAccessoryItems:(NSArray<UIButton *> *)accessoryItems
+{
+    if (self.accessoryItemsConstraints)
+    {
+        [self removeConstraints:self.accessoryItemsConstraints];
+        self.accessoryItemsConstraints = nil;
+    }
+    
+    for (UIButton *buttonItem in _accessoryItems)
+    {
+        [buttonItem removeFromSuperview];
+    }
+    
+    _accessoryItems = [accessoryItems copy];
+    
+    for (UIButton *buttonItem in _accessoryItems)
+    {
+        [buttonItem setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:buttonItem];
+    }
+    
+    [self setNeedsUpdateConstraints];
 }
 
 @end
